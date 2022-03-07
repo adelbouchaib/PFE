@@ -49,24 +49,23 @@ class AttendanceController extends Controller
             'user_id'=>'required',
         ]);
 
-        $idd=1;
-        if($idd==1){
+      
+        if(User::where('user_id',  $request->user_id )->exists()){
             $attendance = new Attendance();
             $attendance->date = Date('Y-m-d');
             $attendance->start_time = Date('H:i:s');
             $attendance->end_time = "0:0:0";
             $attendance->user_id = $request->user_id;
             $attendance->save();
-            return redirect(route('dashboard.attendances.index'));
         }
-        else
+        /*else
         {
             $currentDate = Date('Y-m-d');
         $attendance = Attendance::whereDate('date',$currentDate)->where('user_id',Auth::User()->id)->first();
         $attendance->end_time = Date('H:i:s');
             $attendance->save();
             return redirect(route('dashboard.attendances.index'));
-        }
+        }*/
 
         
        

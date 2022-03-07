@@ -4,11 +4,9 @@
 @stop
 @section('content')
 
-   <form method="post" accept-charset="utf-8" id="form-signup">
-    <label for="first_name">First Name</label>
-    <input type="text" name="first_name" id="user_id" class="form-control">
-    <button type="submit" class="btn btn-primary">Save</button>
-  </form>
+   <form method="post" accept-charset="utf-8" id="form-signupp">
+    <input type="hidden" name="user_id" id="user_id" class="form-control">
+
     <video id="preview"></video>
     <script type="text/javascript">
     
@@ -22,22 +20,39 @@
       }).catch(function (e) {
         console.error(e);
       });
+            
+          scanner.addListener('scan',function (c){
+            document.getElementById('user_id').value = c;
+            
+        });
 
+    </script>
+           
+  <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+    
+
+    <script>
+   
       $(document).ready(function(){
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            
-          scanner.addListener('scan',function (c){
-           
-            $('#form-signupp').submit(function(){
+                       
+            $('#form-signupp').submit(function(e){
+              e.preventDefault();
+                    var formData =  new FormData(this);
         
                         $.ajax({
                             url:"{{route('dashboard.attendances.start')}}",
                             type:'POST',
-                            data: {user_id : c },
+                            data:formData,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        enctype: 'multipart/form-data',
 
                             success:function(data){
                                 console.log('success create');
@@ -60,8 +75,7 @@
 
             });//scanner
 
-     
-      }); //document
+
     </script>
 
 
