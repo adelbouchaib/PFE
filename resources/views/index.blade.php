@@ -10,7 +10,7 @@
     <video id="preview"></video>
     <script type="text/javascript">
     
-      let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
       Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
           scanner.start(cameras[0]);
@@ -40,33 +40,29 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-                       
+                
             $('#form-signupp').submit(function(e){
               e.preventDefault();
-                    var formData =  new FormData(this);
+                    var formDataa =  new FormData(this);
+                    console.log(formDataa.get('user_id'));
         
                         $.ajax({
                             url:"{{route('dashboard.attendances.start')}}",
                             type:'POST',
-                            data:formData,
+                            data:formDataa,
                         processData: false,
                         contentType: false,
                         cache: false,
                         enctype: 'multipart/form-data',
 
                             success:function(data){
-                                console.log('success create');
-                                window.location = "/"
-                                
-                            },
+                            if (data.created){ 
+                              console.log(data.msg);          
+
+                            }},
                             error:function(respone){
+                             
                                 $('#errorFirstName').text(respone.responseJSON.errors.first_name);
-                                $('#errorLastName').text(respone.responseJSON.errors.last_name);
-                                $('#errorEmail').text(respone.responseJSON.errors.email);
-                                $('#errorPassword').text(respone.responseJSON.errors.password);
-                                $('#errorRole').text(respone.responseJSON.errors.role);
-                                $('#errorStartDate').text(respone.responseJSON.errors.start_date);
-                                $('#errorEndDate').text(respone.responseJSON.errors.end_date);
                             }
                           })
 

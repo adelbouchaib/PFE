@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Attendance;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;
@@ -49,23 +50,32 @@ class AttendanceController extends Controller
             'user_id'=>'required',
         ]);
 
-      
-        if(User::where('user_id',  $request->user_id )->exists()){
+        if(DB::table('users')->where('id', $request->user_id)->exists()){
+            $todayDate = Carbon::now()->format('Y-m-d'); 
+        if(DB::table('attendances')->where('user_id', $request->user_id)->where('date', $todayDate)->doesntExist()){
             $attendance = new Attendance();
             $attendance->date = Date('Y-m-d');
             $attendance->start_time = Date('H:i:s');
             $attendance->end_time = "0:0:0";
             $attendance->user_id = $request->user_id;
             $attendance->save();
+            return response()->json(['success' => true, 'created'=> true, 'msg' => 'Bonne journée']);
+         
         }
-        /*else
+        else
         {
             $currentDate = Date('Y-m-d');
-        $attendance = Attendance::whereDate('date',$currentDate)->where('user_id',Auth::User()->id)->first();
-        $attendance->end_time = Date('H:i:s');
+            $attendance = Attendance::whereDate('date',$currentDate)->where('user_id',$request->user_id)->first();
+            $attendance->end_time = Date('H:i:s');
             $attendance->save();
-            return redirect(route('dashboard.attendances.index'));
-        }*/
+            return response()->json(['success' => true, 'created'=> true, 'msg' => 'Au revoir']);
+
+          
+           
+            
+        }
+        }else  return response()->json(['success' => true, 'created'=> true, 'msg' => 'Qr code erroné']);
+
 
         
        
