@@ -20,7 +20,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('user.index',compact('users'));
+        return view('admin.user.index',compact('users'));
     }
 
     
@@ -29,7 +29,7 @@ class UserController extends Controller
         $users = User::all();
         $attendances = Attendance::all();
         $users2 = User::find($id);
-        return view('user.employee', ['users2' => $users2], compact('users', 'attendances'));
+        return view('admin.user.employee', ['users2' => $users2], compact('users', 'attendances'));
     }
 
     /**
@@ -59,6 +59,7 @@ class UserController extends Controller
             'start_date'=>'required',
             'end_date'=>'required',
         ]);
+
         $user = new User();
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;

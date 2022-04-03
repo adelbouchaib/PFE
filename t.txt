@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Employee extends User
+{
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating (callback: fucntion ($employee){
+
+            $employee->forceFill(['type'=> self::class]);
+            
+        });
+        
+    }
+
+    public static function booted()
+    {
+        static::addGlobalScope(scope:'employee', implementation:function($builder){
+            $builder->where('type',self::class);
+        });
+       
+    }
+
+}
