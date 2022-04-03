@@ -4,15 +4,13 @@
 @stop
 @section('content')
 
-   <form method="post" accept-charset="utf-8" id="form-signup">
-    <label for="first_name">First Name</label>
-    <input type="text" name="first_name" id="user_id" class="form-control">
-    <button type="submit" class="btn btn-primary">Save</button>
-  </form>
+   <form method="post" accept-charset="utf-8" id="form-signupp">
+    <input type="hidden" name="user_id" id="user_id" class="form-control">
+
     <video id="preview"></video>
     <script type="text/javascript">
     
-      let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
       Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
           scanner.start(cameras[0]);
@@ -22,36 +20,49 @@
       }).catch(function (e) {
         console.error(e);
       });
+            
+          scanner.addListener('scan',function (c){
+            document.getElementById('user_id').value = c;
+            
+        });
 
+    </script>
+           
+  <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+    
+
+    <script>
+   
       $(document).ready(function(){
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            
-          scanner.addListener('scan',function (c){
-           
-            $('#form-signupp').submit(function(){
+                
+            $('#form-signupp').submit(function(e){
+              e.preventDefault();
+                    var formDataa =  new FormData(this);
+                    console.log(formDataa.get('user_id'));
         
                         $.ajax({
                             url:"{{route('dashboard.attendances.start')}}",
                             type:'POST',
-                            data: {user_id : c },
+                            data:formDataa,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        enctype: 'multipart/form-data',
 
                             success:function(data){
-                                console.log('success create');
-                                window.location = "/"
-                                
-                            },
+                            if (data.created){ 
+                              console.log(data.msg);          
+
+                            }},
                             error:function(respone){
+                             
                                 $('#errorFirstName').text(respone.responseJSON.errors.first_name);
-                                $('#errorLastName').text(respone.responseJSON.errors.last_name);
-                                $('#errorEmail').text(respone.responseJSON.errors.email);
-                                $('#errorPassword').text(respone.responseJSON.errors.password);
-                                $('#errorRole').text(respone.responseJSON.errors.role);
-                                $('#errorStartDate').text(respone.responseJSON.errors.start_date);
-                                $('#errorEndDate').text(respone.responseJSON.errors.end_date);
                             }
                           })
 
@@ -60,8 +71,7 @@
 
             });//scanner
 
-     
-      }); //document
+
     </script>
 
 
