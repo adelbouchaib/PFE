@@ -25,7 +25,7 @@ Route::group(['middleware' => 'admin'], function () {
 
     Route::get('/','AdminController@index')->name('admin.index');
 
-    Route::get('/conge','AbsenceController@conge')->name('admin.absence.conge');
+    Route::get('/conge','CongeController@index')->name('admin.conge.index');
 
     Route::get('/users','UserController@index')->name('admin.users.index');
     Route::get('/users/{id}','UserController@employee')->name('admin.users.employee');
@@ -37,5 +37,13 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/attendances','AttendanceController@index')->name('admin.attendances.index');
     Route::post('/attendances/start','AttendanceController@startWork')->name('admin.attendances.start');
     Route::post('/attendances/finish','AttendanceController@finishWork')->name('admin.attendances.finish');
+
+    Route::get('/paiement/historique','PaiementController@historique')->name('admin.paiement.historique');
+    Route::get('/paiement','PaiementController@index')->name('admin.paiement.index');
+    Route::post('/paiement/store','PaiementController@store')->name('admin.paiement.store');
+    Route::get('/paiement/historique/display','PaiementController@display')->name('admin.paiement.display');
+    Route::get('/paiement/historique/display2','PaiementController@display2')->name('admin.paiement.display2');
+    Route::get('/paiement/search','PaiementController@search')->name('admin.paiement.search');
+    Route::get('/paiement/historique/search','PaiementController@search2')->name('admin.paiement.search2');
 
 });

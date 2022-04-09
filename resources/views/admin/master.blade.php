@@ -12,13 +12,19 @@
 
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://malsup.github.io/jquery.form.js"></script>
+
+    
+<link href="{{asset('/assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}" rel="stylesheet" />
+<script src="{{asset('/assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+
    
+    
 
 
-
-    <link href="{{asset('/assets/css/vendor.min.css')}}" rel="stylesheet" />
-    <link href="{{asset('/assets/css/app.min.css')}}" rel="stylesheet" />
-    <link href="{{asset('/assets/css/style.css')}}" rel="stylesheet" />
+<link href="{{asset('/assets/css/vendor.min.css')}}" rel="stylesheet" />
+<link href="{{asset('/assets/css/app.min.css')}}" rel="stylesheet" />
+<link href="{{asset('/assets/css/style.css')}}" rel="stylesheet" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 <body>
@@ -217,10 +223,12 @@
 
     </div>
 
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{asset('/assets/js/email-decode.min.js')}}"></script>
     <script src="{{asset('/assets/js/vendor.min.js')}}"></script>
     <script src="{{asset('/assets/js/app.min.js')}}"></script>
+    
     @yield('script')
 </body>
 </html>

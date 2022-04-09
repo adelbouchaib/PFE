@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 
-class AbsenceController extends Controller
+class CongeController extends Controller
 {
     public function __construct() 
     {
         $this->middleware('auth');
     }
 
-    public function conge(){
+    public function index(){
 
-        return view('admin.absence.conge');
+        return view('admin.conge.index');
     }
 }
