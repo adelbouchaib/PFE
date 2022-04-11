@@ -179,7 +179,7 @@
                         </a>
                         <div class="menu-submenu">
                         <div class="menu-item">
-                        <a href="{{ route('admin.absence.conge') }}" class="menu-link">
+                        <a href="{{ route('admin.conge.index') }}" class="menu-link">
                         <span class="menu-text">Congé</span>
                         </a>
                         </div>

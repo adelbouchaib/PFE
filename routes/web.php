@@ -26,6 +26,8 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/','AdminController@index')->name('admin.index');
 
     Route::get('/conge','CongeController@index')->name('admin.conge.index');
+    Route::post('/conge/action','CongeController@action')->name('admin.conge.action');
+
 
     Route::get('/users','UserController@index')->name('admin.users.index');
     Route::get('/users/{id}','UserController@employee')->name('admin.users.employee');

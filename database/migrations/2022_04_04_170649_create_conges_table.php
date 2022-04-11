@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('paiements', function (Blueprint $table) {
+        Schema::create('conges', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->integer('user_id');
-             $table->date('date_sortie');
-             $table->date('date_reprise');
-
-
+            $table->date('start');
+            $table->date('end');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('paiements');
+        Schema::dropIfExists('conges');
     }
 };
