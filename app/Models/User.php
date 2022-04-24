@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -54,4 +55,32 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Paiement','user_id');
     }
+
+    public function conge()
+    {
+        return $this->hasMany('App\Models\Conge','user_id');
+    }
+
+    public function projet()
+    {
+        return $this->hasMany('App\Models\Projet','user_id');
+    }
+
+
+    public function projets(){
+        return $this->belongstoMany(Projet::class);
+    }
+
+
+
+   
+    // public function motifconge(){
+    //     return $this->belongstoMany(Motifconge::class);
+    // }
+    
+    
+
+
+
+    
 }

@@ -21,8 +21,14 @@ class AttendanceController extends Controller
     public function index()
     {
        
-        $attendances = Attendance::all();
-        return view('attendance.index',compact('attendances'));
+        $attendances = Attendance::where('date','=',Carbon::now()->format('Y-m-d'))->get();
+        return view('admin.attendance.index',compact('attendances'));
+    }
+    public function search(Request $request)
+    {
+       
+        $attendances = Attendance::where('date','=',$request->date)->get();
+        return view('admin.attendance.index',compact('attendances'));
     }
 
     /**

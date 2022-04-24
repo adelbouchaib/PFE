@@ -7,7 +7,7 @@ All Users
     <h4 style="float:left">All Users</h4>
     <a href="#" title="" style="float:right" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a>
  </div>
- <div id="responsiveTables" class="mb-5">
+<div id="responsiveTables" class="mb-5">
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
@@ -24,20 +24,24 @@ All Users
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($users as $user)
+                        @foreach($conges->flatMap->users as $user)
                         <tr>
-                            <th><img src="{{asset('/assets/uploads/profiles/')}}/{{$user->profile}}" alt="" style="width: 30px;"></th>
+                            <td>{{$user->conge->id}}</td>
+                            <td>{{$user->conge->user_id}}</td>
                             <td>{{$user->first_name}}</td>
                             <td>{{$user->last_name}}</td>
-                            <td>{{$user->email}}</td>
-                            <td>{{date('d-m-Y', strtotime($user->start_date))}}</td>
-                            <td>{{date('d-m-Y', strtotime($user->end_date))}}</td>
+                            <td>{{date('d-m-Y', strtotime($user->conge->date_sortie))}}</td>
+                            <td>{{date('d-m-Y', strtotime($user->conge->date_entree))}}</td>
+                            <td>{{$user->conge->duree}}</td>
+                            <td>{{$user->conge->etat}}</td>
                             <td>
-                                <a href="#" user-id="{{$user->id}}" title="Edit" class="btn btn-primary btn-edit-user"><i class="fa-solid fa-pencil"></i></a>
-                                <a href="#" user-id="{{$user->id}}" title="Delete" class="btn btn-warning btn-delete-user"><i class="fa-solid fa-trash-can"></i></a>
+                            <a href="#" user-id="{{$user->conge->id}}" title="Edit" class="btn btn-primary btn-edit-user"><i class="fa-solid fa-pencil"></i></a>
                             </td>
                         </tr>
                         @endforeach
+                        
+                       
+
                     </tbody>
                 </table>
             </div>
@@ -63,45 +67,21 @@ All Users
       <!-- Modal body -->
       <div class="modal-body">
         <div class="form-group">
-            <label for="first_name">First Name</label>
-            <input type="text" name="first_name" id="first_name" class="form-control">
+            <label for="date_reprise">Date reprise</label>
+            <input type="date" name="date_reprise" id="date_reprise" class="form-control">
             <span id="errorFirstName" class="text-red"></span>
-        </div>
-        <div class="form-group">
-            <label for="last_name">Last Name</label>
-            <input type="text" name="last_name" id="last_name" class="form-control">
-            <span id="errorLastName" class="text-red"></span>
-        </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" class="form-control">
-            <span id="errorEmail" class="text-red"></span>
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" class="form-control">
-            <span id="errorPassword" class="text-red"></span>
         </div>
 
         <div class="form-group">
             <label for="password">Role</label>
-            <select class="form-control" id="role" name="role">
-                <option value="" style="display: none;">Select Role</option>
-                <option value="0">Admin</option>
-                <option value="1">Member</option>
+            <select class="form-control" id="type" name="type">
+                <option value="" style="display: none;">Select Type</option>
+                <option value="Admin">Admin</option>
+                <option value="Member">Member</option>
             </select>
             <span id="errorRole" class="text-red"></span>
         </div>
-         <div class="form-group">
-            <label for="start_date">Start Date</label>
-            <input type="date" name="start_date" id="start_date" class="form-control">
-            <span id="errorStartDate" class="text-red"></span>
-        </div>
-         <div class="form-group">
-            <label for="end_date">End Date</label>
-            <input type="date" name="end_date" id="end_date" class="form-control">
-            <span id="errorEndDate" class="text-red"></span>
-        </div>
+         
       </div>
 
       <!-- Modal footer -->
@@ -129,39 +109,11 @@ All Users
         <!-- Modal body -->
         <div class="modal-body">
           <div class="form-group">
-              <label for="first_name">First Name</label>
-              <input type="text" name="first_name" id="first_name_update" class="form-control">
-              <span id="errorFirstName" class="text-red"></span>
+              <label for="date_sortie">Date Sortie</label>
+              <input type="text" name="date_sortie" id="date_sortie_update" class="form-control">
+              <span id="errorDateSortie" class="text-red"></span>
           </div>
-          <div class="form-group">
-              <label for="last_name">Last Name</label>
-              <input type="text" name="last_name" id="last_name_update" class="form-control">
-              <span id="errorLastName" class="text-red"></span>
-          </div>
-          <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" name="email" id="email_update" class="form-control">
-              <span id="errorEmail" class="text-red"></span>
-          </div>
-          <div class="form-group">
-              <label for="password">Role</label>
-              <select class="form-control" id="role_update" name="role">
-                  <option value="" style="display: none;">Select Role</option>
-                  <option value="0">Admin</option>
-                  <option value="1">Member</option>
-              </select>
-              <span id="errorRole" class="text-red"></span>
-          </div>
-           <div class="form-group">
-              <label for="start_date">Start Date</label>
-              <input type="date" name="start_date" id="start_date_update" class="form-control">
-              <span id="errorStartDate" class="text-red"></span>
-          </div>
-           <div class="form-group">
-              <label for="end_date">End Date</label>
-              <input type="date" name="end_date" id="end_date_update" class="form-control">
-              <span id="errorEndDate" class="text-red"></span>
-          </div>
+         
         </div>
   
         <!-- Modal footer -->
@@ -219,7 +171,7 @@ All Users
 
 
                     $.ajax({
-                        url:"{{route('admin.users.create')}}",
+                        url:"{{route('admin.conge.create')}}",
                         type:'POST',
                         data:formData,
                         processData: false,
@@ -248,19 +200,15 @@ All Users
                 var userID = $(this).attr('user-id');
                 var id = $('#id').val(userID);
                     $.ajax({
-                        url:"{{route('admin.users.edit')}}",
+                        url:"{{route('admin.conge.edit')}}",
                         type:'POST',
                         data:{
                             id:userID,
                         },
                         success:function(data){
-                            console.log('success edit');
-                            $('#first_name_update').val(data.data.first_name);
-                            $('#last_name_update').val(data.data.last_name);
-                            $('#email_update').val(data.data.email);
-                            $('#role_update').val(data.data.role);
-                            $('#start_date_update').val(data.data.start_date);
-                            $('#end_date_update').val(data.data.end_date);
+
+
+                            console.log(data.data);
                         },
                         error:function(respone){
                             $('#errorFirstName').text(respone.responseJSON.errors.first_name);

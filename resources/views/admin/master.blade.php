@@ -38,13 +38,14 @@
 
         <div id="header" class="app-header">
 
+         
+
             <div class="mobile-toggler">
                 <button type="button" class="menu-toggler" data-toggle="sidebar-mobile">
                     <span class="bar"></span>
                     <span class="bar"></span>
                 </button>
             </div>
-
 
             <div class="brand">
                 <div class="desktop-toggler">
@@ -151,9 +152,11 @@
 
         <div id="sidebar" class="app-sidebar">
 
+
             <div class="app-sidebar-content" data-scrollbar="true" data-height="100%">
 
                 <div class="menu">
+
                     <div class="menu-header">Navigation</div>
                     <div class="menu-item active">
                         <a href="{{route('admin.index')}}" class="menu-link">
@@ -165,7 +168,14 @@
                     <div class="menu-item">
                         <a href="{{route('admin.users.index')}}" class="menu-link">
                             <span class="menu-icon"><i class="fa fa-users"></i></span>
-                            <span class="menu-text">Users</span>
+                            <span class="menu-text">Employees</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item">
+                        <a href="{{route('admin.attendances.index')}}" class="menu-link">
+                            <span class="menu-icon"><i class="fa-solid fa-briefcase"></i></span>
+                            <span class="menu-text">Attendances</span>
                         </a>
                     </div>
 
@@ -174,18 +184,40 @@
                             <span class="menu-icon">
                             <i class="fa fa-envelope"></i>
                             </span>
-                            <span class="menu-text">Absence</span>
+                            <span class="menu-text">Paiement</span>
+                            <span class="menu-caret"><b class="caret"></b></span>
+                        </a>
+                        <div class="menu-submenu">
+                        <div class="menu-item">
+                        <a href="{{ route('admin.paiement.index') }}" class="menu-link">
+                        <span class="menu-text">Ajouter fiche de paie</span>
+                        </a>
+                        </div>
+                        <div class="menu-item">
+                        <a href="{{ route('admin.paiement.historique') }}" class="menu-link">
+                        <span class="menu-text">Historique</span>
+                        </a>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item has-sub">
+                        <a href="#" class="menu-link">
+                            <span class="menu-icon">
+                            <i class="fa fa-envelope"></i>
+                            </span>
+                            <span class="menu-text">Conge</span>
                             <span class="menu-caret"><b class="caret"></b></span>
                         </a>
                         <div class="menu-submenu">
                         <div class="menu-item">
                         <a href="{{ route('admin.conge.index') }}" class="menu-link">
-                        <span class="menu-text">Congé</span>
+                        <span class="menu-text">Demandes congé</span>
                         </a>
                         </div>
                         <div class="menu-item">
-                        <a href="email_compose.html" class="menu-link">
-                        <span class="menu-text">Vacance</span>
+                        <a href="{{ route('admin.vacance.index') }}" class="menu-link">
+                        <span class="menu-text">Vacances</span>
                         </a>
                         </div>
                         </div>
@@ -195,12 +227,7 @@
 
 
 
-                    <div class="menu-item">
-                        <a href="{{route('admin.attendances.index')}}" class="menu-link">
-                            <span class="menu-icon"><i class="fa-solid fa-briefcase"></i></span>
-                            <span class="menu-text">Attendances</span>
-                        </a>
-                    </div>
+
                 </div>
 
             </div>

@@ -25,8 +25,14 @@ Route::group(['middleware' => 'admin'], function () {
 
     Route::get('/','AdminController@index')->name('admin.index');
 
+    Route::get('/vacance','VacanceController@index')->name('admin.vacance.index');
+    Route::post('/vacance/action','VacanceController@action')->name('admin.vacance.action');
+
     Route::get('/conge','CongeController@index')->name('admin.conge.index');
-    Route::post('/conge/action','CongeController@action')->name('admin.conge.action');
+    Route::post('/conge/create','CongeController@create')->name('admin.conge.create');
+    Route::post('/conge/edit','CongeController@edit')->name('admin.conge.edit');
+    Route::post('/conge/update','CongeController@update')->name('admin.conge.update');
+    Route::get('/conge/recherche','CongeController@search')->name('admin.conge.search');
 
 
     Route::get('/users','UserController@index')->name('admin.users.index');
@@ -39,6 +45,8 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/attendances','AttendanceController@index')->name('admin.attendances.index');
     Route::post('/attendances/start','AttendanceController@startWork')->name('admin.attendances.start');
     Route::post('/attendances/finish','AttendanceController@finishWork')->name('admin.attendances.finish');
+    Route::get('/attendances/search','AttendanceController@search')->name('admin.attendances.search');
+
 
     Route::get('/paiement/historique','PaiementController@historique')->name('admin.paiement.historique');
     Route::get('/paiement','PaiementController@index')->name('admin.paiement.index');
@@ -47,5 +55,15 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/paiement/historique/display2','PaiementController@display2')->name('admin.paiement.display2');
     Route::get('/paiement/search','PaiementController@search')->name('admin.paiement.search');
     Route::get('/paiement/historique/search','PaiementController@search2')->name('admin.paiement.search2');
+
+    Route::get('/projet','ProjetController@index')->name('admin.projet.index');
+    Route::post('/projet/create','ProjetController@create')->name('admin.projet.create');
+    Route::post('/projet/task','ProjetController@task')->name('admin.projet.task');
+    Route::post('/projet/edit','ProjetController@edit')->name('admin.projet.edit');
+    Route::post('/projet/task/create','TaskController@create')->name('admin.task.create');
+    Route::post('/projet/task/delete','TaskController@destroy')->name('admin.task.destroy');
+
+
+
 
 });

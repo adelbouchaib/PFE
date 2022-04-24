@@ -1,17 +1,21 @@
-@extends('master')
+@extends('admin.master')
 @section('title')
 All Users
 @stop
 @section('content')
  <div class="title-bar">
     <h4 style="float:left">All Users</h4>
-    <a href="#" title="" style="float:right" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a>
+    {{-- <a href="#" title="" style="float:right" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a> --}}
  </div>
 <div id="responsiveTables" class="mb-5">
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table mb-0">
+                    <form type="get" action="{{ url('/attendances/search') }}">
+                        <input type="date"  name="date" id="date" />
+                        <button type="submit"> Search </button>
+                    </form>
                     <thead>
                         <tr>
                             <th>Date</th>

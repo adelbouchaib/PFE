@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('conges', function (Blueprint $table) {
+        Schema::create('motifconges', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->integer('user_id');
-            $table->date('start');
-            $table->date('end');
-            $table->timestamps();
+            $table->integer('type');
         });
     }
 
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conges');
+        Schema::dropIfExists('motifconges');
     }
 };

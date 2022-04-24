@@ -1,34 +1,62 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\User;
 use App\Models\Conge;
+use App\Models\Motifconge;
+use Response;
+
+
 use Illuminate\Http\Request;
-use Auth;
-
-
-
 
 class CongeController extends Controller
 {
-    public function __construct() 
+    
+    public function  index(){
+
+        $conges = User::join('conges', 'users.id', '=', 'conges.user_id')
+        ->where('etat','0')
+        ->get();
+        return view('admin.conge.index',compact('conges'));
+
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Request $request)
     {
-        $this->middleware('auth');
+        $id = $request->id;
+        $conge = Conge::find('1');
+        return response()->json(['data' => $conge]);
     }
 
-    public function index(Request $request)
+    public function update(Request $request)
     {
-    	if($request->ajax())
-    	{
-    		$data = Conge::whereDate('start', '>=', $request->start)
-                       ->whereDate('end',   '<=', $request->end)
-                       ->get(['id', 'title','user_id', 'start', 'end']);
-            return response()->json($data);
-    	}
-    	return view('admin.conge.index');
+        $id = $request->id;
+        $conge = Conge::find($id);
+        $conge->date_sortie = $request->date_sortie;
+        $conge->date_entree = $request->date_entree;
+        $conge->duree = $request->duree;
+        $conge->etat = $request->etat;
+        $conge->save();
     }
 
-    	
-    
+    public function search(Request $request){
 
-    
+        
+        $search_text = $request->data;
+
+            $conges = User::join('conges', 'users.id', '=', 'conges.user_id')
+            ->where('etat','=',$search_text)
+            ->get();
+
+
+        
+        return view('admin.conge.index',compact('conges'));
+    }
+
+
 }
