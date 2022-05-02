@@ -63,6 +63,16 @@ class ProjetController extends Controller
         return view('admin.projet.index',compact('allusers','projetsdeadline','projetsoutdeadline','projetstodo','projetsinprogress','projetsdone','tasks','tasksselected'));
     }
 
+    public function historique()
+    {
+
+       $projets = User::join('projets', 'users.id', '=', 'projets.user_id')
+       ->where('status','=','2')
+       ->get();
+
+        return view('admin.projet.historique',compact('projets'));
+    }
+
     public function edit(Request $request)
     {
         $id = $request->id;

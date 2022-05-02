@@ -135,6 +135,77 @@
   </div>
  
 </div>
+
+
+
+<div class=" mb-3 mt-3">
+
+  <div class="card h-100">
+  
+  <div class="card-body">
+  <div class="d-flex align-items-center mb-2">
+  <div class="flex-grow-1">
+  <h5 class="mb-1">Transaction</h5>
+  <div class="fs-13px">Latest transaction history</div>
+  </div>
+  <a href="#" class="text-decoration-none">See All</a>
+  </div>
+  
+  <div class="table-responsive mb-n2">
+    <table class="table table-borderless mb-0">
+  <thead>
+  <tr class="text-dark">
+  <th class="ps-0">No</th>
+  <th>Order Details</th>
+  <th class="text-center">Chef</th>
+  <th class="text-center">Status</th>
+  <th class="text-center">Tasks</th>
+  <th class="text-end pe-0">Amount</th>
+  </tr>
+  </thead>
+  <tbody>
+    @foreach ($projets as $projet)
+  <tr>
+  <td class="ps-0">{{ $projet->id }}</td>
+  <td>
+    <div class="d-flex align-items-center">
+  <div class="ms-3 flex-grow-1">
+    <div class="fw-600 text-dark">{{ $projet->title }}</div>
+    <div class="fs-13px">{{ $projet->created_at }}</div>
+    </div>
+  </div>
+  </td>
+  <td class="text-center">{{ $projet->first_name }} {{ $projet->last_name }}</td>
+    @switch($projet->status)
+      @case(0)
+      <td class="text-center"><span class="badge bg-warning bg-opacity-20 text-warning" style="min-width: 60px;">To do</span></td>
+        @break
+        @case(1)
+        <td class="text-center"><span class="badge bg-warning bg-opacity-20 text-warning" style="min-width: 60px;">In progress</span></td>
+        @break
+      @default
+      <td class="text-center"><span class="badge bg-success bg-opacity-20 text-success" style="min-width: 60px;">
+      Done
+    </span></td>
+    @endswitch
+    
+    <td class="text-center">$1,699.00</td>
+  <td class="text-end pe-0">{{ $projet->finish }}</td>
+  </tr>
+        
+  @endforeach
+  
+  </tbody>
+  </table>
+  </div>
+  
+  </div>
+  
+  </div>
+  
+  </div>
+
+  
   
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>

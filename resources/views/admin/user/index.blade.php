@@ -83,6 +83,27 @@ All Users
             <span id="errorPassword" class="text-red"></span>
         </div>
 
+        <div class="form-group"> 
+            <select name="departement" class="form-control" id="var1" >
+                <option value="" hidden>Branche</option>
+                @foreach ($branches as $branche)
+                <option   value="{{ $branche->id }}"> {{ $branche->title }} </option>
+                @endforeach
+            </select>
+             </div>
+
+
+        <div class="form-group"> 
+            <select name="departement" class="form-control" id="var2">
+                <option value="" hidden>Direction</option>
+                @foreach ($directions as $direction)
+                <option   value="{{ $direction->id }}"> {{ $direction->title }} </option>
+                @endforeach
+            </select>
+             </div>
+
+        
+
         <div class="form-group">
             <label for="password">Role</label>
             <select class="form-control" id="role" name="role">
@@ -92,6 +113,7 @@ All Users
             </select>
             <span id="errorRole" class="text-red"></span>
         </div>
+
          <div class="form-group">
             <label for="start_date">Start Date</label>
             <input type="date" name="start_date" id="start_date" class="form-control">
@@ -202,14 +224,53 @@ All Users
 
 
 @section('script')
+<link href="{{asset('/assets/plugins/select-picker/dist/picker.min.css')}}" rel="stylesheet" />
+<script src="{{asset('/assets/plugins/select-picker/dist/picker.min.js')}}"></script>
+
     <script>
+
+
+$('#var1').on('change',function fetchdirections(e){
+
+var var1 = e.target.value;
+console.log(var1);
+$('#var2').empty();
+
+$.get('/directions?id=' + var1, function(data){
+
+           
+        console.log("yes");
+                $('#var2').empty();
+                   $.each(data.direction,function(key,item){
+
+                $('#var2').append('<option value="'+ item.id +'">'+ item.title +'</option>');
+                   })
+
+            })
+        });
+
+
+   
+
         $(document).ready(function(){
+            $('#ex-basic').picker({search : true});
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
 
             });
+
+
+
+
+            
+
+
+
+
+
             $('.btn-add-user').click(function(){
                 $('#modalCreateUser').modal('show');
 

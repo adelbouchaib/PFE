@@ -192,6 +192,9 @@ All Users
                         @endswitch
                             
                     ({{ $project->count() }})</span>
+                    @if($project == $projetsdone)
+                    <div><a href="#" class="d-flex align-items-center text-decoration-none">View all <i class="fa fa-chevron-right ms-2 text-opacity-50"></i></a></div>
+                    @endif
                 </div>
 
                 @foreach ($project as $projet)
@@ -207,9 +210,34 @@ All Users
                         </div>
                         <div class="fs-13px text-muted mb-2">{{ $projet->first_name }} {{ $projet->last_name }}</div>
                         <div> 
-                            @if( $projet->finish  > "2022-04-24")
-                            <div style="color: red; border:solid 1px red">
+                            @php
+                            $todayDate = \Carbon\Carbon::now()->format('Y-m-d'); 
+                            $Date = \Carbon\Carbon::createFromFormat('Y-m-d', $todayDate);
+                            $Date->subDays(7);
+                            @endphp
+                            @if($projet->status == 2)
                             {{ $projet->finish }}
+                            @elseif( $projet->finish  > $todayDate )
+                            <div style="
+                           font-weight: bold;
+                            color: white;
+                            display: inline;
+                            border-radius: 10px;
+                            background-color: red;
+                            padding: 5px 10px 5px 5px; 
+                            ">
+                            {{ $projet->finish }}
+                            </div>
+                            @elseif($projet->finish < $todayDate && $projet->finish > $Date)
+                            <div style="
+                            font-weight: bold;
+                            color: white;
+                            display: inline;
+                            border-radius: 10px;
+                            background-color: green;
+                            padding: 5px 10px 5px 5px;
+                            ">
+                                {{ $projet->finish }}
                             </div>
                             @else
                             {{ $projet->finish }}

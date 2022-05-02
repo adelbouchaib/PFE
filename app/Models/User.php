@@ -71,6 +71,18 @@ class User extends Authenticatable
         return $this->belongstoMany(Projet::class);
     }
 
+    public function direction()
+    {
+        return $this->belongsTo('App\Models\Direction','departement');
+    }
+
+    
+    // public function direction()
+    // {
+    //     return $this->hasOne('App\Models\Direction');
+    // }
+
+
 
 
    

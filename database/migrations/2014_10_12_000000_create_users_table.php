@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('matricule');
+            $table->integer('departement');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
@@ -25,11 +27,10 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('position')->nullable();
             $table->string('gender')->nullable();
-            $table->string('department')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->string('salary')->nullable();
-            $table->integer('role')->default(1);
+            $table->integer('role')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

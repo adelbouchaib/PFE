@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Conge;
 use App\Models\Attendance;
+use App\Models\Projet;
+
+
 use Illuminate\Support\Facades\DB;
 use Auth;
 use Carbon\Carbon;
@@ -48,7 +51,11 @@ class AdminController extends Controller
             *100;
         }
 
-        return view('admin.index',compact('users', 'usersnb', 'usersnbatt','usersnbconge','conges','datas'));
+        $projets= 
+        User::join('projets', 'users.id', '=', 'projets.user_id')
+        ->paginate(5);
+
+        return view('admin.index',compact('users', 'projets','usersnb', 'usersnbatt','usersnbconge','conges','datas'));
 
     }
 

@@ -7,6 +7,9 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Eloquent\Model;
 
+use App\Models\User;
+
+
 class UserSeeder extends Seeder
 {
     /**
@@ -16,12 +19,14 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'id'=>User::all()->random()->id,
+        User::insert([
+            'id'=>'1',
+            'matricule'=>'DG22H001',
+            'departement'=>'0',
             'first_name'=>Str::random(10),
             'last_name'=>Str::random(10),
-            'email'=>Str::random(10).'@gmail.com',
-            'password'=>Hash::make('adel')
+            'email'=> "a@gmail.com",
+            'password'=> "$2a$12$2rXqAfRitps9UkSuA7hcYe22W7PfcWI1ea/yfbfOJxxUwaf/uI5f2"
 
         ]);
     }

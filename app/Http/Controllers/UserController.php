@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Direction;
+use App\Models\Branche;
+
+use App\Helpers\helper;
+
+
 use App\Models\Attendance;
 use Auth;
 class UserController extends Controller
@@ -12,6 +18,21 @@ class UserController extends Controller
     {
       $this->middleware('auth');
     }
+
+     
+    public function direction(Request $request){
+        
+        $direction = $request->id;
+       
+        $first = Direction::where('id','=',$direction)
+        ->get();
+        
+
+        return response()->json([
+            'direction' => $first,
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +41,9 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('admin.user.index',compact('users'));
+        $directions = Direction::all();
+        $branches = Branche::all();
+        return view('admin.user.index',compact('users','directions','branches'));
     }
 
     
@@ -60,14 +83,20 @@ class UserController extends Controller
             'end_date'=>'required',
         ]);
 
+        $matricule = Helper::matricule($request->departement, $request->start_date, "F");
+
         $user = new User();
+        $user->matricule = $matricule;
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
+        $user->departement = $request->departement;
         $user->role = $request->role;
         $user->start_date = $request->start_date;
         $user->end_date = $request->end_date;
+
+
         $user->save();
     }
 
@@ -136,4 +165,6 @@ class UserController extends Controller
         $user->delete();
         return $user;
     }
+
+
 }

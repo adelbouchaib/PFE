@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Vacance extends Model
+class Branche extends Model
 {
     use HasFactory;
 
-        
+    public function direction()
+    {
+        return $this->hasMany('App\Models\Direction','branche_id');
+    }
 
 }
