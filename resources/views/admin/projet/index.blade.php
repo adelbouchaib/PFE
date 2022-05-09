@@ -1,17 +1,17 @@
 @extends('admin.master')
 @section('title')
-All Users
+Projets
 @stop
 @section('content')
 
     <div class="d-flex align-items-center mb-md-3 mb-2">
     <div class="flex-fill">
     <h1 class="page-header mb-0">
-    Scrum Board
+    Projets
     </h1>
     </div>
     <div class="ms-auto">
-    <a href="#" data-bs-toggle="modal" class="btn btn-primary btn-add-user"><i class="fa fa-plus-circle me-1"></i> Ajouter projet</a>
+    <a href="#" data-bs-toggle="modal" class="btn btn-primary btn-add-user"><i class="fa fa-plus-circle me-1"></i> Ajouter un projet</a>
     </div>
     </div>
     
@@ -96,7 +96,7 @@ All Users
             <form method="post" accept-charset="utf-8" id="form-edit"> 
             <!-- Modal Header -->
             <div class="modal-header">
-              <h4 class="modal-title">Create User</h4>
+              <h4 class="modal-title">Modifier le projet</h4>
               <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
@@ -162,51 +162,65 @@ All Users
       @php
       $i = 0;
       @endphp
+       @php
+       $t = 0;   
+       @endphp
     
     <div class="row">
         @php
-            $array = array($projetstodo,$projetsinprogress,$projetsdone);
+                               
+                                $array = array($projetstodo,$projetsinprogress,$projetsdone);  
+                               
+
+                        
 
         @endphp
+        
         @foreach ($array as $project)
+
        
 
         <div class="col-xl-4 col-lg-6">
             <div class="card mb-3">
             
                 <div class="card-header d-flex align-items-center">
-                <span class="flex-grow-1 fw-600">
-                    @switch($project)
-                        @case($projetstodo)
-                            To do
-                            @break
-                            @case($projetsinprogress)
-                            In progress
-                            @break
-                            @case($projetsdone)
-                            Done
-                            @break
-                    
-                        @default
-                        Out deadline
-                        @endswitch
-                            
-                    ({{ $project->count() }})</span>
-                    @if($project == $projetsdone)
-                    <div><a href="#" class="d-flex align-items-center text-decoration-none">View all <i class="fa fa-chevron-right ms-2 text-opacity-50"></i></a></div>
-                    @endif
-                </div>
+                    <span class="flex-grow-1 fw-600">
 
+
+                       
+
+                       @switch($t)
+                       @case(0)
+                       À faire
+                       @break
+                           @case(1)
+                           En cours
+                           @break
+                           @case(2)
+                           Fini
+                           @break
+                       @endswitch
+                        
+                          @php
+                         $t++;   
+                         @endphp
+                                
+                        ({{ $project->count() }})</span>
+                        @if($t == 3)
+                        <div><a href="{{ route('admin.projet.historique') }}" class="d-flex align-items-center text-decoration-none">View all <i class="fa fa-chevron-right ms-2 text-opacity-50"></i></a></div>
+                        @endif
+                    </div>
                 @foreach ($project as $projet)
                 <div class="list-group list-group-flush">
                 <div class="list-group-item d-flex px-3">
                     <div class="me-3">
-                    <i class="far fa-question-circle text-muted fa-fw fa-lg"></i>
+                    <i class="fa fa-code-branch text-muted fa-fw fa-lg"></i>
                     </div>
                     <div class="flex-fill">
                         <div class="fw-600">{{  $projet->title  }} 
         
-                            <a href="#" projet-id="{{ $projet->id }}" data-bs-toggle="modal" style="float:right" class="text-muted text-decoration-none fs-12px me-3 btn-edit-projet"><i class="fa fa-fw fa-redo"></i></a>
+                            <a href="#" projet-id="{{ $projet->id }}" data-bs-toggle="modal" style="float:right" class="text-muted text-decoration-none fs-12px me-3 btn-edit-projet">
+                                <i class="fa fa-fw fa-edit"></i></a>
                         </div>
                         <div class="fs-13px text-muted mb-2">{{ $projet->first_name }} {{ $projet->last_name }}</div>
                         <div> 
@@ -268,7 +282,7 @@ All Users
                         @endif
                         @endforeach
         
-                            Task ({{ $k }}/{{ $j }})
+                            Tâches ({{ $k }}/{{ $j }})
                             </div>
                             
                             <div class="flex-1">
@@ -288,7 +302,7 @@ All Users
                                         <input type="text" name="title" id="title" style="display:inline" class="form-control">
                                         <span id="errorFirstName" class="text-red"></span>
                                         <input type="hidden" value="{{ $projet->id }}" name="projet_id">
-                                        <button type="submit" style="display:inline" class="btn btn-primary">Save</button>
+                                        <button type="submit" style="display:inline; margin-left:5px;" class="btn btn-primary btn-sm">Ajouter</button>
                                     </div>
                                         </form>
                                     
@@ -323,7 +337,10 @@ All Users
                                 <input type="hidden" name="projet_id" value="{{ $task->projet_id }}">
         
                 
-                                <button type="submit" class="btn btn-link btn-sm float-end"><i class="fas fa-trash"></i></button>
+                                <button type="submit" class="btn btn-link btn-sm float-end">
+                                    <i class="fa text-muted fa-fw fa-trash"></i></button>
+
+
                               
                             </form>
                         </td>

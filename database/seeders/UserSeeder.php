@@ -20,12 +20,13 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::insert([
-            'id'=>'1',
-            'matricule'=>'DG22H001',
+            'id'=>'2',
+            'matricule'=>'DG22H002',
             'departement'=>'0',
+            'role'=>'2',
             'first_name'=>Str::random(10),
             'last_name'=>Str::random(10),
-            'email'=> "a@gmail.com",
+            'email'=> "aa@gmail.com",
             'password'=> "$2a$12$2rXqAfRitps9UkSuA7hcYe22W7PfcWI1ea/yfbfOJxxUwaf/uI5f2"
 
         ]);

@@ -21,6 +21,9 @@ Route::get('/logout','AdminController@logout')->name('logout');
 Route::get('/employee','EmployeeController@index')->name('employee.index');
 Route::get('/agent','AgentController@index')->name('agent.index');
 
+Route::post('/attendances/start','AttendanceController@startWork')->name('admin.attendances.start');
+
+
 Route::group(['middleware' => 'admin'], function () {
 
     Route::get('/','AdminController@index')->name('admin.index');
@@ -42,10 +45,12 @@ Route::group(['middleware' => 'admin'], function () {
     Route::post('/users/update','UserController@update')->name('admin.users.update');
     Route::post('/users/delete','UserController@destroy')->name('admin.users.delete');
     Route::get('/directions','UserController@direction')->name('admin.users.direction');
+    Route::get('/employes/search','UserController@search')->name('admin.users.search');
+
+
 
 
     Route::get('/attendances','AttendanceController@index')->name('admin.attendances.index');
-    Route::post('/attendances/start','AttendanceController@startWork')->name('admin.attendances.start');
     Route::post('/attendances/finish','AttendanceController@finishWork')->name('admin.attendances.finish');
     Route::get('/attendances/search','AttendanceController@search')->name('admin.attendances.search');
 
@@ -66,8 +71,12 @@ Route::group(['middleware' => 'admin'], function () {
     Route::post('/projet/task/create','TaskController@create')->name('admin.task.create');
     Route::post('/projet/task/delete','TaskController@destroy')->name('admin.task.destroy');
 
-    Route::get('/direction','DirectionController@index')->name('admin.direction.index');
-    Route::post('/direction/store','DirectionController@store')->name('admin.direction.store');
+    Route::get('/directions','StructureController@direction')->name('admin.structure.direction');
+    Route::post('/directions/store','StructureController@store')->name('admin.structure.store');
+    Route::get('/branches','StructureController@branche')->name('admin.structure.branche');
+    Route::post('/branches/save','StructureController@save')->name('admin.structure.save');
+
+
 
 
     Route::get('/test','TestController@index')->name('admin.test.index');

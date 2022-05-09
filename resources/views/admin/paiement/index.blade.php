@@ -1,10 +1,10 @@
 @extends('admin.master')
 @section('title')
-All Users
+Fiche de Paie
 @stop
 @section('content')
  <div class="title-bar">
-    <h4 style="float:left">All Users</h4>
+    <h4 style="float:left">Fiche de Paie</h4>
  </div>
 
  <div class="container">
@@ -15,17 +15,21 @@ All Users
                 <div class="card-body">
                                     <!-- Modal Header -->
                                     <div class="modal-header">
-                                        <h4 class="modal-title">New Paye</h4>
+                                        <h4 class="modal-title">Nouvelle Fiche de Paie</h4>
                                         </div>
 
                                
 
                                     <form method="post" accept-charset="utf-8" action="index.php?name=a&surname=b" id="form-edit">
                                         <div class="modal-body">
-                                        <div class="form-group">
-                                            <label for="first_name">First Name</label>
-                                            <input type="number" name="idd" id="idd">
-                                        </div> 
+                                            <div class="form-group"> 
+                                                <label for="title">Matricule</label><br>
+                                                <select name="idd" id="ex-basic" class="form-control">
+                                                    @foreach ($allusers as $user)
+                                                    <option   value="{{ $user->id }}"> {{ $user->matricule }} </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
 
                                             <div class="form-group">
                                                 
@@ -47,7 +51,7 @@ All Users
                                 
                                         <!-- Modal footer -->
                                         <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Save</button>
+                                        <button type="submit" class="btn btn-primary">Enregistrer</button>
                                         </div>
                                         </form>
 
@@ -91,7 +95,7 @@ All Users
                             <th scope="col">ID</th>
                             <th scope="col">Full Name</th>
                             <th scope="col">Salaire Brut</th>
-                            <th scope="col">Jours</th>
+                            <th scope="col">Jours d'Absence</th>
                             <th scope="col">Retenue Sur Salaire</th>
 
                             </tr>
@@ -123,7 +127,7 @@ All Users
                              
 
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary btn-edit-user">Save</button>
+                                    <button type="submit" class="btn btn-primary btn-edit-user">Calculer</button>
                                  </div>
     
                     </div>
@@ -151,9 +155,9 @@ All Users
         $(document).ready(function(){
 
 
-$('#idd').keyup(function (){
-    $('#var1').val($(this).val()); // <-- reverse your selectors here
-});
+//             $('#idd').keyup(function (){
+//     $('#var1').val($(this).val()); // <-- reverse your selectors here
+// });
 
 
 
@@ -210,9 +214,14 @@ $('#idd').keyup(function (){
                     cache: false,
                     
                     success: function(response){
-                        
+                        var x;
+                        var y;
+                        var yy;
+
                         $.each(response.filterusers2,function(key,item){
-                            var x = item.salary / 30;
+                            x = item.salary / 30;
+                            y = x* response.paiements;
+                            yy = y.toFixed();
                             $('tbody').append(
                                 '<td>'+item.id+'</td>\
                                 <td>'+item.first_name+'</td>\
@@ -225,7 +234,10 @@ $('#idd').keyup(function (){
 
                         
                             $('tbody').append(
-                                '<td>'+response.paiements+'</td>'
+                                '<td>'+response.paiements+'</td>\
+                                <td>'+yy+'</td>'
+
+
                                 
                                 );
                         
@@ -243,11 +255,8 @@ $('#idd').keyup(function (){
 
 
         
-
            
 
-                var userID = $(this).attr('user-id');
-                var id = $('#id').val(userID);
                $('#form-edit').submit(function(e){
                     e.preventDefault();
                     var formData =  new FormData(this);

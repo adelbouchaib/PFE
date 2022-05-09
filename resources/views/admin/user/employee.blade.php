@@ -8,6 +8,40 @@ User
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table mb-0">
+                    
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                        <tr>
+                            <td>{{$users2->first_name}}</td>
+                            <td>{{$users2->last_name}}</td>
+                            <td>{{$users2->email}}</td>
+                            <td>{{date('d-m-Y', strtotime($users2->start_date))}}</td>
+                            <td>{{date('d-m-Y', strtotime($users2->end_date))}}</td>
+                        </tr>
+                     
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="responsiveTables" class="mb-5">
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table mb-0">
                     <thead>
                         <tr>
                             <th>Date</th>
@@ -47,192 +81,8 @@ User
 
 
  
-<div id="responsiveTables" class="mb-5">
-    <div class="card">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table mb-0">
-                    <thead>
-                        <tr>
-                            <th>Profile</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                       
-                        <tr>
-                            <th><img src="{{asset('/assets/uploads/profiles/')}}/{{$users2->profile}}" alt="" style="width: 30px;"></th>
-                            <td>{{$users2->first_name}}</td>
-                            <td>{{$users2->last_name}}</td>
-                            <td>{{$users2->email}}</td>
-                            <td>{{date('d-m-Y', strtotime($users2->start_date))}}</td>
-                            <td>{{date('d-m-Y', strtotime($users2->end_date))}}</td>
-                            <td>
-                                <a href="#" user-id="{{$users2->id}}" title="Edit" class="btn btn-primary btn-edit-user"><i class="fa-solid fa-pencil"></i></a>
-                                <a href="#" user-id="{{$users2->id}}" title="Delete" class="btn btn-warning btn-delete-user"><i class="fa-solid fa-trash-can"></i></a>
-                            </td>
-                        </tr>
-                     
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </div>
-</div>
-<!-- The Modal -->
-<div class="modal fade in" id="modalCreateUser">
-  <div class="modal-dialog">
-    <div class="modal-content">
-    <form method="post" accept-charset="utf-8" id="form-signup">
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Create User</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <!-- Modal body -->
-      <div class="modal-body">
-        <div class="form-group">
-            <label for="first_name">First Name</label>
-            <input type="text" name="first_name" id="first_name" class="form-control">
-            <span id="errorFirstName" class="text-red"></span>
-        </div>
-        <div class="form-group">
-            <label for="last_name">Last Name</label>
-            <input type="text" name="last_name" id="last_name" class="form-control">
-            <span id="errorLastName" class="text-red"></span>
-        </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" class="form-control">
-            <span id="errorEmail" class="text-red"></span>
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" class="form-control">
-            <span id="errorPassword" class="text-red"></span>
-        </div>
-
-        <div class="form-group">
-            <label for="password">Role</label>
-            <select class="form-control" id="role" name="role">
-                <option value="" style="display: none;">Select Role</option>
-                <option value="0">Admin</option>
-                <option value="1">Member</option>
-            </select>
-            <span id="errorRole" class="text-red"></span>
-        </div>
-         <div class="form-group">
-            <label for="start_date">Start Date</label>
-            <input type="date" name="start_date" id="start_date" class="form-control">
-            <span id="errorStartDate" class="text-red"></span>
-        </div>
-         <div class="form-group">
-            <label for="end_date">End Date</label>
-            <input type="date" name="end_date" id="end_date" class="form-control">
-            <span id="errorEndDate" class="text-red"></span>
-        </div>
-      </div>
-
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
 
 
-<!-- The Modal -->
-<div class="modal fade in" id="modalEditUser">
-  <div class="modal-dialog">
-    <div class="modal-content">
-    <form method="post" accept-charset="utf-8" id="form-edit">
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Edit User</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-    <input type="hidden" name="id" id="id" class="form-control">
-      <!-- Modal body -->
-      <div class="modal-body">
-        <div class="form-group">
-            <label for="first_name">First Name</label>
-            <input type="text" name="first_name" id="first_name_update" class="form-control">
-            <span id="errorFirstName" class="text-red"></span>
-        </div>
-        <div class="form-group">
-            <label for="last_name">Last Name</label>
-            <input type="text" name="last_name" id="last_name_update" class="form-control">
-            <span id="errorLastName" class="text-red"></span>
-        </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email_update" class="form-control">
-            <span id="errorEmail" class="text-red"></span>
-        </div>
-        <div class="form-group">
-            <label for="password">Role</label>
-            <select class="form-control" id="role_update" name="role">
-                <option value="" style="display: none;">Select Role</option>
-                <option value="0">Admin</option>
-                <option value="1">Member</option>
-            </select>
-            <span id="errorRole" class="text-red"></span>
-        </div>
-         <div class="form-group">
-            <label for="start_date">Start Date</label>
-            <input type="date" name="start_date" id="start_date_update" class="form-control">
-            <span id="errorStartDate" class="text-red"></span>
-        </div>
-         <div class="form-group">
-            <label for="end_date">End Date</label>
-            <input type="date" name="end_date" id="end_date_update" class="form-control">
-            <span id="errorEndDate" class="text-red"></span>
-        </div>
-      </div>
-
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-
-<!-- The Modal -->
-<div class="modal fade in" id="modalDeleteUser">
-  <div class="modal-dialog">
-    <div class="modal-content">
-    <form method="post" accept-charset="utf-8" id="form-delete">
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Delete User</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-    <input type="text" name="id" id="id_delete" class="form-control">
-     
-
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
 
 
 

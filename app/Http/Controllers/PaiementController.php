@@ -91,14 +91,25 @@ class PaiementController extends Controller
         // ->orwhereRaw("concat(first_name, ' ', last_name) like '%" .$search_text. "%' ")
         //                ->get();
 
-       
-        $first = User::join('paiements', 'users.id', '=', 'paiements.user_id')
-            ->whereRaw("concat(first_name, ' ', last_name) like '%" .$search_text. "%' ");
+       if(!isset($request->data)){
 
-            $filterusers = User::join('paiements', 'users.id', '=', 'paiements.user_id')
+        $filterusers = User::join('paiements', 'users.id', '=', 'paiements.user_id')
+            ->where('date','=',$search_text2)
+            ->get();
+       }
+       else{
+        $first = User::join('paiements', 'users.id', '=', 'paiements.user_id')
+        ->whereRaw("concat(first_name, ' ', last_name) like '%" .$search_text. "%' ");
+
+        $filterusers = User::join('paiements', 'users.id', '=', 'paiements.user_id')
             ->where('date','=',$search_text2)
             ->union($first)
             ->get();
+       }
+       
+
+
+           
 
 
         
@@ -169,7 +180,7 @@ class PaiementController extends Controller
 
        
        $paiement = new Paiement();
-       $paiement->user_id = $request->id;
+       $paiement->user_id = $request->idd;
        $paiement->image = $name;
        $paiement->date = $mytime;
         $paiement->date_debut = $request->date_debut;

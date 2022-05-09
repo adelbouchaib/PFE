@@ -1,10 +1,10 @@
 @extends('admin.master')
 @section('title')
-All Users
+Présence
 @stop
 @section('content')
  <div class="title-bar">
-    <h4 style="float:left">All Users</h4>
+    <h4 style="float:left">Présence</h4>
     {{-- <a href="#" title="" style="float:right" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a> --}}
  </div>
 <div id="responsiveTables" class="mb-5">
@@ -13,8 +13,10 @@ All Users
             <div class="table-responsive">
                 <table class="table mb-0">
                     <form type="get" action="{{ url('/attendances/search') }}">
-                        <input type="date"  name="date" id="date" />
-                        <button type="submit"> Search </button>
+                        <div class="modal-body">
+                        <input type="date" style="width:auto; display:inline;" class="form-control"  name="date" id="date" />
+                        <button type="submit" class="btn btn-secondary btn-sm"> Rechercher </button>
+                        </div>
                     </form>
                     <thead>
                         <tr>

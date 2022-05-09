@@ -8,20 +8,27 @@ All Users
     <a href="#" title="" style="float:right" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a>
  </div>
 
- <form type="get" action="{{ url('/conge/recherche') }}">
-    <select name="data" class="form-control"  id="ex-basic">
-        <option value="" hidden>Etat</option>
-        <option value="1">Accepté</option>
-        <option value="2">Refusé</option>
-    </select>
-    <button type="submit"> Search </button>
-</form>
 
 <div id="responsiveTables" class="mb-5">
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table mb-0">
+                    
+ <form type="get" action="{{ url('/conge/recherche') }}">
+    
+    <div class="modal-body">
+        <label> Etat: </label>
+    <select name="data" style="width:auto; display:inline;" class="form-control"  id="ex-basic">
+        <option value="0">En attente</option> 
+        <option value="1">Accepté</option>
+        <option value="2">Refusé</option>
+    </select>
+
+    <button type="submit" class="btn btn-secondary btn-sm"> Rechercher </button>
+    </div>
+</form>
+
                     <thead>
                         <tr>
                             <th>Profile</th>
@@ -86,9 +93,9 @@ All Users
         </div>
           <div class="form-group">
               <label for="password">Etat</label>
-              <select class="form-control" id="etat_update" name="etat">
-                  <option value="" style="display: none;">Select Etat</option>
-                  <option value="0">En attente</option>
+              <select  class="form-select form-select-lg" id="etat_update" name="etat">
+                <option value="" style="display: none;">Select Etat</option>
+                <option value="0">En attente</option>
                   <option value="1">Accepté</option>
                   <option value="2">Refusé</option>
               </select>

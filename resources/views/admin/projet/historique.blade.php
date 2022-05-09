@@ -1,10 +1,10 @@
 @extends('admin.master')
 @section('title')
-All Users
+Historique
 @stop
 @section('content')
  <div class="title-bar">
-    <h4 style="float:left">All Users</h4>
+    <h4 style="float:left">Historique</h4>
  </div>
 
 <div id="responsiveTables" class="mb-5">

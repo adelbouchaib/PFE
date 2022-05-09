@@ -60,7 +60,7 @@ class ProjetController extends Controller
        where('status','=','1')
        ->get();
 
-        return view('admin.projet.index',compact('allusers','projetsdeadline','projetsoutdeadline','projetstodo','projetsinprogress','projetsdone','tasks','tasksselected'));
+        return view('admin.projet.index',compact('allusers','projetstodo','projetsinprogress','projetsdone','tasks','tasksselected'));
     }
 
     public function historique()

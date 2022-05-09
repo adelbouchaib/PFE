@@ -21,15 +21,15 @@ class DirectionSeeder extends Seeder
     public function run()
     {
         Branche::insert([
-            'id'=>'2',
-            'title' => 'Branche Operations',
+            'id'=>'1',
+            'nom_branche' => 'Branche Operations',
 
         ]);
         Direction::insert([
-            'id'=>'2',
+            'id'=>'1',
             'user_id' => '1',
-            'branche_id' => '2',
-            'title' => "Direction Forage"
+            'branche_id' => '1',
+            'nom_direction' => "Direction Forage"
 
         ]);
     }

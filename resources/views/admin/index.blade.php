@@ -10,33 +10,33 @@
 
   <div class="row">
     <div class="col-sm">
-      <div class="card mb-3 overflow-hidden fs-13px border-0 bg-gradient-custom-orange" style="min-height: 199px;">
+      <div class="card mb-3 overflow-hidden fs-13px border-0 bg-gradient-custom-teal" style="min-height: 199px;">
     
         <div class="card-img-overlay mb-n4 me-n4 d-flex" style="bottom: 0; top: auto;">
-        <img src="assets/img/icon/order.svg" alt="" class="ms-auto d-block mb-n3" style="max-height: 105px" />
+        <img src="assets/img/icon/employee-svgrepo-com.svg" alt="" class="ms-auto d-block mb-n3" style="max-height: 105px" />
         </div>
       
         <div class="card-body position-relative">
-        <h5 class="text-white text-opacity-80 mb-3 fs-16px">Total Employees</h5>
+        <h5 class="text-white text-opacity-80 mb-3 fs-16px">Employés</h5>
         <h3 class="text-white mt-n1">{{ $usersnb }}</h3>
-        <div><a href="#" class="text-white d-flex align-items-center text-decoration-none">View report <i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a></div>
+        <div><a href="{{ route('admin.users.index') }}" class="text-white d-flex align-items-center text-decoration-none">Consulter le rapport <i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a></div>
         </div>
   
       </div>
     </div>
 
     <div class="col-sm">
-      <div class="card mb-3 overflow-hidden fs-13px border-0 bg-gradient-custom-teal" style="min-height: 199px;">
+      <div class="card mb-3 overflow-hidden fs-13px border-0 bg-gradient-custom-orange" style="min-height: 199px;">
 
         <div class="card-img-overlay mb-n4 me-n4 d-flex" style="bottom: 0; top: auto;">
-        <img src="assets/img/icon/visitor.svg" alt="" class="ms-auto d-block mb-n3" style="max-height: 105px" />
+        <img src="assets/img/icon/check-svgrepo-com.svg" alt="" class="ms-auto d-block mb-n3" style="max-height: 105px" />
         </div>     
         
         <div class="card-body position-relative">
-          <h5 class="text-white text-opacity-80 mb-3 fs-16px">IN Employees</h5>
+          <h5 class="text-white text-opacity-80 mb-3 fs-16px">Présences</h5>
           <h3 class="text-white mt-n1">{{ $usersnbatt }}</h3>
 
-        <div><a href="#" class="text-white d-flex align-items-center text-decoration-none">View report <i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a></div>
+        <div><a href="{{ route('admin.attendances.index') }}" class="text-white d-flex align-items-center text-decoration-none">Consulter le rapport <i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a></div>
         </div>
         
       </div>
@@ -46,36 +46,36 @@
       <div class="card mb-3 overflow-hidden fs-13px border-0 bg-gradient-orange-red" style="min-height: 199px;">
     
         <div class="card-img-overlay mb-n4 me-n4 d-flex" style="bottom: 0; top: auto;">
-        <img src="assets/img/icon/order.svg" alt="" class="ms-auto d-block mb-n3" style="max-height: 105px" />
+        <img src="assets/img/icon/unchecked-svgrepo-com.svg" alt="" class="ms-auto d-block mb-n3" style="max-height: 105px" />
         </div>
       
         <div class="card-body position-relative">
-        <h5 class="text-white text-opacity-80 mb-3 fs-16px">OUT Employees</h5>
+        <h5 class="text-white text-opacity-80 mb-3 fs-16px">Absences</h5>
         <h3 class="text-white mt-n1">
           @php
           $nb =  $usersnb - $usersnbatt - $usersnbconge ;
          @endphp
           
           <?php echo $nb ?></h3>
-        <div><a href="#" class="text-white d-flex align-items-center text-decoration-none">View report <i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a></div>
+        <div><a href="#" class="text-white d-flex align-items-center text-decoration-none">Consulter le rapport <i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a></div>
         </div>
   
       </div>
     </div>
 
     <div class="col-sm">
-      <div class="card mb-3 overflow-hidden fs-13px border-0 bg-gradient-orange-red" style="min-height: 199px;">
+      <div class="card mb-3 overflow-hidden fs-13px border-0 bg-gradient-yellow-red" style="min-height: 199px;">
     
         <div class="card-img-overlay mb-n4 me-n4 d-flex" style="bottom: 0; top: auto;">
-        <img src="assets/img/icon/order.svg" alt="" class="ms-auto d-block mb-n3" style="max-height: 105px" />
+        <img src="assets/img/icon/hurry-worker-svgrepo-com.svg" alt="" class="ms-auto d-block mb-n3" style="max-height: 105px" />
         </div>
       
         <div class="card-body position-relative">
-        <h5 class="text-white text-opacity-80 mb-3 fs-16px">Conge</h5>
+        <h5 class="text-white text-opacity-80 mb-3 fs-16px">En congé</h5>
         <h3 class="text-white mt-n1">
           {{ $usersnbconge }}
         </h3>
-        <div><a href="#" class="text-white d-flex align-items-center text-decoration-none">View report <i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a></div>
+        <div><a href="#" class="text-white d-flex align-items-center text-decoration-none">Consulter le rapport <i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a></div>
         </div>
   
       </div>
@@ -100,8 +100,7 @@
       <div class="card">
           <div class="card-header">   
             <i class="far fa-bell text-muted me-2"></i>
-            Demandes de congé récentes
-            <a href="{{route('admin.conge.index')}}" style="float:right" class="align-items-center text-decoration-none">View report <i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a>    
+            Taux de présence cette année
           </div>
           <div class="card-body">
             <canvas id="myChart" width="400" height="400" style="max-height: 350px"></canvas>
@@ -112,8 +111,8 @@
       <div class="card">
           <div class="card-header">   
             <i class="far fa-bell text-muted me-2"></i>
-            Demandes de congé récentes
-            <a href="{{route('admin.conge.index')}}" style="float:right" class="align-items-center text-decoration-none">View report <i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a>    
+            Demandes de congé les plus récentes
+            <a href="{{route('admin.conge.index')}}" style="float:right" class="align-items-center text-decoration-none">Voir tout<i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a>    
           </div>
           <div class="card-body">
 
@@ -145,10 +144,10 @@
   <div class="card-body">
   <div class="d-flex align-items-center mb-2">
   <div class="flex-grow-1">
-  <h5 class="mb-1">Transaction</h5>
-  <div class="fs-13px">Latest transaction history</div>
+  <h5 class="mb-1">Projets</h5>
+  <div class="fs-13px">Dernier historique des projets</div>
   </div>
-  <a href="#" class="text-decoration-none">See All</a>
+  <a href="#" class="text-decoration-none">Voir tout</a>
   </div>
   
   <div class="table-responsive mb-n2">
@@ -219,7 +218,7 @@ const myChart = new Chart(ctx, {
     data: {
         labels: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jui', 'Juil', 'Aout', 'Sep', 'Oct', 'Nov', 'Dec'],
         datasets: [{
-            label: '# of Votes',
+            label: '# de Présence',
             data: datas,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>@yield('title') | HRMS</title>
+    <title>@yield('title') | ENTP</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
@@ -53,15 +53,15 @@
                         <i class="fa-solid fa-bars"></i>
                     </button>
                 </div>
-                <a href="#" class="brand-logo">
-                    HRMS
+
+                <a href="{{ route('admin.index') }}">
+                    <img src="/assets/img/Logo_entp.png" alt="" width="50" height="50">
                 </a>
             </div>
 
 
             <div class="menu">
                 <div class="menu-search" style="display: flex;">
-                    
                 </div>
                <!--  <form class="menu-search" method="POST" name="header_search_form">
                     <div class="menu-search-icon"><i class="fa fa-search"></i></div>
@@ -69,7 +69,7 @@
                         <input type="text" class="form-control" placeholder="Search menu..." />
                     </div>
                 </form> -->
-                <div class="menu-item dropdown">
+                {{-- <div class="menu-item dropdown">
                     <a href="#" data-bs-toggle="dropdown" data-display="static" class="menu-link">
                         <div class="menu-icon"><i class="fa fa-bell nav-icon"></i></div>
                         <div class="menu-label">3</div>
@@ -128,19 +128,19 @@
                             <a href="#" class="text-dark text-opacity-50 text-decoration-none">See all</a>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="menu-item dropdown">
                     <a href="#" data-bs-toggle="dropdown" data-display="static" class="menu-link">
                         <div class="menu-img online">
-                            <img src="{{asset('/assets/uploads/profiles/')}}/{{Auth::User()->profile}}" alt="" class="ms-100 mh-100 rounded-circle" />
+                            <img src="/assets/img/profile_picture_user_icon_153847.png" alt="" class="ms-100 mh-100 rounded-circle" />
                         </div>
                         <div class="menu-text"><span class="__cf_email__">{{Auth::User()->first_name}} {{Auth::User()->last_name}}</span></div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right me-lg-3">
                         <a class="dropdown-item d-flex align-items-center" href="#">Edit Profile <i class="fa fa-user-circle fa-fw ms-auto text-dark text-opacity-50"></i></a>
-                        <a class="dropdown-item d-flex align-items-center" href="#">Inbox <i class="fa fa-envelope fa-fw ms-auto text-dark text-opacity-50"></i></a>
+                        {{-- <a class="dropdown-item d-flex align-items-center" href="#">Inbox <i class="fa fa-envelope fa-fw ms-auto text-dark text-opacity-50"></i></a>
                         <a class="dropdown-item d-flex align-items-center" href="#">Calendar <i class="fa fa-calendar-alt fa-fw ms-auto text-dark text-opacity-50"></i></a>
-                        <a class="dropdown-item d-flex align-items-center" href="#">Setting <i class="fa fa-wrench fa-fw ms-auto text-dark text-opacity-50"></i></a>
+                        <a class="dropdown-item d-flex align-items-center" href="#">Setting <i class="fa fa-wrench fa-fw ms-auto text-dark text-opacity-50"></i></a> --}}
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item d-flex align-items-center" href="{{route('logout')}}">Log Out <i class="fa fa-toggle-off fa-fw ms-auto text-dark text-opacity-50"></i></a>
                     </div>
@@ -168,21 +168,28 @@
                     <div class="menu-item">
                         <a href="{{route('admin.users.index')}}" class="menu-link">
                             <span class="menu-icon"><i class="fa fa-users"></i></span>
-                            <span class="menu-text">Employees</span>
+                            <span class="menu-text">Employés</span>
                         </a>
                     </div>
 
                     <div class="menu-item">
                         <a href="{{route('admin.attendances.index')}}" class="menu-link">
-                            <span class="menu-icon"><i class="fa-solid fa-briefcase"></i></span>
-                            <span class="menu-text">Attendances</span>
+                            <span class="menu-icon"><i class="fa-solid fa-clock"></i></span>
+                            <span class="menu-text">Présence</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item">
+                        <a href="{{route('admin.projet.index')}}" class="menu-link">
+                            <span class="menu-icon"><i class="fa-solid fa-code-branch"></i></span>
+                            <span class="menu-text">Projets</span>
                         </a>
                     </div>
 
                     <div class="menu-item has-sub">
                         <a href="#" class="menu-link">
                             <span class="menu-icon">
-                            <i class="fa fa-envelope"></i>
+                            <i class="fa fa-money-bill-alt"></i>
                             </span>
                             <span class="menu-text">Paiement</span>
                             <span class="menu-caret"><b class="caret"></b></span>
@@ -190,7 +197,7 @@
                         <div class="menu-submenu">
                         <div class="menu-item">
                         <a href="{{ route('admin.paiement.index') }}" class="menu-link">
-                        <span class="menu-text">Ajouter fiche de paie</span>
+                        <span class="menu-text">Fiche de paie</span>
                         </a>
                         </div>
                         <div class="menu-item">
@@ -204,9 +211,9 @@
                     <div class="menu-item has-sub">
                         <a href="#" class="menu-link">
                             <span class="menu-icon">
-                            <i class="fa fa-envelope"></i>
+                            <i class="fa fa-calendar"></i>
                             </span>
-                            <span class="menu-text">Conge</span>
+                            <span class="menu-text">Congé</span>
                             <span class="menu-caret"><b class="caret"></b></span>
                         </a>
                         <div class="menu-submenu">
@@ -218,6 +225,29 @@
                         <div class="menu-item">
                         <a href="{{ route('admin.vacance.index') }}" class="menu-link">
                         <span class="menu-text">Vacances</span>
+                        </a>
+                        </div>
+                        </div>
+                    </div>
+                    
+
+                    <div class="menu-item has-sub">
+                        <a href="#" class="menu-link">
+                            <span class="menu-icon">
+                            <i class="fa fa-building"></i>
+                            </span>
+                            <span class="menu-text">Structure d'entreprise</span>
+                            <span class="menu-caret"><b class="caret"></b></span>
+                        </a>
+                        <div class="menu-submenu">
+                        <div class="menu-item">
+                        <a href="{{ route('admin.structure.branche') }}" class="menu-link">
+                        <span class="menu-text">Branches</span>
+                        </a>
+                        </div>
+                        <div class="menu-item">
+                        <a href="{{ route('admin.structure.direction') }}" class="menu-link">
+                        <span class="menu-text">Directions</span>
                         </a>
                         </div>
                         </div>

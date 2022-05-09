@@ -53,17 +53,17 @@ class AttendanceController extends Controller
     {
 
         $this->validate($request,[
-            'user_id'=>'required',
+            'matricule'=>'required',
         ]);
 
-        if(DB::table('users')->where('id', $request->user_id)->exists()){
+        if(DB::table('users')->where('matricule', $request->matricule)->exists()){
             $todayDate = Carbon::now()->format('Y-m-d'); 
-        if(DB::table('attendances')->where('user_id', $request->user_id)->where('date', $todayDate)->doesntExist()){
+        if(DB::table('attendances')->where('matricule', $request->matricule)->where('date', $todayDate)->doesntExist()){
             $attendance = new Attendance();
             $attendance->date = Date('Y-m-d');
             $attendance->start_time = Date('H:i:s');
             $attendance->end_time = "0:0:0";
-            $attendance->user_id = $request->user_id;
+            $attendance->matricule = $request->matricule;
             $attendance->save();
             return response()->json(['success' => true, 'created'=> true, 'msg' => 'Bonne journée']);
          
@@ -71,7 +71,7 @@ class AttendanceController extends Controller
         else
         {
             $currentDate = Date('Y-m-d');
-            $attendance = Attendance::whereDate('date',$currentDate)->where('user_id',$request->user_id)->first();
+            $attendance = Attendance::whereDate('date',$currentDate)->where('matricule',$request->matricule)->first();
             $attendance->end_time = Date('H:i:s');
             $attendance->save();
             return response()->json(['success' => true, 'created'=> true, 'msg' => 'Au revoir']);

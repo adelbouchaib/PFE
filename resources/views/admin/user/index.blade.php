@@ -1,10 +1,10 @@
 @extends('admin.master')
 @section('title')
-All Users
+Employés
 @stop
 @section('content')
  <div class="title-bar">
-    <h4 style="float:left">All Users</h4>
+    <h4 style="float:left">Employés</h4>
     <a href="#" title="" style="float:right" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a>
  </div>
  <div id="responsiveTables" class="mb-5">
@@ -12,29 +12,36 @@ All Users
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table mb-0">
+                    <form type="get" class="menu-search" action="{{ url('/employes/search') }}">
+                        <div class="modal-body">
+                        <input type="text" name="data" class="form-control" placeholder="Rechercher..." />
+                        </div>
+                </form> 
+                   
                     <thead>
                         <tr>
-                            <th>Profile</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
+                            <th>Marticule</th>
+                            <th>Poste</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
                             <th>Email</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
+                            <th>Numéro de téléphone</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($users as $user)
                         <tr>
-                            <th><img src="{{asset('/assets/uploads/profiles/')}}/{{$user->profile}}" alt="" style="width: 30px;"></th>
+                            <td>{{$user->matricule}}</td>
+                            <td>{{$user->position}}</td>
                             <td>{{$user->first_name}}</td>
                             <td>{{$user->last_name}}</td>
                             <td>{{$user->email}}</td>
-                            <td>{{date('d-m-Y', strtotime($user->start_date))}}</td>
-                            <td>{{date('d-m-Y', strtotime($user->end_date))}}</td>
+                            <td>{{$user->phone}}</td>
                             <td>
-                                <a href="#" user-id="{{$user->id}}" title="Edit" class="btn btn-primary btn-edit-user"><i class="fa-solid fa-pencil"></i></a>
-                                <a href="#" user-id="{{$user->id}}" title="Delete" class="btn btn-warning btn-delete-user"><i class="fa-solid fa-trash-can"></i></a>
+                                <a href="{{ url('/users', [$user->matricule]) }}" class="btn btn-yellow"><i class="fa-solid fa-eye"></i></a>
+                                <a href="#" user-id="{{$user->id}}" title="Edit" class="btn btn-warning btn-edit-user"><i class="fa-solid fa-pencil"></i></a>
+                                <a href="#" user-id="{{$user->id}}" title="Delete" class="btn btn-danger btn-delete-user"><i class="fa-solid fa-trash-can"></i></a>
                             </td>
                         </tr>
                         @endforeach

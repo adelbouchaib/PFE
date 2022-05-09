@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('date');
             $table->time('start_time');
             $table->time('end_time');
-            $table->integer('user_id');
+            $table->string('matricule');
             $table->string('note')->nullable();
             $table->timestamps();
         });

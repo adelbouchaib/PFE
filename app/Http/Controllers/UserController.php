@@ -47,11 +47,26 @@ class UserController extends Controller
     }
 
     
-    public function employee($id)
+    public function search(Request $request){
+
+
+        $users =  User::where('first_name','LIKE','%'.$request->data.'%')
+        ->orWhere('last_name','LIKE','%'.$request->data.'%')
+        ->orWhere('position','LIKE','%'.$request->data.'%')
+        ->orWhere('matricule','LIKE','%'.$request->data.'%')
+        ->orWhere('email','LIKE','%'.$request->data.'%')
+        ->orWhere('phone','LIKE','%'.$request->data.'%')
+        ->get();
+        $directions = Direction::all();
+        $branches = Branche::all();
+        return view('admin.user.index',compact('users','directions','branches'));
+    }
+    
+    public function employee($matricule)
     {
         $users = User::all();
         $attendances = Attendance::all();
-        $users2 = User::find($id);
+        $users2 = User::where('matricule','=',$matricule)->first();
         return view('admin.user.employee', ['users2' => $users2], compact('users', 'attendances'));
     }
 
