@@ -29,21 +29,15 @@ Présence
                     <tbody>
                         
                         @foreach($attendances as $attendance)
-                            @if(Auth::User()->role==0)
                                 <tr>
                                     <td>{{date('d-m-Y', strtotime($attendance->date))}}</td>
-                                    <td>{{$attendance->user['first_name']}} {{$attendance->user['last_name']}}</td>
+                                    <td>{{$attendance->first_name}} {{$attendance->last_name}}</td>
                                     <td>{{$attendance->start_time}}</td>
                                     <td>{{$attendance->end_time}}</td>
+                                    <td>
+                                        <button type="submit" id="{{ $attendance->id }}" class="btn btn-warning btn-edit-user"><i class="fa-solid fa-pencil"></i></a>
+                                    </td>
                                 </tr>
-                            @else
-                                <tr>
-                                    <td>{{date('d-m-Y', strtotime($attendance->date))}}</td>
-                                    <td>{{$attendance->user['first_name']}} {{$attendance->user['last_name']}}</td>
-                                    <td>{{$attendance->start_time}}</td>
-                                    <td>{{$attendance->end_time}}</td>
-                                </tr>
-                            @endif
                         @endforeach
                     </tbody>
                 </table>
@@ -54,6 +48,8 @@ Présence
 </div>
 
 @section('script')
+
+
    
 @stop
 @stop

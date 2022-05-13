@@ -53,21 +53,12 @@ User
                     <tbody>
                         
                         @foreach($attendances as $attendance)
-                            @if(Auth::User()->role==0)
                                 <tr>
                                     <td>{{date('d-m-Y', strtotime($attendance->date))}}</td>
-                                    <td>{{$attendance->user['first_name']}} {{$attendance->user['last_name']}}</td>
+                                    <td>{{$attendance->first_name}} {{$attendance->last_name}}</td>
                                     <td>{{$attendance->start_time}}</td>
                                     <td>{{$attendance->end_time}}</td>
                                 </tr>
-                            @else
-                                <tr>
-                                    <td>{{date('d-m-Y', strtotime($attendance->date))}}</td>
-                                    <td>{{$attendance->user['first_name']}} {{$attendance->user['last_name']}}</td>
-                                    <td>{{$attendance->start_time}}</td>
-                                    <td>{{$attendance->end_time}}</td>
-                                </tr>
-                            @endif
                         @endforeach
                     </tbody>
                 </table>
@@ -87,6 +78,8 @@ User
 
 
 @section('script')
+
+
     <script>
         $(document).ready(function(){
             $.ajaxSetup({

@@ -11,6 +11,10 @@ use Illuminate\Http\Request;
 
 class StructureController extends Controller
 {
+
+      
+
+
     public function direction()
     {
         $allusers= User::all();

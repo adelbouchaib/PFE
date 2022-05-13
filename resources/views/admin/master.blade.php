@@ -12,7 +12,7 @@
 
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="https://malsup.github.io/jquery.form.js"></script>
+    {{-- <script src="https://malsup.github.io/jquery.form.js"></script> --}}
 
     
 <link href="{{asset('/assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}" rel="stylesheet" />
@@ -54,7 +54,7 @@
                     </button>
                 </div>
 
-                <a href="{{ route('admin.index') }}">
+                <a href="{{ route('index') }}">
                     <img src="/assets/img/Logo_entp.png" alt="" width="50" height="50">
                 </a>
             </div>
@@ -159,18 +159,20 @@
 
                     <div class="menu-header">Navigation</div>
                     <div class="menu-item active">
-                        <a href="{{route('admin.index')}}" class="menu-link">
+                        <a href="{{route('index')}}" class="menu-link">
                             <span class="menu-icon"><i class="fa fa-laptop"></i></span>
                             <span class="menu-text">Dashboard</span>
                         </a>
                     </div>
 
+                    @can('index', \App\Dashboard::class)
                     <div class="menu-item">
                         <a href="{{route('admin.users.index')}}" class="menu-link">
                             <span class="menu-icon"><i class="fa fa-users"></i></span>
                             <span class="menu-text">Employés</span>
                         </a>
                     </div>
+                    @endcan
 
                     <div class="menu-item">
                         <a href="{{route('admin.attendances.index')}}" class="menu-link">
@@ -180,33 +182,21 @@
                     </div>
 
                     <div class="menu-item">
+                        <a href="{{route('admin.absences.index')}}" class="menu-link">
+                            <span class="menu-icon"><i class="fa-solid fa-calendar-times"></i></span>
+                            <span class="menu-text">Demandes d'absence</span>
+                        </a>
+                    </div>
+                    
+
+                    <div class="menu-item">
                         <a href="{{route('admin.projet.index')}}" class="menu-link">
                             <span class="menu-icon"><i class="fa-solid fa-code-branch"></i></span>
                             <span class="menu-text">Projets</span>
                         </a>
                     </div>
 
-                    <div class="menu-item has-sub">
-                        <a href="#" class="menu-link">
-                            <span class="menu-icon">
-                            <i class="fa fa-money-bill-alt"></i>
-                            </span>
-                            <span class="menu-text">Paiement</span>
-                            <span class="menu-caret"><b class="caret"></b></span>
-                        </a>
-                        <div class="menu-submenu">
-                        <div class="menu-item">
-                        <a href="{{ route('admin.paiement.index') }}" class="menu-link">
-                        <span class="menu-text">Fiche de paie</span>
-                        </a>
-                        </div>
-                        <div class="menu-item">
-                        <a href="{{ route('admin.paiement.historique') }}" class="menu-link">
-                        <span class="menu-text">Historique</span>
-                        </a>
-                        </div>
-                        </div>
-                    </div>
+            
 
                     <div class="menu-item has-sub">
                         <a href="#" class="menu-link">
@@ -230,7 +220,7 @@
                         </div>
                     </div>
                     
-
+                    @can('index', \App\Dashboard::class)
                     <div class="menu-item has-sub">
                         <a href="#" class="menu-link">
                             <span class="menu-icon">
@@ -252,6 +242,7 @@
                         </div>
                         </div>
                     </div>
+                    @endcan
 
 
 

@@ -19,17 +19,9 @@ class LoginController extends Controller
         $password = $request->password;
 
         if (Auth::attempt(['email' => $email, 'password' => $password])) {
-            switch (Auth::user()->role){
-                case 0:
-                    return redirect('/');
-                    break;
-                case 1:
-                    return redirect('employee');
-                    break;
-                case 2:
-                    return redirect('agent');
-                    break;    
-            }
+            return redirect('/');
+            
+            
         }else{
             return "Login Fail!";
         }

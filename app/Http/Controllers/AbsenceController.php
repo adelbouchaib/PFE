@@ -2,15 +2,15 @@
 namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Attendance;
-use App\Models\Conge;
+use App\Models\Absence;
 use App\Models\User;
-use App\Models\TypeConge;
+use App\Models\TypeAbsence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;
-
-class CongeController extends Controller
+class AbsenceController extends Controller
 {
+    
 
     public function index()
     {
@@ -19,53 +19,72 @@ class CongeController extends Controller
 
         if(Auth::User()->role==0)
         {
-            $conges = User::join('conges', 'users.id', '=', 'conges.user_id')
+            $absences = User::join('absences', 'users.id', '=', 'absences.user_id')
             ->get();
-            $types = TypeConge::
+            $types = TypeAbsence::
                 all();
         }
         else{
-            $conges = User::join('conges', 'users.id', '=', 'conges.user_id')
+            $absences = User::join('absences', 'users.id', '=', 'absences.user_id')
             ->where('user_id','=',Auth::User()->id)
             ->get();
-            $types = TypeConge::
+            $types = TypeAbsence::
                 all();
             
         }
         
         
-        return view('admin.conge.index',compact('conges','types'));
+        return view('admin.attendance.absence',compact('absences','types'));
     }
 
+    // public function  absence(Request $request){
+
+      
+
+
+    //     $attendances = User::whereNotExists(function($query)
+    //         {
+    //             $query->select(DB::raw(1))
+    //                   ->from('Attendances')
+    //                   ->where('date','=',Carbon::now()->format('Y-m-d'))
+    //                   ->whereRaw('Users.matricule = Attendances.matricule');
+    //         })
+    //         ->get();
+
+
+    //         return view('admin.attendance.index',compact('attendances'));
+
+
+    //     }
     
     public function  create(Request $request){
 
         $this->authorize('create',Absence::class);
 
         
-        $name = $request->file('image')->getClientOriginalName();
-        $request->file('image')->storeAs('public/images',$name);
- 
-         $conge = new Conge();
-         $conge->user_id = Auth::user()->id;
-         $conge->type_id = $request->type; 
-         $conge->motif = $request->motif; 
-         $conge->start = $request->start;
-         $conge->finish = $request->finish;
-         $conge->justification = $name;
-         $conge->save();
+       $name = $request->file('image')->getClientOriginalName();
+       $request->file('image')->storeAs('public/images',$name);
+
+        $absence = new Absence();
+        $absence->user_id = Auth::user()->id;
+        $absence->type_id = $request->type; 
+        $absence->motif = $request->motif; 
+        $absence->start = $request->start;
+        $absence->finish = $request->finish;
+        $absence->justification = $name;
+        $absence->save();
         
     }
     
-
-       
+ 
+    
     public function display2(Request $request){
 
         $search_text = $request->id;
-        $first = Conge::where('id','=',$search_text)        
+        $first = Absence::where('id','=',$search_text)        
         ->get();
 
-        $second = TypeConge::
+        $second = TypeAbsence::
             all();
 
             $third = User::where('id','=',Auth::id())
@@ -89,35 +108,35 @@ class CongeController extends Controller
         ]);
 
         $id = $request->id;
-        $conge = Conge::find($id);
+        $absence = Absence::find($id);
 
         if(Auth::User()->role == 0)
         {
-        $conge->etat = $request->etat;
-        $conge->modifie='1';
+        $absence->etat = $request->etat;
+        $absence->modifie='1';
         }
         else{
         
         if($request->modifie == 0){
-            $conge->modifie='0';
-            $conge->etat = '0';
+            $absence->modifie='0';
+            $absence->etat = '0';
         }else{
-            $conge->modifie='0';
-            $conge->etat='2';
+            $absence->modifie='0';
+            $absence->etat='2';
                 }
         
         }
        
-        $conge->type_id = $request->type;
-        $conge->motif = $request->motif;
-        $conge->start = $request->start;
-        $conge->finish = $request->finish;
-        $conge->save();
+        $absence->type_id = $request->type;
+        $absence->motif = $request->motif;
+        $absence->start = $request->start;
+        $absence->finish = $request->finish;
+        $absence->save();
         
     }
 
 
-        
+    
     public function search(Request $request)
     {
     //     $attendances = User::
@@ -132,7 +151,7 @@ class CongeController extends Controller
     //     ->get();
 
 
-    $types = TypeConge::
+    $types = TypeAbsence::
     all();
 
 
@@ -143,13 +162,13 @@ class CongeController extends Controller
         {
             if(isset($request->etat))
             {
-                $conges = User::join('conges', 'users.id', '=', 'conges.user_id')
-                ->whereDate('conges.created_at','=', $request->date)
+                $absences = User::join('absences', 'users.id', '=', 'absences.user_id')
+                ->whereDate('absences.created_at','=', $request->date)
                 ->where('etat','=',$request->etat)
                 ->get();
             }else{
-                $conges = User::join('conges', 'users.id', '=', 'conges.user_id')
-                ->whereDate('conges.created_at','=', $request->date)
+                $absences = User::join('absences', 'users.id', '=', 'absences.user_id')
+                ->whereDate('absences.created_at','=', $request->date)
                 ->get();
             }
            
@@ -157,12 +176,12 @@ class CongeController extends Controller
         {
             if(isset($request->etat))
             {
-            $conges = User::join('conges', 'users.id', '=', 'conges.user_id')
+            $absences = User::join('absences', 'users.id', '=', 'absences.user_id')
             ->where('etat','=',$request->etat)
             ->get();
             }else
             {
-                $conges = User::join('conges', 'users.id', '=', 'conges.user_id')
+                $absences = User::join('absences', 'users.id', '=', 'absences.user_id')
             ->get();
             }
         }
@@ -177,15 +196,15 @@ class CongeController extends Controller
         {
             if(isset($request->etat))
             {
-                $conges = User::join('conges', 'users.id', '=', 'conges.user_id')
+                $absences = User::join('absences', 'users.id', '=', 'absences.user_id')
                 ->where('user_id','=',Auth::User()->id)
-                ->whereDate('conges.created_at','=', $request->date)
+                ->whereDate('absences.created_at','=', $request->date)
                 ->where('etat','=',$request->etat)
                 ->get();
             }else{
-                $conges = User::join('conges', 'users.id', '=', 'conges.user_id')
+                $absences = User::join('absences', 'users.id', '=', 'absences.user_id')
                 ->where('user_id','=',Auth::User()->id)
-                ->whereDate('conges.created_at','=', $request->date)
+                ->whereDate('absences.created_at','=', $request->date)
                 ->get();
             }
            
@@ -193,20 +212,19 @@ class CongeController extends Controller
         {
             if(isset($request->etat))
             {
-            $conges = User::join('conges', 'users.id', '=', 'conges.user_id')
+            $absences = User::join('absences', 'users.id', '=', 'absences.user_id')
             ->where('user_id','=',Auth::User()->id)
             ->where('etat','=',$request->etat)
             ->get();
             }else
             {
-                $conges = User::join('conges', 'users.id', '=', 'conges.user_id')
+                $absences = User::join('absences', 'users.id', '=', 'absences.user_id')
                 ->where('user_id','=',Auth::User()->id)
             ->get();
             }
         }
     }
-        return view('admin.conge.index',compact('conges','types'));
+        return view('admin.attendance.absence',compact('absences','types'));
     }
-
 
 }

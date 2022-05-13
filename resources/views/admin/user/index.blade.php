@@ -3,6 +3,9 @@
 Employés
 @stop
 @section('content')
+
+
+
  <div class="title-bar">
     <h4 style="float:left">Employés</h4>
     <a href="#" title="" style="float:right" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a>
@@ -57,9 +60,10 @@ Employés
   <div class="modal-dialog">
     <div class="modal-content">
 
+        <livewire:create-user-form /> 
 
-
-
+        
+{{-- 
     <form method="post" accept-charset="utf-8" id="form-signup">
       <!-- Modal Header -->
       <div class="modal-header">
@@ -94,7 +98,7 @@ Employés
             <select name="departement" class="form-control" id="var1" >
                 <option value="" hidden>Branche</option>
                 @foreach ($branches as $branche)
-                <option   value="{{ $branche->id }}"> {{ $branche->title }} </option>
+                <option   value="{{ $branche->id }}"> {{ $branche->nom_branche }} </option>
                 @endforeach
             </select>
              </div>
@@ -104,7 +108,7 @@ Employés
             <select name="departement" class="form-control" id="var2">
                 <option value="" hidden>Direction</option>
                 @foreach ($directions as $direction)
-                <option   value="{{ $direction->id }}"> {{ $direction->title }} </option>
+                <option   value="{{ $direction->id }}"> {{ $direction->nom_direction }} </option>
                 @endforeach
             </select>
              </div>
@@ -131,14 +135,17 @@ Employés
             <input type="date" name="end_date" id="end_date" class="form-control">
             <span id="errorEndDate" class="text-red"></span>
         </div>
-      </div>
+
+    </div>
 
       <!-- Modal footer -->
       <div class="modal-footer">
+          <div class="form-navigation">
         <button type="submit" class="btn btn-primary">Save</button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          </div>
       </div>
-      </form>
+      </form> --}}
     </div>
   </div>
 </div>
@@ -233,31 +240,36 @@ Employés
 @section('script')
 <link href="{{asset('/assets/plugins/select-picker/dist/picker.min.css')}}" rel="stylesheet" />
 <script src="{{asset('/assets/plugins/select-picker/dist/picker.min.js')}}"></script>
+<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+@livewireStyles
+@livewireScripts
+
+
 
     <script>
 
 
-$('#var1').on('change',function fetchdirections(e){
 
-var var1 = e.target.value;
-console.log(var1);
-$('#var2').empty();
+        
+// $('#var1').change(function(e){
 
-$.get('/directions?id=' + var1, function(data){
+// var var1 = e.target.value;
+// console.log("sss");
 
-           
-        console.log("yes");
-                $('#var2').empty();
-                   $.each(data.direction,function(key,item){
+// $.post('/users/directions?id=' + var1,{"_token":$("input[name='_token']").val()}, function(data){
 
-                $('#var2').append('<option value="'+ item.id +'">'+ item.title +'</option>');
-                   })
+//     $('#var2').empty();
+    
+//     $('#var2').append('<option value="" hidden>Selectionner la direction</option>');
 
-            })
-        });
+//     $.each(data.directions,function(key,item){
 
+//                 $('#var2').append('<option value="'+ item.id +'">'+ item.nom_direction +'</option>');
+//                    });
 
-   
+//             });
+//         });
 
         $(document).ready(function(){
             $('#ex-basic').picker({search : true});
@@ -268,15 +280,6 @@ $.get('/directions?id=' + var1, function(data){
                 }
 
             });
-
-
-
-
-            
-
-
-
-
 
             $('.btn-add-user').click(function(){
                 $('#modalCreateUser').modal('show');

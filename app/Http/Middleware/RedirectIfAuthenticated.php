@@ -20,15 +20,10 @@ class RedirectIfAuthenticated
     public function handle(Request $request, Closure $next, ...$guards)
     {
         $guards = empty($guards) ? [null] : $guards;
-        $destinations = [
-            0 => 'dashboard.index',
-            1 => 'employee.index',
-            2 => 'agent.index',
-        ];
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect()->route($destinations[Auth::user()->role]);
+                return redirect()->route('index');
             }
         }
 

@@ -15,7 +15,7 @@ use Carbon\Carbon;
 
 
 
-class AdminController extends Controller
+class DashboardController extends Controller
 {
     public function __construct() 
     {
@@ -23,10 +23,12 @@ class AdminController extends Controller
     }
     public function index()
     {
+        if(Auth::User()->role == 0)
+        {
         $users = User::all();
         $usersnb = User::count();
         $usersnbatt = Attendance::where('date',Carbon::today())->count();
-        $usersnbconge = Conge::where('date_entree','>=',Carbon::today())->count();
+        $usersnbconge = Conge::where('start','>=',Carbon::today())->count();
         $conges = User::
         join('conges', 'users.id', '=', 'conges.user_id')
         ->where('etat','=','0')->orderBy('created_at','desc')->limit(4)
@@ -57,12 +59,26 @@ class AdminController extends Controller
 
         return view('admin.index',compact('users', 'projets','usersnb', 'usersnbatt','usersnbconge','conges','datas'));
 
+
+       
+   
+}elseif(Auth::User()->role == 1)
+{
+    $users = User::all();
+        return view('employee.index',compact('users'));
+  
+}
+else{
+    $users = User::all();
+        return view('agent.index',compact('users'));
+}
+
     }
 
+public function logout(Request $request)
+{
+    Auth::logout();
+    return redirect(route('login'));
+}
 
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        return redirect(route('login'));
-    }
 }

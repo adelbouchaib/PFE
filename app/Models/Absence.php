@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 
-class Paiement extends Model
+class Absence extends Model
 {
     use HasFactory;
 
@@ -15,5 +14,8 @@ class Paiement extends Model
         return $this->belongsTo('App\Models\User');
     }
 
-    
+    public function typeabsence()
+    {
+        return $this->belongsTo('App\Models\TypeAbsence');
+    }
 }

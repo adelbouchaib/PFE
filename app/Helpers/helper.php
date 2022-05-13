@@ -24,20 +24,27 @@ class Helper{
 
           
         $data= User::orderBy('id','desc')->where('matricule','LIKE',$mat .'%')->first();
-        $data2 = substr($data->matricule,strlen('DG22F'));
+        if(!empty($data))
+        {
+            $data2 = substr($data->matricule,strlen('DG22F'));
 
-        $actial_last_number = ($data2/1)*1;
-        
-        $increment_last_number = $actial_last_number+1;
-            $last_number_length = strlen($increment_last_number);
-            $og_length = 3 - $last_number_length;
-            $last_number = $increment_last_number;
-
-            $zeros = "";
-        for($i=0;$i<$og_length;$i++){
-            $zeros.="0";
+            $actial_last_number = ($data2/1)*1;
+            
+            $increment_last_number = $actial_last_number+1;
+                $last_number_length = strlen($increment_last_number);
+                $og_length = 3 - $last_number_length;
+                $last_number = $increment_last_number;
+    
+                $zeros = "";
+            for($i=0;$i<$og_length;$i++){
+                $zeros.="0";
+            }
+            return $mat.$zeros.$last_number;
         }
-        return $mat.$zeros.$last_number;
+        else{
+            return $mat."001";
+        }
+        
 
 
        

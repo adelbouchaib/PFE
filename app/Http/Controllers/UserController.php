@@ -19,18 +19,17 @@ class UserController extends Controller
       $this->middleware('auth');
     }
 
-     
     public function direction(Request $request){
         
-        $direction = $request->id;
+        $branche = $request->id;
        
-        $first = Direction::where('id','=',$direction)
-        ->get();
-        
+        $first = Direction::where('branche_id','=',$branche)->get();
 
         return response()->json([
-            'direction' => $first,
+            'directions' => $first,
+
         ]);
+
     }
 
     /**

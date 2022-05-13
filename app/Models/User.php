@@ -44,9 +44,16 @@ class User extends Authenticatable
     ];
 
 
+    
     public function attendance()
     {
         return $this->hasMany('App\Models\Attendance','matricule');
+    }
+
+
+    public function absence()
+    {
+        return $this->hasMany('App\Models\Absence','user_id');
     }
 
 

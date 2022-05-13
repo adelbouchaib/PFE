@@ -1,12 +1,12 @@
 @extends('admin.master')
 @section('title')
-Congé
+Présence
 @stop
 @section('content')
 
 
  <div class="title-bar">
-    <h4 style="float:left">Congé</h4>
+    <h4 style="float:left">Absences</h4>
     @can('create', \App\Absence::class)
    <a href="#" title="" style="float:right" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a> 
    @endcan
@@ -21,14 +21,14 @@ Congé
       <form method="post" accept-charset="utf-8" id="form-signup">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Demande d'un congé</h4>
+          <h4 class="modal-title">Demande d'absence</h4>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
 
         <div class="modal-body">
 
             <div class="form-group">
-                <label>Type de congé</label>
+                <label>Type d'absence</label>
                 <select name="type" class="form-control" id="var1" >
                     @foreach($types as $type)
                      <option   value="{{ $type->id }}"> {{ $type->titre }} </option>
@@ -60,25 +60,6 @@ Congé
                                                 
             <input type="file" class="fileimage" id="image"  name="image" /> 
         </div>
-{{--         
-        <div class="form-group"> 
-            <select name="chef" class="form-control"  id="ex-basicc">
-                <option value="" hidden>Full name</option>
-                @foreach ($allusers as $user)
-                <option   value="{{ $user->id }}"> {{ $user->first_name }} {{ $user->last_name }} </option>
-                @endforeach
-            </select>
-             </div>
-
-         <div class="form-group"> 
-        <select name="data[]" class="form-control"  id="ex-basic" multiple>
-            <option value="" hidden>Full name</option>
-            @foreach ($allusers as $user)
-            <option   value="{{ $user->id }}"> {{ $user->first_name }} {{ $user->last_name }} </option>
-            @endforeach
-        </select> --}}
-
-         {{-- </div> --}}
         </div>
 
      
@@ -101,7 +82,7 @@ Congé
         <form method="post" accept-charset="utf-8" id="form-edit"> 
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Modifier le congé</h4>
+          <h4 class="modal-title">Modifier l'absence</h4>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
 
@@ -113,7 +94,7 @@ Congé
             </div>
 
             
-                <label>Type de congé</label>
+                <label>Type d'absence</label>
                 <select name="typee" class="form-control" id="var11" >
 
                 </select>
@@ -144,9 +125,8 @@ Congé
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                
                 <table class="table mb-0">
-                    <form type="get" action="{{ url('/conge/recherche') }}">
+                    <form type="get" action="{{ url('/absences/search') }}">
                         <div class="modal-body">
                         <input type="date" style="width:auto; display:inline;" class="form-control"  name="date" id="date" />
                                             
@@ -174,19 +154,24 @@ Congé
                     </thead>
                     <tbody>
                         
-                        @foreach($conges as $conge)
+                        @foreach($absences as $absence)
                                 <tr>
-                                    <td>{{$conge->id}}</td>
-                                    <td>{{$conge->matricule}}</td>
-                                    <td>{{$conge->first_name}} {{$conge->last_name}}</td>
-                                    <td>{{$conge->created_at->format('Y-m-d')}}</td>
-                                    <td>{{$conge->start}}</td>
-                                    <td>{{$conge->finish}}</td>
-                                    
-                                    @if( $conge->modifie == 1)                       
+                                    <td>{{ $absence->id }}</td>
+                                    <td>{{$absence->matricule}} </td>
+                                    <td>{{$absence->first_name}} {{$absence->last_name}}</td>
+                                    <td>{{$absence->created_at->format('Y-m-d')}}</td>
+                                    <td>{{$absence->start}}</td>
+                                    <td>{{$absence->finish}}</td>
+
+                                   
+                                    @if( $absence->modifie == 1)                       
+
                                         <td><span class="badge bg-danger bg-opacity-20 text-danger" style="min-width: 60px;">Modifié</span></td>
-                                    @else                           
-                                    @switch($conge->etat)
+ 
+                                    @else
+                                
+
+                                    @switch($absence->etat)
                                         @case(0)
                                         <td><span class="badge bg-warning bg-opacity-20 text-warning" style="min-width: 60px;">En attente</span></td>
                                         @break
@@ -196,11 +181,17 @@ Congé
                                         @default
                                        <td><span class="badge bg-danger bg-opacity-20 text-danger" style="min-width: 60px;">Refusé</span></td>
                                      @endswitch
+                                    
+                                   
+                                    
                                     @endif
+
+                                  
+                                   
 
                                     
                                     <td>
-                                        <button type="submit" id="{{ $conge->id }}" class="btn btn-warning btn-edit-user"><i class="fa-solid fa-pencil"></i></a>
+                                        <button type="submit" id="{{ $absence->id }}" class="btn btn-warning btn-edit-user"><i class="fa-solid fa-pencil"></i></a>
                                     </td>
                                 </tr>
 
@@ -238,7 +229,7 @@ $(document).ready(function(){
            var formData =  new FormData(this);
 
            $.ajax({
-               url:"{{route('admin.conge.create')}}",
+               url:"{{route('admin.absences.create')}}",
                type:'POST',
                data:formData,
                processData: false,
@@ -276,7 +267,7 @@ $(document).ready(function(){
                
                 $.ajax({
                     type:"get",
-                    url:"/conge/display2",
+                    url:"/absences/display2",
                     dataType: "json",
                     
                     
@@ -316,46 +307,45 @@ $(document).ready(function(){
 
                  
 
-                    
                     $.each(response.users,function(key,itemmm){
                                   
-                                  if(itemmm.role == '0')
+                                    if(itemmm.role == '0')
+                                  {
+                            
+                            $('.modall-body').append(
+                                  '<label for="password">Etat</label>\
+                                  <select  class="form-select form-select-lg" id="etatt" name="etatt">\
+                                      @if('+item.etat+' == 1)\
+                                      <option value="'+item.etat+'" style="display: none;">En attente</option>\
+                                      @elseif( '+item.etat+' == 1)\
+                                      <option value="'+item.etat+'" style="display: none;">Accepté</option>\
+                                      @else\
+                                      <option value="'+item.etat+'" style="display: none;">Refusé</option>\
+                                      <option value="0">En attente</option>\
+                                      <option value="1">Accepté</option>\
+                                      <option value="2">Refusé</option>\
+                                        @endif\
+                                  </select>'
+                                  )
+                                
+                            }
+                            else{
+                                if(item.modifie == '1')
                                 {
-                          
-                          $('.modall-body').append(
-                                '<label for="password">Etat</label>\
-                                <select  class="form-select form-select-lg" id="etatt" name="etatt">\
-                                    @if('+item.etat+' == 1)\
-                                    <option value="'+item.etat+'" style="display: none;">En attente</option>\
-                                    @elseif( '+item.etat+' == 1)\
-                                    <option value="'+item.etat+'" style="display: none;">Accepté</option>\
-                                    @else\
-                                    <option value="'+item.etat+'" style="display: none;">Refusé</option>\
-                                    <option value="0">En attente</option>\
-                                    <option value="1">Accepté</option>\
-                                    <option value="2">Refusé</option>\
-                                      @endif\
-                                </select>'
-                                )
-                              
-                          }
-                          else{
-                              if(item.modifie == '1')
-                              {
-                                  $('.modall-body').append(
-                                '<label for="password">Etat de modification</label>\
-                                <select  class="form-select form-select-lg" id="modifiee" name="modifiee">\
-                                    <option value="0">Accepté</option>\
-                                    <option value="1">Refusé</option>\
-                                </select>'
-                                )
-                              }
+                                    $('.modall-body').append(
+                                  '<label for="password">Etat de modification</label>\
+                                  <select  class="form-select form-select-lg" id="modifiee" name="modifiee">\
+                                      <option value="0">Accepté</option>\
+                                      <option value="1">Refusé</option>\
+                                  </select>'
+                                  )
+                                }
 
-                          }
-                      }
-                      
-                      
-                      );
+                            }
+                        }
+                        
+                        
+                        );
 
                                   $('.modall-body').append(
                                   '<span id="errorRole" class="text-red"></span>\
@@ -378,7 +368,7 @@ $(document).ready(function(){
                     console.log($('#motiff').val());
                     var formData =  new FormData(this);
                     $.ajax({
-                        url:"{{route('admin.conge.update')}}",
+                        url:"{{route('admin.absences.update')}}",
                         type:'POST',
                         data:formData,
                         data:{

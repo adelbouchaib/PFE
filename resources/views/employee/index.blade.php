@@ -1,4 +1,4 @@
-@extends('employee.master')
+@extends('admin.master')
 @section('title')
 	Home
 @stop

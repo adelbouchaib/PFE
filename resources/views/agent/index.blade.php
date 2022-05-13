@@ -1,4 +1,4 @@
-@extends('agent.master')
+@extends('admin.master')
 @section('title')
 	Home
 @stop

@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('conges', function (Blueprint $table) {
+        Schema::create('absences', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
             $table->integer('type_id');
+            $table->boolean('etat')->default(0);
+            $table->string('motif');
             $table->date('start');
             $table->date('finish');
-            $table->integer('etat')->default(0);
-            $table->string('motif');
             $table->integer('modifie')->default(0);
             $table->string('justification');
             $table->timestamps();
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conges');
+        Schema::dropIfExists('absences');
     }
 };

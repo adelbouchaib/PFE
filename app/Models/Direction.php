@@ -15,9 +15,9 @@ class Direction extends Model
         return $this->hasMany('App\Models\User','departement');
     }
 
-    public function direction()
+    public function branche()
     {
-        return $this->belongsTo('App\Models\Direction');
+        return $this->belongsTo('App\Models\Branche');
     }
 
     // public function user()

@@ -9,5 +9,16 @@ class Conge extends Model
 {
     use HasFactory;
 
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+
+    public function typeconge()
+    {
+        return $this->belongsTo('App\Models\TypeConge');
+    }
+
 
 }
