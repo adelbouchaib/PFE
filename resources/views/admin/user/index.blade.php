@@ -199,7 +199,7 @@ Employés
               <span id="errorEndDate" class="text-red"></span>
           </div>
         </div>
-  
+
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Save</button>
