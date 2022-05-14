@@ -15,22 +15,36 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->integer('role');
+            $table->integer('direction_id');
             $table->string('matricule');
-            $table->integer('departement');
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('prenom');
+            $table->string('nom');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('profile')->default('default.jpg');
-            $table->string('address')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('position')->nullable();
-            $table->string('gender')->nullable();
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
-            $table->string('salary')->nullable();
-            $table->integer('role')->default(0);
+            $table->char('sexe');
+            $table->string('lieu_naiss');
+            $table->date('date_naiss');
+            $table->string('adresse');
+            $table->string('num_telephone');
+            $table->integer('situation_familiale');
+            $table->boolean('situation_conjoint');
+            $table->integer('nbr_enfant');
+
+            $table->string('num_securite_social');
+            $table->string('num_compte');
+
+            $table->string('fonction');
+            $table->char('groupe');
+            $table->string('categorie');
+            $table->integer('echelon');
+
+            $table->integer('type_contrat');
+            $table->date('date_recrutement');
+            $table->date('debut_contrat');
+            $table->date('fin_contrat')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
         });

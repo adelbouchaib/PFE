@@ -104,7 +104,7 @@
       <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
       <div class="d-flex gap-2 w-100 justify-content-between">
         <div>
-          <h6 class="mb-0">{{ $user->first_name }} {{ $user->last_name }}</h6>
+          <h6 class="mb-0">{{ $user->prenom }} {{ $user->nom }}</h6>
         </div>
       </div>
     </a>

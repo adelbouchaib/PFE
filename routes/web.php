@@ -36,6 +36,8 @@ Route::group(['middleware' => 'adminoremployee'], function () {
     Route::get('/absences/search','AbsenceController@search')->name('admin.absences.search');
     Route::get('/absences/display2','AbsenceController@display2')->name('admin.absences.display2');
     Route::post('/absences/update','AbsenceController@update')->name('admin.absences.update');
+    Route::get('/absences/historique','AbsenceController@absence')->name('admin.absences.absence');
+
 
 
     Route::get('/vacance','VacanceController@index')->name('admin.vacance.index');
@@ -52,6 +54,7 @@ Route::group(['middleware' => 'adminoremployee'], function () {
     
     Route::get('/attendances','AttendanceController@index')->name('admin.attendances.index');
     Route::get('/attendances/search','AttendanceController@search')->name('admin.attendances.search');
+
 
     
     Route::get('/projet','ProjetController@index')->name('admin.projet.index');

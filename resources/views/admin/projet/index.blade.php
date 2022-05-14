@@ -58,16 +58,16 @@ Projets
                 <select name="chef" class="form-control"  id="ex-basicc">
                     <option value="" hidden>Full name</option>
                     @foreach ($allusers as $user)
-                    <option   value="{{ $user->id }}"> {{ $user->first_name }} {{ $user->last_name }} </option>
+                    <option   value="{{ $user->id }}"> {{ $user->matricule }} - {{ $user->prenom }} {{ $user->nom }} </option>
                     @endforeach
                 </select>
                  </div>
 
-             <div class="form-group"> 
+             <div class="form-group" style="width:100%" > 
             <select name="data[]" class="form-control"  id="ex-basic" multiple>
                 <option value="" hidden>Full name</option>
                 @foreach ($allusers as $user)
-                <option   value="{{ $user->id }}"> {{ $user->first_name }} {{ $user->last_name }} </option>
+                <option   value="{{ $user->id }}"> {{ $user->matricule }} - {{ $user->prenom }} {{ $user->nom }} </option>
                 @endforeach
             </select>
 
@@ -222,7 +222,7 @@ Projets
                             <a href="#" projet-id="{{ $projet->id }}" data-bs-toggle="modal" style="float:right" class="text-muted text-decoration-none fs-12px me-3 btn-edit-projet">
                                 <i class="fa fa-fw fa-edit"></i></a>
                         </div>
-                        <div class="fs-13px text-muted mb-2">{{ $projet->first_name }} {{ $projet->last_name }}</div>
+                        <div class="fs-13px text-muted mb-2">{{ $projet->prenom }} {{ $projet->nom }}</div>
                         <div> 
                             @php
                             $todayDate = \Carbon\Carbon::now()->format('Y-m-d'); 

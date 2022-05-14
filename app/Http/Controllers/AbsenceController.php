@@ -37,25 +37,32 @@ class AbsenceController extends Controller
         return view('admin.attendance.absence',compact('absences','types'));
     }
 
-    // public function  absence(Request $request){
+    public function  absence(Request $request){
 
+      $date= Carbon::now()->format('Y-m-d');
       
+        $attendances = User::
+        whereNotExists(function($query)
+            {
+                $query->select(DB::raw(1))
+                          ->from('Attendances')
+                          ->where('date','=',Carbon::now()->format('Y-m-d'))
+                          ->where('start_time','<',"09:00:00")
+                          ->whereRaw('Users.matricule = Attendances.matricule');
+
+                        
+            })
+                ->get();
+            
 
 
-    //     $attendances = User::whereNotExists(function($query)
-    //         {
-    //             $query->select(DB::raw(1))
-    //                   ->from('Attendances')
-    //                   ->where('date','=',Carbon::now()->format('Y-m-d'))
-    //                   ->whereRaw('Users.matricule = Attendances.matricule');
-    //         })
-    //         ->get();
 
 
-    //         return view('admin.attendance.index',compact('attendances'));
+
+            return view('admin.attendance.historique',compact('attendances','date'));
 
 
-    //     }
+        }
     
     public function  create(Request $request){
 
@@ -112,8 +119,14 @@ class AbsenceController extends Controller
 
         if(Auth::User()->role == 0)
         {
-        $absence->etat = $request->etat;
-        $absence->modifie='1';
+            if($request->etat == $absence->etat)
+            {
+                $absence->etat = $request->etat;
+                $absence->modifie='1';
+            }else{
+                $absence->etat = $request->etat;
+                $absence->modifie='0';
+            }
         }
         else{
         

@@ -158,7 +158,7 @@ Présence
                                 <tr>
                                     <td>{{ $absence->id }}</td>
                                     <td>{{$absence->matricule}} </td>
-                                    <td>{{$absence->first_name}} {{$absence->last_name}}</td>
+                                    <td>{{$absence->prenom}} {{$absence->nom}}</td>
                                     <td>{{$absence->created_at->format('Y-m-d')}}</td>
                                     <td>{{$absence->start}}</td>
                                     <td>{{$absence->finish}}</td>
@@ -290,8 +290,8 @@ $(document).ready(function(){
                     });
 
                         
-                    $.each(response.types,function(key,item){
-                        $('#var11').append( '<option value="'+item.id+'">'+item.titre+'</option>' );
+                    $.each(response.types,function(key,type){
+                        $('#var11').append( '<option value="'+type.id+'">'+type.titre+'</option>' );
                     });
 
                     $('.modall-body').append(
@@ -311,20 +311,25 @@ $(document).ready(function(){
                                   
                                     if(itemmm.role == '0')
                                   {
-                            
+                            var etatid = item.etat;
+                            if(item.etat == 0){
+                                var etattext = "En attente";
+                            }
+                            else if(item.etat == 1){
+                                var etattext = "Accepté";
+                            }
+                            else if(item.etat == 2){
+                                var etattext = "Refusé";
+                            }
+                           
+
                             $('.modall-body').append(
                                   '<label for="password">Etat</label>\
                                   <select  class="form-select form-select-lg" id="etatt" name="etatt">\
-                                      @if('+item.etat+' == 1)\
-                                      <option value="'+item.etat+'" style="display: none;">En attente</option>\
-                                      @elseif( '+item.etat+' == 1)\
-                                      <option value="'+item.etat+'" style="display: none;">Accepté</option>\
-                                      @else\
-                                      <option value="'+item.etat+'" style="display: none;">Refusé</option>\
+                                      <option value="'+etatid+'" style="display: none;">'+etattext+'</option>\
                                       <option value="0">En attente</option>\
                                       <option value="1">Accepté</option>\
                                       <option value="2">Refusé</option>\
-                                        @endif\
                                   </select>'
                                   )
                                 
@@ -349,7 +354,9 @@ $(document).ready(function(){
 
                                   $('.modall-body').append(
                                   '<span id="errorRole" class="text-red"></span>\
-                              <img style="width="250px" height="250px"" src="/images/' + item.justification + '">'
+                                  <a href="/images/' + item.justification +'" download>Download</a>'
+
+                             
                               
                               )
                               

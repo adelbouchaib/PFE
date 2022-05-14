@@ -31,7 +31,7 @@ Historique
                         <tr>
                             <td>{{$projet->id}}</td>
                             <td>{{$projet->title}}</td>
-                            <td>{{$projet->first_name}} {{$projet->last_name}}</td>
+                            <td>{{$projet->prenom}} {{$projet->nom}}</td>
                             <td>$1,699.00</td>
                             <td>{{$projet->start}}</td>
                             <td>{{$projet->finish}}</td>

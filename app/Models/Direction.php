@@ -12,7 +12,7 @@ class Direction extends Model
     
     public function user()
     {
-        return $this->hasMany('App\Models\User','departement');
+        return $this->hasMany('App\Models\User','direction_id');
     }
 
     public function branche()

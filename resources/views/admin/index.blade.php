@@ -19,7 +19,7 @@
         <div class="card-body position-relative">
         <h5 class="text-white text-opacity-80 mb-3 fs-16px">Employés</h5>
         <h3 class="text-white mt-n1">{{ $usersnb }}</h3>
-        <div><a href="{{ route('admin.users.index') }}" class="text-white d-flex align-items-center text-decoration-none">Consulter le rapport <i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a></div>
+        <div><a href="{{ route('admin.users.index') }}" class="text-white d-flex align-items-center text-decoration-none">Voir tout<i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a></div>
         </div>
   
       </div>
@@ -36,7 +36,7 @@
           <h5 class="text-white text-opacity-80 mb-3 fs-16px">Présences</h5>
           <h3 class="text-white mt-n1">{{ $usersnbatt }}</h3>
 
-        <div><a href="{{ route('admin.attendances.index') }}" class="text-white d-flex align-items-center text-decoration-none">Consulter le rapport <i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a></div>
+        <div><a href="{{ route('admin.attendances.index') }}" class="text-white d-flex align-items-center text-decoration-none">Voir tout<i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a></div>
         </div>
         
       </div>
@@ -57,7 +57,7 @@
          @endphp
           
           <?php echo $nb ?></h3>
-        <div><a href="#" class="text-white d-flex align-items-center text-decoration-none">Consulter le rapport <i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a></div>
+        <div><a href="#" class="text-white d-flex align-items-center text-decoration-none">Voir tout<i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a></div>
         </div>
   
       </div>
@@ -75,26 +75,14 @@
         <h3 class="text-white mt-n1">
           {{ $usersnbconge }}
         </h3>
-        <div><a href="#" class="text-white d-flex align-items-center text-decoration-none">Consulter le rapport <i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a></div>
+        <div><a href="#" class="text-white d-flex align-items-center text-decoration-none">Voir tout<i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a></div>
         </div>
   
       </div>
     </div>
   </div>
 
-{{-- 
-  <div class="list-group">
-    @foreach($users as $user)
-    <a href="{{route('admin.users.employee', ['id' => $user->id ])}}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-      <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
-      <div class="d-flex gap-2 w-100 justify-content-between">
-        <div>
-          <h6 class="mb-0">{{ $user->first_name }} {{ $user->last_name }}</h6>
-        </div>
-      </div>
-    </a>
-    @endforeach
-  </div> --}}
+
   <div class="row">
     <div class="col-xl-7">
       <div class="card">
@@ -120,7 +108,7 @@
               <tbody>
                 @foreach ($conges as $conge)
                   <div class="toast-header">
-                    <strong class="me-auto">{{$conge->first_name}} {{$conge->last_name}}</strong>
+                    <strong class="me-auto">{{$conge->prenom}} {{$conge->nom}}</strong>
                     <small>{{$conge->created_at->diffForHumans()}}</small>
                   </div>
                   <div class="toast-body">
@@ -174,7 +162,7 @@
     </div>
   </div>
   </td>
-  <td class="text-center">{{ $projet->first_name }} {{ $projet->last_name }}</td>
+  <td class="text-center">{{ $projet->prenom }} {{ $projet->nom }}</td>
     @switch($projet->status)
       @case(0)
       <td class="text-center"><span class="badge bg-warning bg-opacity-20 text-warning" style="min-width: 60px;">To do</span></td>
@@ -252,11 +240,10 @@ const myChart = new Chart(ctx, {
 
             }
         }
-    }
-});
+      }
+  });
+
 </script>
 @stop
-  
-
 
 @stop

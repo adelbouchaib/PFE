@@ -14,6 +14,8 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     {{-- <script src="https://malsup.github.io/jquery.form.js"></script> --}}
 
+
+
     
 <link href="{{asset('/assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}" rel="stylesheet" />
 <script src="{{asset('/assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
@@ -134,7 +136,7 @@
                         <div class="menu-img online">
                             <img src="/assets/img/profile_picture_user_icon_153847.png" alt="" class="ms-100 mh-100 rounded-circle" />
                         </div>
-                        <div class="menu-text"><span class="__cf_email__">{{Auth::User()->first_name}} {{Auth::User()->last_name}}</span></div>
+                        <div class="menu-text"><span class="__cf_email__">{{Auth::User()->prenom}} {{Auth::User()->nom}}</span></div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right me-lg-3">
                         <a class="dropdown-item d-flex align-items-center" href="#">Edit Profile <i class="fa fa-user-circle fa-fw ms-auto text-dark text-opacity-50"></i></a>
@@ -273,6 +275,7 @@
 
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
     <script src="{{asset('/assets/js/email-decode.min.js')}}"></script>
     <script src="{{asset('/assets/js/vendor.min.js')}}"></script>
     <script src="{{asset('/assets/js/app.min.js')}}"></script>

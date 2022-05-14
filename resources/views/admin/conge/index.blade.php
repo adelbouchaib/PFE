@@ -60,25 +60,7 @@ Congé
                                                 
             <input type="file" class="fileimage" id="image"  name="image" /> 
         </div>
-{{--         
-        <div class="form-group"> 
-            <select name="chef" class="form-control"  id="ex-basicc">
-                <option value="" hidden>Full name</option>
-                @foreach ($allusers as $user)
-                <option   value="{{ $user->id }}"> {{ $user->first_name }} {{ $user->last_name }} </option>
-                @endforeach
-            </select>
-             </div>
 
-         <div class="form-group"> 
-        <select name="data[]" class="form-control"  id="ex-basic" multiple>
-            <option value="" hidden>Full name</option>
-            @foreach ($allusers as $user)
-            <option   value="{{ $user->id }}"> {{ $user->first_name }} {{ $user->last_name }} </option>
-            @endforeach
-        </select> --}}
-
-         {{-- </div> --}}
         </div>
 
      
@@ -178,7 +160,7 @@ Congé
                                 <tr>
                                     <td>{{$conge->id}}</td>
                                     <td>{{$conge->matricule}}</td>
-                                    <td>{{$conge->first_name}} {{$conge->last_name}}</td>
+                                    <td>{{$conge->prenom}} {{$conge->nom}}</td>
                                     <td>{{$conge->created_at->format('Y-m-d')}}</td>
                                     <td>{{$conge->start}}</td>
                                     <td>{{$conge->finish}}</td>

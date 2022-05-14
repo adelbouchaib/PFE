@@ -42,7 +42,7 @@ Directions
                                             <select name="user_id" class="form-control"  id="ex-basic">
                                                 <option value="" hidden>Chef</option>
                                                 @foreach ($allusers as $user)
-                                                <option   value="{{ $user->id }}"> {{ $user->first_name }} {{ $user->last_name }} </option>
+                                                <option   value="{{ $user->id }}"> {{ $user->prenom }} {{ $user->nom }} </option>
                                                 @endforeach
                                             </select>
                                              </div>

@@ -32,7 +32,7 @@ class DashboardController extends Controller
         $conges = User::
         join('conges', 'users.id', '=', 'conges.user_id')
         ->where('etat','=','0')->orderBy('created_at','desc')->limit(4)
-        ->get(array('users.first_name','users.last_name', 'conges.*'));
+        ->get(array('users.prenom','users.nom', 'conges.*'));
 
         $attendance = Attendance::select(DB::raw("COUNT(*) as count"))
         ->whereYear('date',date('Y'))

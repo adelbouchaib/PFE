@@ -23,22 +23,19 @@ Présence
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Name</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
+                            <th>Matricule</th>
+                            <th>Nom complet</th>
+
+                           
                         </tr>
                     </thead>
                     <tbody>
                         
                         @foreach($attendances as $attendance)
                                 <tr>
-                                    <td>{{date('d-m-Y', strtotime($attendance->date))}}</td>
+                                    <td>{{$date}}</td>
+                                    <td>{{$attendance->matricule}}</td>
                                     <td>{{$attendance->prenom}} {{$attendance->nom}}</td>
-                                    <td>{{$attendance->start_time}}</td>
-                                    <td>{{$attendance->end_time}}</td>
-                                    <td>
-                                        <button type="submit" id="{{ $attendance->id }}" class="btn btn-warning btn-edit-user"><i class="fa-solid fa-pencil"></i></a>
-                                    </td>
                                 </tr>
                         @endforeach
                     </tbody>

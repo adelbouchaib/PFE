@@ -49,12 +49,12 @@ class UserController extends Controller
     public function search(Request $request){
 
 
-        $users =  User::where('first_name','LIKE','%'.$request->data.'%')
-        ->orWhere('last_name','LIKE','%'.$request->data.'%')
-        ->orWhere('position','LIKE','%'.$request->data.'%')
+        $users =  User::where('prenom','LIKE','%'.$request->data.'%')
+        ->orWhere('nom','LIKE','%'.$request->data.'%')
+        ->orWhere('fonction','LIKE','%'.$request->data.'%')
         ->orWhere('matricule','LIKE','%'.$request->data.'%')
         ->orWhere('email','LIKE','%'.$request->data.'%')
-        ->orWhere('phone','LIKE','%'.$request->data.'%')
+        ->orWhere('num_telephone','LIKE','%'.$request->data.'%')
         ->get();
         $directions = Direction::all();
         $branches = Branche::all();
@@ -69,68 +69,9 @@ class UserController extends Controller
         return view('admin.user.employee', ['users2' => $users2], compact('users', 'attendances'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $this->validate($request,[
-            'first_name'=>'required',
-            'last_name'=>'required',
-            'email'=>'required|unique:users',
-            'password'=>'required',
-            'role'=>'required',
-            'start_date'=>'required',
-            'end_date'=>'required',
-        ]);
-
-        $matricule = Helper::matricule($request->departement, $request->start_date, "F");
-
-        $user = new User();
-        $user->matricule = $matricule;
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->departement = $request->departement;
-        $user->role = $request->role;
-        $user->start_date = $request->start_date;
-        $user->end_date = $request->end_date;
 
 
-        $user->save();
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Request $request)
     {
         $id = $request->id;
@@ -138,33 +79,6 @@ class UserController extends Controller
         return response()->json(['data' => $user]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request)
-    {
-         $this->validate($request,[
-            'first_name'=>'required',
-            'last_name'=>'required',
-            'email'=>'required',
-            'role'=>'required',
-            'start_date'=>'required',
-            'end_date'=>'required',
-        ]);
-        $id = $request->id;
-        $user = User::find($id);
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->email = $request->email;
-        $user->role = $request->role;
-        $user->start_date = $request->start_date;
-        $user->end_date = $request->end_date;
-        $user->save();
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -172,13 +86,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
-    {
-        $id = $request->id;
-        $user = User::find($id);
-        $user->delete();
-        return $user;
-    }
+
 
 
 }
