@@ -7,6 +7,11 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
     <link href="{{asset('/assets/css/vendor.min.css')}}" rel="stylesheet" />
     <link href="{{asset('/assets/css/app.min.css')}}" rel="stylesheet" />
     <style>
@@ -18,6 +23,9 @@
             border: 1px solid #ddd;
         }
     </style>
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 <body style="height:0 !important">
 
@@ -39,10 +47,93 @@
                 <button type="submit" class="btn btn-primary mt-2">Login</button>
            </form>
         </div>
+
     </div>
+
+
+
+    <form method="post" accept-charset="utf-8" actiob="{{route('action.login')}}">
+    @csrf
+        <video id="preview"></video>
+        <script type="text/javascript">
+        
+        let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+          Instascan.Camera.getCameras().then(function (cameras) {
+            if (cameras.length > 0) {
+              scanner.start(cameras[0]);
+            } else {
+              console.error('No cameras found.');
+            }
+          }).catch(function (e) {
+            console.error(e);
+          });
+                
+              scanner.addListener('scan',function (c){
+                document.getElementById('matricule').value = c;
+                
+                
+            });
+    
+        </script>
+
+<input type="hidden" name="matricule" id="matricule" class="form-control">
+
+               
+      <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+
+
    
     <script data-cfasync="false" src="{{asset('/assets/js/email-decode.min.js')}}"></script>
     <script src="{{asset('/assets/js/vendor.min.js')}}"></script>
     <script src="{{asset('/assets/js/app.min.js')}}"></script>
+
+
+        
+    
+        <script>
+       
+          $(document).ready(function(){
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                    
+                $('#form-signupp').submit(function(e){
+                  e.preventDefault();
+                        var formDataa =  new FormData(this);
+                        console.log(formDataa.get('matricule'));
+            
+                            $.ajax({
+                                url:"{{route('action.login')}}",
+                                type:'POST',
+                                data:formDataa,
+                            processData: false,
+                            contentType: false,
+                            cache: false,
+                            enctype: 'multipart/form-data',
+    
+                                success:function(data){
+                                if (data.created){ 
+                                  console.log(data.msg); 
+                                  window.location = "{{ url('/') }}";         
+    
+                                }},
+                                error:function(respone){
+                                 
+                                    $('#errorFirstName').text(respone.responseJSON.errors.first_name);
+                                }
+                              })
+    
+                    });//form
+    
+    
+                });//scanner
+    
+    
+        </script>
+
+
 </body>
 </html>

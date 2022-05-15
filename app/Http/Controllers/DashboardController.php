@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Conge;
-use App\Models\Attendance;
+use App\Models\Presence;
 use App\Models\Projet;
 
 
@@ -27,19 +27,19 @@ class DashboardController extends Controller
         {
         $users = User::all();
         $usersnb = User::count();
-        $usersnbatt = Attendance::where('date',Carbon::today())->count();
+        $usersnbatt = Presence::where('date',Carbon::today())->count();
         $usersnbconge = Conge::where('start','>=',Carbon::today())->count();
         $conges = User::
         join('conges', 'users.id', '=', 'conges.user_id')
         ->where('etat','=','0')->orderBy('created_at','desc')->limit(4)
         ->get(array('users.prenom','users.nom', 'conges.*'));
 
-        $attendance = Attendance::select(DB::raw("COUNT(*) as count"))
+        $presence = Presence::select(DB::raw("COUNT(*) as count"))
         ->whereYear('date',date('Y'))
         ->groupBy(DB::raw("Month(date)"))
         ->pluck('count');
 
-        $months = Attendance::select(DB::raw("Month(date) as month"))
+        $months = Presence::select(DB::raw("Month(date) as month"))
         ->whereYear('date',date('Y'))
         ->groupBy(DB::raw("Month(date)"))
         ->pluck('month');
@@ -49,7 +49,7 @@ class DashboardController extends Controller
 
         foreach($months as $index => $month)
         {
-            $datas[$month-1] = $attendance[$index]/$usersnb/Carbon::now()->month($month)->daysInMonth
+            $datas[$month-1] = $presence[$index]/$usersnb/Carbon::now()->month($month)->daysInMonth
             *100;
         }
 

@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use Carbon\Carbon;
-use App\Models\Attendance;
+use App\Models\Presence;
 use App\Models\Conge;
 use App\Models\User;
 use App\Models\TypeConge;
@@ -120,14 +120,14 @@ class CongeController extends Controller
         
     public function search(Request $request)
     {
-    //     $attendances = User::
-    //     join('attendances', 'users.matricule', '=', 'attendances.matricule')
+    //     $presences = User::
+    //     join('presences', 'users.matricule', '=', 'presences.matricule')
     //     ->whereNotExists(function($query) use ($request)
     //     {
     //         $query->select(DB::raw(1))
-    //               ->from('Attendances')
+    //               ->from('Presences')
     //               ->where('date','=',$request->date)
-    //               ->whereRaw('Users.matricule = Attendances.matricule');
+    //               ->whereRaw('Users.matricule = Presences.matricule');
     //     })
     //     ->get();
 

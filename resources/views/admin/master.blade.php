@@ -177,7 +177,7 @@
                     @endcan
 
                     <div class="menu-item">
-                        <a href="{{route('admin.attendances.index')}}" class="menu-link">
+                        <a href="{{route('admin.presences.index')}}" class="menu-link">
                             <span class="menu-icon"><i class="fa-solid fa-clock"></i></span>
                             <span class="menu-text">Présence</span>
                         </a>
@@ -187,6 +187,12 @@
                         <a href="{{route('admin.absences.index')}}" class="menu-link">
                             <span class="menu-icon"><i class="fa-solid fa-calendar-times"></i></span>
                             <span class="menu-text">Demandes d'absence</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="{{route('admin.absences.historique')}}" class="menu-link">
+                            <span class="menu-icon"><i class="fa-solid fa-calendar-times"></i></span>
+                            <span class="menu-text">Absence</span>
                         </a>
                     </div>
                     

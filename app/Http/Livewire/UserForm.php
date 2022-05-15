@@ -12,7 +12,7 @@ use Livewire\Component;
 class UserForm extends Component
 {
 
-    public $userid, $userid2;
+    public $userid, $userid2, $data;
 
     public $prenom_update, $nom_update, $password_update,  $email_update, $debut_contrat_update, $sexe_update, $lieu_naiss_update, $date_naiss_update, $adresse_update, $num_telephone_update, $situation_familiale_update;
 
@@ -292,14 +292,6 @@ class UserForm extends Component
     }
 
     
-    // public function fetchUser(int $id){
-
-
-    //     $user = User::find($id);
-    //         $this->userid2 = $user->id;
-
-    // }
-
     public function updateUser(){
 
         $rules = collect($this->validationRules)->collapse()->toArray();
@@ -413,6 +405,16 @@ class UserForm extends Component
     }
 
 
+    
+    public function searchUser(){
+
+
+        $directions = Direction::all();
+        $branches = Branche::all();
+
+        return view('livewire.user-form',compact('users','directions','branches'));
+    }
+
     // public function deleteUser()
     // {
         
@@ -439,8 +441,21 @@ class UserForm extends Component
         }
 
 
+        if(isset($this->data))
+        {
+        $users =  User::where('prenom','LIKE','%'.$this->data.'%')
+        ->orWhere('nom','LIKE','%'.$this->data.'%')
+        ->orWhere('fonction','LIKE','%'.$this->data.'%')
+        ->orWhere('matricule','LIKE','%'.$this->data.'%')
+        ->orWhere('email','LIKE','%'.$this->data.'%')
+        ->orWhere('num_telephone','LIKE','%'.$this->data.'%')
+        ->get();
+        }
+        else{
+            $users = User::all();
+        }
+        
 
-        $users = User::all();
         $branches = Branche::all();
        
         return view('livewire.user-form',compact('directions','branches','users'));

@@ -14,7 +14,7 @@ Présence
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table mb-0">
-                    <form type="get" action="{{ url('/attendances/search') }}">
+                    <form type="get" action="{{ url('/presences/search') }}">
                         <div class="modal-body">
                         <input type="date" style="width:auto; display:inline;" class="form-control"  name="date" id="date" />
                         <button type="submit" class="btn btn-secondary btn-sm"> Rechercher </button>
@@ -30,14 +30,14 @@ Présence
                     </thead>
                     <tbody>
                         
-                        @foreach($attendances as $attendance)
+                        @foreach($presences as $presence)
                                 <tr>
-                                    <td>{{date('d-m-Y', strtotime($attendance->date))}}</td>
-                                    <td>{{$attendance->prenom}} {{$attendance->nom}}</td>
-                                    <td>{{$attendance->start_time}}</td>
-                                    <td>{{$attendance->end_time}}</td>
+                                    <td>{{date('d-m-Y', strtotime($presence->date))}}</td>
+                                    <td>{{$presence->prenom}} {{$presence->nom}}</td>
+                                    <td>{{$presence->start_time}}</td>
+                                    <td>{{$presence->end_time}}</td>
                                     <td>
-                                        <button type="submit" id="{{ $attendance->id }}" class="btn btn-warning btn-edit-user"><i class="fa-solid fa-pencil"></i></a>
+                                        <button type="submit" id="{{ $presence->id }}" class="btn btn-warning btn-edit-user"><i class="fa-solid fa-pencil"></i></a>
                                     </td>
                                 </tr>
                         @endforeach

@@ -5,6 +5,14 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+use App\Models\Presence;
+use App\Models\User;
+
+use Carbon\Carbon;
+
+
+
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -15,7 +23,26 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+ 
+        // command('db:seed --class=AbsenceSeeder')->daily();
+        
+        $schedule->call(function () {
+           
+
+            $users = User::all();
+            foreach($users as $user)
+            {
+                $presence = new Presence();
+                $presence->date = Carbon::now()->format('Y-m-d');
+                $presence->start_time = "0:0:0";
+                $presence->end_time = "0:0:0";
+                $presence->matricule = $user->matricule;
+                $presence->save();
+            }
+           
+        })
+        ->everyMinute();
+        
     }
 
     /**

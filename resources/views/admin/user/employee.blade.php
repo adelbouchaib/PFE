@@ -52,12 +52,12 @@ User
                     </thead>
                     <tbody>
                         
-                        @foreach($attendances as $attendance)
+                        @foreach($presences as $presence)
                                 <tr>
-                                    <td>{{date('d-m-Y', strtotime($attendance->date))}}</td>
-                                    <td>{{$attendance->first_name}} {{$attendance->last_name}}</td>
-                                    <td>{{$attendance->start_time}}</td>
-                                    <td>{{$attendance->end_time}}</td>
+                                    <td>{{date('d-m-Y', strtotime($presence->date))}}</td>
+                                    <td>{{$presence->first_name}} {{$presence->last_name}}</td>
+                                    <td>{{$presence->start_time}}</td>
+                                    <td>{{$presence->end_time}}</td>
                                 </tr>
                         @endforeach
                     </tbody>

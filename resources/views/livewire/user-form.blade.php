@@ -13,7 +13,7 @@
         <div class="card-body">
             <div class="table-responsive"> 
                 <table class="table mb-0">
-                   
+                    <input type="text"  class="form-control" placeholder="Search" wire:model="data" />
                     <thead>
                         <tr>
                             <th>Marticule</th>

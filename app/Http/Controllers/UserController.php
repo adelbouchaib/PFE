@@ -10,7 +10,7 @@ use App\Models\Branche;
 use App\Helpers\helper;
 
 
-use App\Models\Attendance;
+use App\Models\Absence;
 use Auth;
 class UserController extends Controller
 {
@@ -64,9 +64,9 @@ class UserController extends Controller
     public function employee($matricule)
     {
         $users = User::all();
-        $attendances = Attendance::all();
+        $presences = Presence::all();
         $users2 = User::where('matricule','=',$matricule)->first();
-        return view('admin.user.employee', ['users2' => $users2], compact('users', 'attendances'));
+        return view('admin.user.employee', ['users2' => $users2], compact('users', 'presences'));
     }
 
 

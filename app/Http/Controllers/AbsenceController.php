@@ -1,8 +1,10 @@
 <?php
 namespace App\Http\Controllers;
 use Carbon\Carbon;
-use App\Models\Attendance;
+use App\Models\Presence;
 use App\Models\Absence;
+use App\Models\Absencesjustifiee;
+use App\Models\Conge;
 use App\Models\User;
 use App\Models\TypeAbsence;
 use Illuminate\Http\Request;
@@ -14,9 +16,6 @@ class AbsenceController extends Controller
 
     public function index()
     {
-       
-       
-
         if(Auth::User()->role==0)
         {
             $absences = User::join('absences', 'users.id', '=', 'absences.user_id')
@@ -34,35 +33,78 @@ class AbsenceController extends Controller
         }
         
         
-        return view('admin.attendance.absence',compact('absences','types'));
+        return view('admin.absence.index',compact('absences','types'));
     }
 
-    public function  absence(Request $request){
+    
+    public function  historique(Request $request){
 
-      $date= Carbon::now()->format('Y-m-d');
-      
-        $attendances = User::
-        whereNotExists(function($query)
+        $date = Carbon::now()->format('Y-m-d');
+        
+          // $presences = User::
+          // whereNotExists(function($query)
+          //     {
+          //         $query->select(DB::raw(1))
+          //                   ->from('Presences')
+          //                   ->where('date','=',Carbon::now()->format('Y-m-d'))
+          //                   ->where('start_time','!=',"00:00:00")
+          //                   ->whereRaw('Users.matricule = Presences.matricule');
+  
+                          
+          //     })
+  
+        //   $conges = Conge::where('etat','=','1')
+        //   ->where('start','=',$date)
+        //   ->first();
+
+
+
+            $presences = Presence::
+            join('users', 'presences.matricule', '=', 'users.matricule')
+            
+            ->whereNotExists(function($query) use ($request, $date)
             {
                 $query->select(DB::raw(1))
-                          ->from('Attendances')
-                          ->where('date','=',Carbon::now()->format('Y-m-d'))
-                          ->where('start_time','<',"09:00:00")
-                          ->whereRaw('Users.matricule = Attendances.matricule');
+                      ->from('Absencesjustifiees')
+                      ->where('date','=',$date)
+                      ->where('etat','=','1')
+                      ->where('Users.id','=','Absencesjustifiees.user_id');
+                        // ->whereRaw('Users.id = Absencesjustifiees.user_id');
 
-                        
             })
-                ->get();
+
+            // ->where('start_time','=',"00:00:00")
+
+
+                                             
+
+            // ->whereNotExists(function($query) use ($request, $date)
+            //     {
+            //         $query->select(DB::raw(1))
+            //               ->from('Conges')
+            //               ->where('start','<=',$date)
+            //               ->where('finish','>=',$date)
+            //               ->whereRaw('Users.id = Conges.user_id');
+            //     })
+
+          
+    
             
+                ->get();
+          
+         
+              
+              $absences = Absencesjustifiee::
+              join('users', 'absencesjustifiees.user_id', '=', 'users.id')
+              ->get();
+  
+  
+  
+              return view('admin.absence.historique',compact('absences','presences'));
+  
+  
+          }
 
-
-
-
-
-            return view('admin.attendance.historique',compact('attendances','date'));
-
-
-        }
     
     public function  create(Request $request){
 
@@ -72,14 +114,48 @@ class AbsenceController extends Controller
        $name = $request->file('image')->getClientOriginalName();
        $request->file('image')->storeAs('public/images',$name);
 
-        $absence = new Absence();
-        $absence->user_id = Auth::user()->id;
-        $absence->type_id = $request->type; 
-        $absence->motif = $request->motif; 
+       $absence = new Absence();
+       $absence->user_id = Auth::user()->id;
+       $absence->motif = $request->motif; 
+       $absence->justification = $name;
+
+
+       if(isset($request->type))
+       {
         $absence->start = $request->start;
         $absence->finish = $request->finish;
-        $absence->justification = $name;
+        $absence->type_id = $request->type; 
+
+       }else{
+        $absence->start = $request->date;
+        $absence->finish = $request->date;
+        $absence->type_id = '0'; 
+
+       }
+
         $absence->save();
+        
+    }
+    
+
+     
+    public function  create2(Request $request){
+
+        $this->authorize('create',Absence::class);
+
+        
+       $name = $request->file('image')->getClientOriginalName();
+       $request->file('image')->storeAs('public/images',$name);
+
+       
+       $absence = new Absencesjustifiee();
+       $absence->user_id = Auth::user()->id;
+       $absence->motif = $request->motif; 
+       $absence->justification = $name;
+      $absence->date =$request->date;
+
+      $absence->save();
+    
         
     }
     
@@ -106,6 +182,21 @@ class AbsenceController extends Controller
 
         ]);
     }
+
+    
+    public function display(Request $request){
+
+        $search_text = $request->id;
+        $first = Absence::where('id','=',$search_text)        
+        ->get();
+
+        
+
+        return response()->json([
+            'filterusers' => $first,
+        ]);
+    }
+
 
     
     public function update(Request $request)
@@ -152,14 +243,14 @@ class AbsenceController extends Controller
     
     public function search(Request $request)
     {
-    //     $attendances = User::
-    //     join('attendances', 'users.matricule', '=', 'attendances.matricule')
+    //     $presences = User::
+    //     join('presences', 'users.matricule', '=', 'presences.matricule')
     //     ->whereNotExists(function($query) use ($request)
     //     {
     //         $query->select(DB::raw(1))
-    //               ->from('Attendances')
+    //               ->from('presences')
     //               ->where('date','=',$request->date)
-    //               ->whereRaw('Users.matricule = Attendances.matricule');
+    //               ->whereRaw('Users.matricule = presences.matricule');
     //     })
     //     ->get();
 
@@ -237,7 +328,7 @@ class AbsenceController extends Controller
             }
         }
     }
-        return view('admin.attendance.absence',compact('absences','types'));
+        return view('admin.absence.index',compact('absences','types'));
     }
 
 }

@@ -23,11 +23,14 @@ Route::post('/login','LoginController@actionLogin')->name('action.login');
 Route::get('/logout','DashboardController@logout')->name('logout');
 
 Route::group(['middleware' => 'agent'], function () {
-    Route::post('/attendances/start','AttendanceController@startWork')->name('admin.attendances.start');
+    Route::post('/presences/start','PresenceController@startWork')->name('admin.presences.start');
 });
 
 Route::group(['middleware' => 'employee'], function () {
 Route::post('/absences/create','AbsenceController@create')->name('admin.absences.create');
+Route::post('/absences/create2','AbsenceController@create2')->name('admin.absences.create2');
+
+
 });
 
 Route::group(['middleware' => 'adminoremployee'], function () {
@@ -36,7 +39,13 @@ Route::group(['middleware' => 'adminoremployee'], function () {
     Route::get('/absences/search','AbsenceController@search')->name('admin.absences.search');
     Route::get('/absences/display2','AbsenceController@display2')->name('admin.absences.display2');
     Route::post('/absences/update','AbsenceController@update')->name('admin.absences.update');
-    Route::get('/absences/historique','AbsenceController@absence')->name('admin.absences.absence');
+    Route::get('/absences/historique','AbsenceController@historique')->name('admin.absences.historique');
+    Route::get('/absences/display','AbsenceController@display')->name('admin.absences.display');
+
+    Route::post('/absences/update2','AbsenceController@update2')->name('admin.absences.update2');
+
+
+
 
 
 
@@ -52,8 +61,8 @@ Route::group(['middleware' => 'adminoremployee'], function () {
 
 
     
-    Route::get('/attendances','AttendanceController@index')->name('admin.attendances.index');
-    Route::get('/attendances/search','AttendanceController@search')->name('admin.attendances.search');
+    Route::get('/presences','PresenceController@index')->name('admin.presences.index');
+    Route::get('/presences/search','PresenceController@search')->name('admin.presences.search');
 
 
     

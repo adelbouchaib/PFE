@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('attendances', function (Blueprint $table) {
+        Schema::create('absencesjustifiees', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
+            $table->boolean('etat')->default(0);
+            $table->string('motif');
             $table->date('date');
-            $table->time('start_time');
-            $table->time('end_time');
-            $table->string('matricule');
-            $table->string('note')->nullable();
+            $table->string('justification');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attendances');
+        Schema::dropIfExists('absences_justifiees');
     }
 };

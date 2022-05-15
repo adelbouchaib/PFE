@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Carbon\Carbon;
-use App\Models\Attendance;
+use App\Models\Presence;
 use App\Models\User;
 use App\Models\Task;
 use App\Models\Projet;

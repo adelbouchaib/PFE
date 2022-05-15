@@ -48,7 +48,7 @@
                     console.log(formDataa.get('matricule'));
         
                         $.ajax({
-                            url:"{{route('admin.attendances.start')}}",
+                            url:"{{route('admin.presences.start')}}",
                             type:'POST',
                             data:formDataa,
                         processData: false,
@@ -58,7 +58,8 @@
 
                             success:function(data){
                             if (data.created){ 
-                              console.log(data.msg);          
+                              console.log(data.msg); 
+                              window.location = "{{ url('/') }}";         
 
                             }},
                             error:function(respone){
