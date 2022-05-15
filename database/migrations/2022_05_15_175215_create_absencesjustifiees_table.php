@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('absencesjustifiees', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
+            $table->integer('presence_id');
             $table->boolean('etat')->default(0);
             $table->string('motif');
             $table->date('date');

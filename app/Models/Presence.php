@@ -13,4 +13,12 @@ class Presence extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+
+    public function absencesjustifiee()
+    {
+        return $this->hasOne('App\Models\Absencesjustifiee','presence_id');
+    }
+
+
+
 }

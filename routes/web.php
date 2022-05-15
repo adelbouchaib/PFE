@@ -41,6 +41,8 @@ Route::group(['middleware' => 'adminoremployee'], function () {
     Route::post('/absences/update','AbsenceController@update')->name('admin.absences.update');
     Route::get('/absences/historique','AbsenceController@historique')->name('admin.absences.historique');
     Route::get('/absences/display','AbsenceController@display')->name('admin.absences.display');
+    Route::post('/absences/edit','AbsenceController@edit')->name('admin.absences.edit');
+
 
     Route::post('/absences/update2','AbsenceController@update2')->name('admin.absences.update2');
 

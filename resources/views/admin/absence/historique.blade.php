@@ -1,10 +1,10 @@
 @extends('admin.master')
 @section('title')
-Présence
+Absences
 @stop
 @section('content')
  <div class="title-bar">
-    <h4 style="float:left">Présence</h4>
+    <h4 style="float:left">Absences</h4>
     {{-- @can('index', \App\Dashboard::class)
     <a href="#" title="" style="float:right" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a>
     @endcan    --}}
@@ -39,11 +39,41 @@ Présence
                                     <td>{{$presence->matricule}}</td>
                                     <td>{{$presence->prenom}} {{$presence->nom}}</td>
                                     <td>{{$presence->start_time}}</td>
+
+                                    @if ($presence->presence_id == $presence->id)
+                                    <td> Justifiée </td>
+                                    @if ($presence->etat == 0)
+                                    <td> En attente </td>
+                                    @elseif($presence->etat == 1)
+                                    <td> Accepté </td>
+                                    @elseif($presence->etat == 2)
+                                    <td> Refusé </td>
+                                    @endif
+                                    @else
+                                    <td> Non justifiée </td>
+                                    
+                                    @endif
+
+                                   
+                                    @if ($presence->presence_id != $presence->id)
                                     @can('create', \App\Absence::class)
-                                    <td>
-                                        <button type="submit" datee="{{ $presence->date }}" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a>
-                                    </td>
+                                        @if ($today->lte($presence->created_at->addDays(3)) )
+                                        <td> </td>
+                                        <td>
+                                        <button type="submit" idd="{{ $presence->id }}"  datee="{{ $presence->date }}" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a>
+                                        </td>
+                                        @else
+                                        <td>délai dépassé </td>
+                                        @endif
                                     @endcan
+                                    @else
+                                    <td>
+                                    <button type="submit" idd="{{ $presence->id }}" class="btn btn-warning btn-edit-user"><i class="fa-solid fa-pencil"></i></a></button>
+                                    </td>
+                                    @endif
+                                    
+                                    
+                              
                                     
                                 </tr>
 
@@ -71,6 +101,7 @@ Présence
 
         <div class="modal-body">
             <input type="hidden" name="date" id="date" class="form-control">
+            <input type="hidden" name="presence_id" id="presence_id" class="form-control">
 
 
             <div class="form-group">
@@ -111,9 +142,23 @@ Présence
         </div>
 
         <div class="modal-body">
-            <div class="modall-body">
-                
+            <input type="hidden" name="presence_id" id="presence_id" class="form-control">
+
+           
+            <div class="form-group">
+                <label for="first_name">Motif</label>
+                <textarea name="motif_update" id="motif_update" class="form-control"> </textarea>
+                <span id="errorFirstName" class="text-red"></span>
             </div>
+            
+
+        <div class="form-group">
+            <div class="modall-body">
+
+            </div>
+            
+        </div>
+        </div>
 
         </div>
 
@@ -152,8 +197,11 @@ $(document).ready(function(){
         var date_update = $(this).attr('datee');
         var date = $('#date').val(date_update);
 
+        var presence_id_update = $(this).attr('idd');
+        var presence_id = $('#presence_id').val(presence_id_update);
 
-        console.log(date_update);
+
+        console.log(presence_id_update);
 
         $('#modalCreateUser').modal('show');
      
@@ -162,6 +210,7 @@ $(document).ready(function(){
             var formData =  new FormData(this);
  
             formData.date = date_update;
+            formData.presence_id = presence_id_update;
 
             $.ajax({
                 url:"{{route('admin.absences.create2')}}",
@@ -169,6 +218,7 @@ $(document).ready(function(){
                 data:formData,
                 date:{
                     date:date_update,
+                    presence_id:presence_id_update,
                     motif:$('#motif').val(),
                     image:$('#image').val(),
                 },
@@ -199,35 +249,32 @@ $(document).ready(function(){
               
                 $('#modalEditUser').modal('show');
 
-                $('.modall-body').html("");
 
-                var userID = $(this).attr('id');
+                var presence_id_update = $(this).attr('idd');
+                var presence_id = $('#presence_id').val(presence_id_update);
 
-                console.log(userID);
+                console.log(presence_id_update);
+
+                var image_update =       $('#image_update').val();            
+
+
+                $('.modall-body').append(
+                   ' <a href="/images/' +image_update+'" download>Download</a>'
+               );
+
                
                 $.ajax({
-                    type:"get",
-                    url:"/absences/display",
-                    dataType: "json",
-                    
-                    
-                    data:{
-                            id:userID,
-                    },
-                    cache: false,
-                    
-                    success: function(response){
-                     
-                        $.each(response.filterusers,function(key,item){
+                    url:"{{route('admin.absences.edit')}}",
+                        type:'POST',
+                        data:{
+                            presence_id:presence_id_update,
+                        },
+                        success:function(data){
+                            console.log('success edit');
+                            $('#motif_update').val(data.data.motif);
+                            $('#image_update').val(data.data.image);
 
-                            $('.modall-body').append(
-                              '<label for="first_name"> Motif </label>\
-                              <input type="text" value="'+item.motif+'" name="motiff" id="motiff" class="form-control">\
-                              <span id="errorRole" class="text-red"></span>\
-                                  <a href="/images/' + item.justification +'" download>Download</a>'
-                            )
-                        });
-                    }
+                        },
                     });
 
 

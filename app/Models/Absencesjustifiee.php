@@ -13,4 +13,9 @@ class Absencesjustifiee extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+
+    public function presence()
+    {
+        return $this->belongsTo('App\Models\Presence');
+    }
 }
