@@ -87,19 +87,9 @@ Présence
         </div>
 
         <div class="modal-body">
-  
 
-            <div class="contentt-body">
-                
-            </div>
-
-            
-                <label>Type d'absence</label>
-                <select name="typee" class="form-control" id="var11" >
-
-                </select>
-                    
-                
+           
+            <input type="hidden" id="id"  name="id"/>
 
          <div class="modall-body">
                 
@@ -127,17 +117,34 @@ Présence
             <div class="table-responsive">
                 <table class="table mb-0">
                     <form type="get" action="{{ url('/absences/search') }}">
+
                         <div class="modal-body">
-                        <input type="date" style="width:auto; display:inline;" class="form-control"  name="date" id="date" />
-                                            
-                            <select name="etat" style="width:auto; display:inline;" class="form-control"  id="ex-basic">
+
+                            <input type="date" style="width:auto; display:inline;" class="form-control"  name="date" id="date" />
+
+
+                            <select name="etat" style="width:auto; display:inline;" class="form-control">
                             <option value="" hidden>Selectionner l'etat</option> 
                             <option value="0">En attente</option> 
                             <option value="1">Accepté</option>
                             <option value="2">Refusé</option>
                             </select>
 
+                            @can('index', \App\Dashboard::class)
+
+                            <div  style="width:200px; display:inline-flex;" >
+                            <select name="user" class="form-control"  id="ex-basic">
+                                <option value="" hidden>Selectionner l'utilisateur</option> 
+                                @foreach ($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->matricule }} - {{ $user->prenom }}{{ $user->nom }}</option> 
+                                @endforeach
+                                </select>
+                            </div>
+
+                            @endcan
+
                         <button type="submit" class="btn btn-secondary btn-sm"> Rechercher </button>
+                    </div>
                         </div>
                     </form>
                     <thead>
@@ -163,12 +170,7 @@ Présence
                                     <td>{{$absence->start}}</td>
                                     <td>{{$absence->finish}}</td>
 
-                                   
-                                    @if( $absence->modifie == 1)                       
-
-                                        <td><span class="badge bg-danger bg-opacity-20 text-danger" style="min-width: 60px;">Modifié</span></td>
- 
-                                    @else
+                
                                 
 
                                     @switch($absence->etat)
@@ -178,21 +180,30 @@ Présence
                                         @case(1)
                                         <td><span class="badge bg-success bg-opacity-20 text-success" style="min-width: 60px;">Accepté</span></td>
                                         @break
-                                        @default
-                                       <td><span class="badge bg-danger bg-opacity-20 text-danger" style="min-width: 60px;">Refusé</span></td>
-                                     @endswitch
-                                    
-                                   
-                                    
-                                    @endif
-
+                                        @case(2)
+                                        <td><span class="badge bg-danger bg-opacity-20 text-danger" style="min-width: 60px;">Refusé</span></td>
+                                        @break
+                                        @case(3)
+                                        <td><span class="badge bg-danger bg-opacity-20 text-danger" style="min-width: 60px;">Modifié</span></td>
+                                        @break
+                                    @endswitch
                                   
                                    
 
+                                    @if($absence->etat == 0)
                                     
                                     <td>
                                         <button type="submit" id="{{ $absence->id }}" class="btn btn-warning btn-edit-user"><i class="fa-solid fa-pencil"></i></a>
                                     </td>
+
+                                    @elseif($absence->etat == 3)
+
+                                    @can('create', \App\Absence::class)
+                                    <td>
+                                        <button type="submit" id="{{ $absence->id }}" class="btn btn-warning btn-edit-user"><i class="fa-solid fa-pencil"></i></a>
+                                    </td>
+                                    @endcan
+                                    @endif
                                 </tr>
 
                         @endforeach
@@ -205,8 +216,10 @@ Présence
 </div>
 
 @section('script')
-   <script>
 
+<link href="{{asset('/assets/plugins/select-picker/dist/picker.min.css')}}" rel="stylesheet" />
+<script src="{{asset('/assets/plugins/select-picker/dist/picker.min.js')}}"></script>
+   <script>
 
 
 
@@ -214,6 +227,9 @@ Présence
        
 $(document).ready(function(){
 
+    var $elem = $('#ex-basic').picker({
+                        search:true
+                    });
 
    $.ajaxSetup({
        headers: {
@@ -227,6 +243,9 @@ $(document).ready(function(){
        $('#form-signup').submit(function(e){
            e.preventDefault();
            var formData =  new FormData(this);
+
+           console.log(formData.motif);
+
 
            $.ajax({
                url:"{{route('admin.absences.create')}}",
@@ -259,110 +278,103 @@ $(document).ready(function(){
               
                 $('#modalEditUser').modal('show');
                 $('.modall-body').html("");
-                $('#var11').html("");
 
                 var userID = $(this).attr('id');
+                var id = $('#id').val(userID);
 
                 console.log(userID);
                
                 $.ajax({
                     type:"get",
-                    url:"/absences/display2",
+                    url:"/absences/display",
                     dataType: "json",
-                    
-                    
                     data:{
                             id:userID,
                     },
                     cache: false,
                     
                     success: function(response){
-                     
-                        $.each(response.filterusers,function(key,item){
-
-
-                    $.each(response.types,function(key,itemm){
-                        if(itemm.id == item.type_id)
+                                         
+                        if(response.demandeabsence.etat != 3)
                         {
-                            $('#var11').append('<option value="'+itemm.id+'" hidden>'+itemm.titre+'</option>' );
-                        }
-                        
-                    });
+                            $.each(response.types,function(key,itemm){
+                                if(itemm.id == response.demandeabsence.type_id)
+                                {
+                                    $('.modall-body').append(
+                                    '<label>Type d\'absence</label>\
+                                    <select name="type_update" class="form-control" id="type_update" >\
+                                    <option value="'+itemm.id+'" hidden>'+itemm.titre+'</option>' );
+                                }
+                            });
 
-                        
-                    $.each(response.types,function(key,type){
-                        $('#var11').append( '<option value="'+type.id+'">'+type.titre+'</option>' );
-                    });
+                            $.each(response.types,function(key,type){
+                                $('#type_update').append( '<option value="'+type.id+'">'+type.titre+'</option>' );
+                            });
 
-                    $('.modall-body').append(
-                    '<label for="first_name"> Motif </label>\
-                              <input type="text" value="'+item.motif+'" name="motiff" id="motiff" class="form-control">\
-                              <label for="start_date">Start Date</label>\
-                                  <input type="date"  value="'+item.start+'"name="startt" id="startt" class="form-control">\
-                                  <span id="errorStartDate" class="text-red"></span>\
-                                  <label for="start_date">End Date</label>\
-                                  <input type="date"  value="'+item.finish+'" name="finishh" id="finishh" class="form-control">\
-                                  <span id="errorStartDate" class="text-red"></span>'
-                    );
-
-                 
-
-                    $.each(response.users,function(key,itemmm){
+                        $('.modall-body').append(
+                                '<label for="first_name"> Motif </label>\
+                                <input type="text" value="'+response.demandeabsence.motif+'" name="motif_update" id="motif_update" class="form-control">\
+                                <label for="start_date">Start Date</label>\
+                                    <input type="date"  value="'+response.demandeabsence.start+'"name="start_update" id="start_update" class="form-control">\
+                                    <span id="errorStartDate" class="text-red"></span>\
+                                    <label for="start_date">End Date</label>\
+                                    <input type="date"  value="'+response.demandeabsence.finish+'" name="finish_update" id="finish_update" class="form-control">\
+                                    <span id="errorStartDate" class="text-red"></span>'
+                        );
                                   
-                                    if(itemmm.role == '0')
-                                  {
-                            var etatid = item.etat;
-                            if(item.etat == 0){
-                                var etattext = "En attente";
-                            }
-                            else if(item.etat == 1){
-                                var etattext = "Accepté";
-                            }
-                            else if(item.etat == 2){
-                                var etattext = "Refusé";
-                            }
+                             if(response.users == '0')
+                            {
+                                        var etatid = response.demandeabsence.etat;
+                                        if(response.demandeabsence.etat == 0){
+                                            var etattext = "En attente";
+                                        }
+                                        else if(response.demandeabsence.etat == 1){
+                                            var etattext = "Accepté";
+                                        }
+                                        else if(response.demandeabsence.etat == 2){
+                                            var etattext = "Refusé";
+                                        }
+                                        else if(response.demandeabsence.etat == 3){
+                                            var etattext = "Modifié";
+                                        }
                            
-
                             $('.modall-body').append(
                                   '<label for="password">Etat</label>\
-                                  <select  class="form-select form-select-lg" id="etatt" name="etatt">\
-                                      <option value="'+etatid+'" style="display: none;">'+etattext+'</option>\
-                                      <option value="0">En attente</option>\
+                                  <select  class="form-select form-select-lg" id="etat_update" name="etat_update">\
+                                      <option value="" hidden>Selectionner l\'etat</option>\
+                                      <option value="1">Accepté</option>\
+                                      <option value="2">Refusé</option>\
+                                      <option value="3">Modifié</option>\
+                                  </select>'
+                                  )
+                                
+                            }
+
+                                  $('.modall-body').append(
+                                  '<span id="errorRole" class="text-red"></span>\
+                                  <a href="/images/' + response.demandeabsence.justification +'" download>Download</a>'
+                                 )
+
+                                 if(response.users == '1')
+                                {
+                                    $('.modall-body').append(
+                                    '<input type="file" class="fileimage" id="justification_update"  name="justification_update" />'
+                                    )
+                                }
+                            }else{
+                              
+                                    $('.modall-body').append(
+                                  '<label for="password">Etat de modification</label>\
+                                  <select  class="form-select form-select-lg" id="etat_update" name="etat_update">\
+                                    <option value="" hidden> Selectionner l\'etat </option>\
                                       <option value="1">Accepté</option>\
                                       <option value="2">Refusé</option>\
                                   </select>'
                                   )
                                 
                             }
-                            else{
-                                if(item.modifie == '1')
-                                {
-                                    $('.modall-body').append(
-                                  '<label for="password">Etat de modification</label>\
-                                  <select  class="form-select form-select-lg" id="modifiee" name="modifiee">\
-                                      <option value="0">Accepté</option>\
-                                      <option value="1">Refusé</option>\
-                                  </select>'
-                                  )
-                                }
-
-                            }
-                        }
-                        
-                        
-                        );
-
-                                  $('.modall-body').append(
-                                  '<span id="errorRole" class="text-red"></span>\
-                                  <a href="/images/' + item.justification +'" download>Download</a>'
-
-                             
                               
-                              )
-                              
-                            
-                      });
-                      
+                                                  
                     },
                     
                     error:function(respone){
@@ -372,21 +384,24 @@ $(document).ready(function(){
 
                 $('#form-edit').submit(function(e){
                     e.preventDefault();
-                    console.log($('#motiff').val());
+                    console.log($('#motif_update').val());
                     var formData =  new FormData(this);
+
+
+                    
+                    // var justification_file = $('#imagee')[0].files[0];
+                    // formData.justification = justification_file;
+
+                    // formData.justification = justification_file;
+                    // console.log(justification_file);
                     $.ajax({
                         url:"{{route('admin.absences.update')}}",
                         type:'POST',
                         data:formData,
-                        data:{
-                            id:userID,
-                            motif:$('#motiff').val(),
-                            type:$('#var11').val(),
-                            finish:$('#finishh').val(),
-                            start:$('#startt').val(),
-                            etat:$('#etatt').val(),
-                            modifie:$('#modifiee').val(),
-                        },
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        enctype: 'multipart/form-data',
                         success:function(data){
                             console.log('success updated');
                         },

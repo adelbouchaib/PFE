@@ -11,7 +11,7 @@ Projets
     </h1>
     </div>
     <div class="ms-auto">
-    <a href="#" data-bs-toggle="modal" class="btn btn-primary btn-add-user"><i class="fa fa-plus-circle me-1"></i> Ajouter un projet</a>
+    <a href="#"  class="btn btn-primary btn-add-user"><i class="fa fa-plus-circle me-1"></i> Ajouter un projet</a>
     </div>
     </div>
     
@@ -28,7 +28,16 @@ Projets
               <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
+           
+
             <div class="modal-body">
+                <div class="form-group" >
+                    <label for="start_date">Type</label> 
+                <select name="type" class="form-control"  id="type">
+                    <option value="0">Projet</option>
+                    <option value="1">Mission</option>
+                </select>
+                </div>
                 <div class="form-group">
                     <label for="first_name">Titre</label>
                     <input type="text" name="title" id="title" class="form-control">
@@ -40,30 +49,42 @@ Projets
                     <span id="errorFirstName" class="text-red"></span>
                 </div>
 
+                <div class="row">           
 
-             <div class="form-group">
-                <label for="start_date">Start Date</label>
+             <div class="form-group col-sm">
+                <label for="start_date">Date debut</label>
                 <input type="date" name="start" id="start" class="form-control">
                 <span id="errorStartDate" class="text-red"></span>
             </div>
 
-            <div class="form-group">
-                <label for="start_date">Start Date</label>
+            <div class="form-group col-sm">
+                <label for="start_date">Date fin</label>
                 <input type="date" name="finish" id="finish" class="form-control">
                 <span id="errorStartDate" class="text-red"></span>
             </div>
+                </div>
 
-            
-            <div class="form-group"> 
+            <div class="row">           
+            <div class="form-group col-sm">
+                <label for="start_date">Chef</label>
                 <select name="chef" class="form-control"  id="ex-basicc">
                     <option value="" hidden>Full name</option>
                     @foreach ($allusers as $user)
                     <option   value="{{ $user->id }}"> {{ $user->matricule }} - {{ $user->prenom }} {{ $user->nom }} </option>
                     @endforeach
                 </select>
-                 </div>
+            </div>
+            <div class="form-group col-sm">
+                <label for="start_date">Prime du chef</label>
+                <input type="number" name="prime_chef" id="prime_chef" class="form-control">
 
-             <div class="form-group" style="width:100%" > 
+            </div>
+            </div>
+
+
+            <div class="row">           
+             <div class="form-group col-sm" style="width:100%" >
+                <label for="start_date">Equipe</label> 
             <select name="data[]" class="form-control"  id="ex-basic" multiple>
                 <option value="" hidden>Full name</option>
                 @foreach ($allusers as $user)
@@ -72,6 +93,14 @@ Projets
             </select>
 
              </div>
+
+             <div class="form-group col-sm">
+                <label for="start_date">Prime de l'équipe</label>
+                <input type="number" name="prime_equipe" id="prime_equipe" class="form-control">
+
+            </div>
+            </div>
+
             </div>
 
          

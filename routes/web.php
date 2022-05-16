@@ -37,14 +37,17 @@ Route::group(['middleware' => 'adminoremployee'], function () {
 
     Route::get('/absences','AbsenceController@index')->name('admin.absences.index');
     Route::get('/absences/search','AbsenceController@search')->name('admin.absences.search');
-    Route::get('/absences/display2','AbsenceController@display2')->name('admin.absences.display2');
-    Route::post('/absences/update','AbsenceController@update')->name('admin.absences.update');
-    Route::get('/absences/historique','AbsenceController@historique')->name('admin.absences.historique');
     Route::get('/absences/display','AbsenceController@display')->name('admin.absences.display');
-    Route::post('/absences/edit','AbsenceController@edit')->name('admin.absences.edit');
+    Route::post('/absences/update','AbsenceController@update')->name('admin.absences.update');
 
 
-    Route::post('/absences/update2','AbsenceController@update2')->name('admin.absences.update2');
+    Route::post('/absences/historique/edit','AbsencesjustifieeController@edit')->name('admin.absencesjustifiees.edit');
+    Route::post('/absences/historique/update','AbsencesjustifieeController@update')->name('admin.absencesjustifiees.update');
+    Route::post('/absences/historique/create','AbsencesjustifieeController@create')->name('admin.absencesjustifiees.create');
+    Route::get('/absences/historique','AbsencesjustifieeController@index')->name('admin.absencesjustifiees.index');
+    Route::get('/absences/historique/search','AbsencesjustifieeController@search')->name('admin.absencesjustifiees.search');
+
+
 
 
 

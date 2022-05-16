@@ -87,9 +87,14 @@ class ProjetController extends Controller
       $projet = new Projet();   
       $projet->user_id = $request->chef; 
       $projet->title = $request->title;
+      $projet->type = $request->type;
       $projet->description = $request->description;
       $projet->start = $request->start;
       $projet->finish = $request->finish;
+      $projet->prime_chef = $request->prime_chef;
+      $projet->prime_equipe = $request->prime_equipe;
+
+
       $projet->status = 0;
       $projet->nbtasks = 0;
       $projet->save();

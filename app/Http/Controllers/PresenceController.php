@@ -35,9 +35,24 @@ class PresenceController extends Controller
             ->orderBy('presences.id', 'DESC')
             ->get();
         }
+
+        $users = User::all();
+        foreach($users as $user)
+        {
+            $counter = User::join('presences', 'users.matricule', '=', 'presences.matricule')
+            ->where('start_time','!=',"00:00:00")
+            ->where('users.matricule','=',$user->matricule)
+            ->orderBy('presences.id', 'DESC')
+            ->count();
+
+            $user->join('presences', 'users.matricule', '=', 'presences.matricule')
+            ->get();
+        }
+
+        
        
         
-        return view('admin.presence.index',compact('presences'));
+        return view('admin.presence.index',compact('presences','counter','user'));
     }
 
     public function search(Request $request)

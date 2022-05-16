@@ -14,10 +14,10 @@ Absences
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table mb-0">
-                    <form type="get" action="{{ url('/absences/search') }}">
+                    <form type="get" action="{{ url('/absences/historique/search') }}">
                         <div class="modal-body">
-                        {{-- <input type="date" style="width:auto; display:inline;" class="form-control"  name="date" id="date" />
-                        <button type="submit" class="btn btn-secondary btn-sm"> Rechercher </button> --}}
+                        <input type="date" style="width:auto; display:inline;" class="form-control"  name="date" id="date" />
+                        <button type="submit" class="btn btn-secondary btn-sm"> Rechercher </button>
                         </div>
                     </form>
                     <thead>
@@ -41,17 +41,16 @@ Absences
                                     <td>{{$presence->start_time}}</td>
 
                                     @if ($presence->presence_id == $presence->id)
-                                    <td> Justifiée </td>
+                                    <td><span class="badge bg-success bg-opacity-20 text-success" style="min-width: 60px;">Justifiée</span></td>
                                     @if ($presence->etat == 0)
-                                    <td> En attente </td>
+                                    <td><span class="badge bg-warning bg-opacity-20 text-warning" style="min-width: 60px;">En attente</span></td>
                                     @elseif($presence->etat == 1)
-                                    <td> Accepté </td>
+                                    <td><span class="badge bg-success bg-opacity-20 text-success" style="min-width: 60px;">Accepté</span></td>
                                     @elseif($presence->etat == 2)
-                                    <td> Refusé </td>
+                                    <td><span class="badge bg-danger bg-opacity-20 text-danger" style="min-width: 60px;">Refusé</span></td>
                                     @endif
                                     @else
-                                    <td> Non justifiée </td>
-                                    
+                                    <td><span class="badge bg-danger bg-opacity-20 text-danger" style="min-width: 60px;">Non justifiée</span></td>
                                     @endif
 
                                    
@@ -60,16 +59,18 @@ Absences
                                         @if ($today->lte($presence->created_at->addDays(3)) )
                                         <td> </td>
                                         <td>
-                                        <button type="submit" idd="{{ $presence->id }}"  datee="{{ $presence->date }}" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a>
+                                        <button type="submit" id="{{ $presence->id }}" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a>
                                         </td>
                                         @else
                                         <td>délai dépassé </td>
                                         @endif
                                     @endcan
                                     @else
+                                    @if ($presence->etat == 0)
                                     <td>
-                                    <button type="submit" idd="{{ $presence->id }}" class="btn btn-warning btn-edit-user"><i class="fa-solid fa-pencil"></i></a></button>
+                                    <button type="submit" id2="{{ $presence->id }}" class="btn btn-warning btn-edit-user"><i class="fa-solid fa-pencil"></i></a></button>
                                     </td>
+                                    @endif
                                     @endif
                                     
                                     
@@ -100,7 +101,6 @@ Absences
         </div>
 
         <div class="modal-body">
-            <input type="hidden" name="date" id="date" class="form-control">
             <input type="hidden" name="presence_id" id="presence_id" class="form-control">
 
 
@@ -142,7 +142,7 @@ Absences
         </div>
 
         <div class="modal-body">
-            <input type="hidden" name="presence_id" id="presence_id" class="form-control">
+            <input type="hidden" name="presence_id_update" id="presence_id_update" class="form-control">
 
            
             <div class="form-group">
@@ -151,13 +151,13 @@ Absences
                 <span id="errorFirstName" class="text-red"></span>
             </div>
             
+            
 
         <div class="form-group">
-            <div class="modall-body">
 
-            </div>
+            <div class="modall-body">
             
-        </div>
+            </div>
         </div>
 
         </div>
@@ -194,34 +194,21 @@ $(document).ready(function(){
     });
     $('.btn-add-user').click(function(){
 
-        var date_update = $(this).attr('datee');
-        var date = $('#date').val(date_update);
 
-        var presence_id_update = $(this).attr('idd');
-        var presence_id = $('#presence_id').val(presence_id_update);
-
-
-        console.log(presence_id_update);
+        var id = $(this).attr('id');
+        var presence_id = $('#presence_id').val(id);
 
         $('#modalCreateUser').modal('show');
      
         $('#form-signup').submit(function(e){
             e.preventDefault();
             var formData =  new FormData(this);
- 
-            formData.date = date_update;
-            formData.presence_id = presence_id_update;
+
 
             $.ajax({
-                url:"{{route('admin.absences.create2')}}",
+                url:"{{route('admin.absencesjustifiees.create')}}",
                 type:'POST',
                 data:formData,
-                date:{
-                    date:date_update,
-                    presence_id:presence_id_update,
-                    motif:$('#motif').val(),
-                    image:$('#image').val(),
-                },
                 processData: false,
                 contentType: false,
                 cache: false,
@@ -248,53 +235,61 @@ $(document).ready(function(){
                 //     e.preventDefault();
               
                 $('#modalEditUser').modal('show');
+                $('.modall-body').html("");
 
-
-                var presence_id_update = $(this).attr('idd');
-                var presence_id = $('#presence_id').val(presence_id_update);
-
-                console.log(presence_id_update);
-
-                var image_update =       $('#image_update').val();            
-
-
-                $('.modall-body').append(
-                   ' <a href="/images/' +image_update+'" download>Download</a>'
-               );
-
+                var id2 = $(this).attr('id2');
+                var presence_id_update = $('#presence_id_update').val(id2);
                
                 $.ajax({
-                    url:"{{route('admin.absences.edit')}}",
+                    url:"{{route('admin.absencesjustifiees.edit')}}",
                         type:'POST',
                         data:{
-                            presence_id:presence_id_update,
+                            presence_id_update:id2,
                         },
                         success:function(data){
                             console.log('success edit');
                             $('#motif_update').val(data.data.motif);
-                            $('#image_update').val(data.data.image);
+                            // $('#image_update').val(data.data.justification);
+
+                            if (data.user == 1){
+                                $('.modall-body').append(
+                                        '<a href="/images/'+data.data.justification+'" download>Download</a>\
+                                        <input type="file" class="fileimage" id="image_update"  name="image_update" />'
+                                    )
+                            }
+                                else{
+                                    $('.modall-body').append(
+                                    '<a href="/images/'+data.data.justification+'" download>Download</a>\
+                                    <label>Type d\'absence</label>\
+                                    <select name="etat_update" class="form-control" id="etat_update" >\
+                                    <option value="" hidden>Séléctionner l\'etat</option>\
+                                    <option value="1">Accepté</option>\
+                                    <option value="2">Refusé</option>'
+                                      )   
+                                }
+
 
                         },
                     });
 
 
                 $('#form-edit').submit(function(e){
+                   
                     e.preventDefault();
-                    console.log($('#motiff').val());
                     var formData =  new FormData(this);
+                    console.log($('#image_update').val());
                     $.ajax({
-                        url:"{{route('admin.absences.update')}}",
+                        url:"{{route('admin.absencesjustifiees.update')}}",
                         type:'POST',
                         data:formData,
-                        data:{
-                            id:userID,
-                            motif:$('#motiff').val(),
-                            type:$('#var11').val(),
-                            finish:$('#finishh').val(),
-                            start:$('#startt').val(),
-                            etat:$('#etatt').val(),
-                            modifie:$('#modifiee').val(),
-                        },
+                        // data:{
+                        //     presence_id_update:id2,
+                        //     motif:$('#motif_update').val(),
+                        // },
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        enctype: 'multipart/form-data',
                         success:function(data){
                             console.log('success updated');
                         },

@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('motif');
             $table->date('start');
             $table->date('finish');
-            $table->integer('modifie')->default(0);
             $table->string('justification');
             $table->timestamps();
         });

@@ -183,19 +183,8 @@
                         </a>
                     </div>
 
-                    <div class="menu-item">
-                        <a href="{{route('admin.absences.index')}}" class="menu-link">
-                            <span class="menu-icon"><i class="fa-solid fa-calendar-times"></i></span>
-                            <span class="menu-text">Demandes d'absence</span>
-                        </a>
-                    </div>
-                    <div class="menu-item">
-                        <a href="{{route('admin.absences.historique')}}" class="menu-link">
-                            <span class="menu-icon"><i class="fa-solid fa-calendar-times"></i></span>
-                            <span class="menu-text">Absence</span>
-                        </a>
-                    </div>
-                    
+
+                   
 
                     <div class="menu-item">
                         <a href="{{route('admin.projet.index')}}" class="menu-link">
@@ -204,6 +193,29 @@
                         </a>
                     </div>
 
+                     
+                    <div class="menu-item has-sub">
+                        <a href="#" class="menu-link">
+                            <span class="menu-icon">
+                            <i class="fa-solid fa-calendar-times"></i>
+                            </span>
+                            <span class="menu-text">Absence</span>
+                            <span class="menu-caret"><b class="caret"></b></span>
+                        </a>
+                        <div class="menu-submenu">
+                        <div class="menu-item">
+                        <a href="{{ route('admin.absences.index') }}" class="menu-link">
+                        <span class="menu-text">Demandes d'absence</span>
+                        </a>
+                        </div>
+                        <div class="menu-item">
+                        <a href="{{ route('admin.absencesjustifiees.index') }}" class="menu-link">
+                        <span class="menu-text">Historique</span>
+                        </a>
+                        </div>
+                        </div>
+                    </div>
+                    
             
 
                     <div class="menu-item has-sub">
