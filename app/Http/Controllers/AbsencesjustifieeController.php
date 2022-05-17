@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Auth;
 
 
-class AbsencesJustifieeController extends Controller
+class AbsencesjustifieeController extends Controller
 {
      
     public function  index(Request $request){
@@ -218,7 +218,7 @@ class AbsencesJustifieeController extends Controller
      
     public function  create(Request $request){
 
-        $this->authorize('create',Absence::class);
+        // $this->authorize('create',Absence::class);
 
         
        $name = $request->file('image')->getClientOriginalName();

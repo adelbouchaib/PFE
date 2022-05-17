@@ -69,7 +69,7 @@ Route::group(['middleware' => 'adminoremployee'], function () {
     Route::post('/sanctions/edit','SanctionController@edit')->name('admin.sanctions.edit');
     Route::post('/sanctions/update','SanctionController@update')->name('admin.sanctions.update');
     Route::get('/sanctions/recherche','SanctionController@search')->name('admin.sanctions.search');
-    Route::get('/sanctions/display','SanctionController@display')->name('admin.sanctions.display');
+    Route::get('/sanctions/display','SanctionController@display')->name('admin.sanctions.display2');
 
 
 

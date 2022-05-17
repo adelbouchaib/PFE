@@ -55,7 +55,7 @@ Absences
 
                                    
                                     @if ($presence->presence_id != $presence->id)
-                                    @can('create', \App\Absence::class)
+                                    {{-- @can('create', \App\Absence::class) --}}
                                         @if ($today->lte($presence->created_at->addDays(3)) )
                                         <td> </td>
                                         <td>
@@ -64,7 +64,7 @@ Absences
                                         @else
                                         <td>délai dépassé </td>
                                         @endif
-                                    @endcan
+                                    {{-- @endcan --}}
                                     @else
                                     @if ($presence->etat == 0)
                                     <td>

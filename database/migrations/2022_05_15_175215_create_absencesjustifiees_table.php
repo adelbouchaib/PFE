@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('presence_id');
             $table->boolean('etat')->default(0);
             $table->string('motif');
+            $table->date('date');
             $table->string('justification');
             $table->timestamps();
         });
