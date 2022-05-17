@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Presence;
-use App\Models\Absence;
+use App\Models\DemandeAbsence;
 use App\Models\Absencesjustifiee;
 use App\Models\Conge;
 use App\Models\User;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Auth;
 
 
-class AbsencesjustifieeController extends Controller
+class AbsencesJustifieeController extends Controller
 {
      
     public function  index(Request $request){

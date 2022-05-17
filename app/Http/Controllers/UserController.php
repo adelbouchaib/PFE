@@ -10,7 +10,7 @@ use App\Models\Branche;
 use App\Helpers\helper;
 
 
-use App\Models\Absence;
+use App\Models\DemandeAbsence;
 use Auth;
 class UserController extends Controller
 {

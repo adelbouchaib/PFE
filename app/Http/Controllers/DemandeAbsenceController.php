@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Presence;
-use App\Models\Absence;
+use App\Models\DemandeAbsence;
 use App\Models\Absencesjustifiee;
 use App\Models\Conge;
 use App\Models\User;
@@ -10,7 +10,7 @@ use App\Models\TypeAbsence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;
-class AbsenceController extends Controller
+class DemandeAbsenceController extends Controller
 {
     
 
@@ -18,12 +18,12 @@ class AbsenceController extends Controller
     {
         if(Auth::User()->role==0)
         {
-            $absences = User::join('absences', 'users.id', '=', 'absences.user_id')
+            $absences = User::join('DemandeAbsences', 'users.id', '=', 'DemandeAbsences.user_id')
             ->get();
 
         }
         else{
-            $absences = User::join('absences', 'users.id', '=', 'absences.user_id')
+            $absences = User::join('DemandeAbsences', 'users.id', '=', 'DemandeAbsences.user_id')
             ->where('user_id','=',Auth::User()->id)
             ->get();
 
@@ -41,13 +41,13 @@ class AbsenceController extends Controller
     
     public function  create(Request $request){
 
-        $this->authorize('create',Absence::class);
+        $this->authorize('create',DemandeAbsence::class);
 
         
        $name = $request->file('image')->getClientOriginalName();
        $request->file('image')->storeAs('public/images',$name);
 
-       $absence = new Absence();
+       $absence = new DemandeAbsence();
        $absence->user_id = Auth::user()->id;
        $absence->motif = $request->motif; 
        $absence->justification = $name;
@@ -66,7 +66,7 @@ class AbsenceController extends Controller
     public function display(Request $request){
 
         $search_text = $request->id;
-        $first = Absence::where('id','=',$search_text)        
+        $first = DemandeAbsence::where('id','=',$search_text)        
         ->first();
 
         $second = TypeAbsence::
@@ -95,7 +95,7 @@ class AbsenceController extends Controller
         // ]);
 
         $id = $request->id;
-        $absence = Absence::find($id);
+        $absence = DemandeAbsence::find($id);
 
         if(isset($request->etat_update)){
             $absence->etat=$request->etat_update;
@@ -160,8 +160,8 @@ class AbsenceController extends Controller
     if(Auth::User()->role==0)
     {
        
-                $absences = User::join('absences', 'users.id', '=', 'absences.user_id')
-                ->whereDate('absences.created_at','=', $request->date)
+                $absences = User::join('DemandeAbsences', 'users.id', '=', 'DemandeAbsences.user_id')
+                ->whereDate('DemandeAbsences.created_at','=', $request->date)
                 ->orWhere('etat','=',$request->etat)
                 ->orWhere('users.id','=',$request->user)
                 ->get();
@@ -170,9 +170,9 @@ class AbsenceController extends Controller
     }
     else
     {
-        $absences = User::join('absences', 'users.id', '=', 'absences.user_id')
+        $absences = User::join('DemandeAbsences', 'users.id', '=', 'DemandeAbsences.user_id')
                 ->where('user_id','=',Auth::User()->id)
-                ->whereDate('absences.created_at','=', $request->date)
+                ->whereDate('DemandeAbsences.created_at','=', $request->date)
                 ->orWhere('etat','=',$request->etat)
                 ->get();
 
