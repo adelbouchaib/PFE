@@ -61,11 +61,16 @@ Absences
 
                                    
                                     @if ($presence->presence_id != $presence->id)
+<<<<<<< HEAD
                                     @can('create', \App\Absence::class)
                                     @php
                                     $todaydate = \Carbon\Carbon::createFromFormat('Y-m-d',$presence->date);
                                     @endphp
                                         @if (\Carbon\Carbon::now()->lte($todaydate->addDays(3)))
+=======
+                                    {{-- @can('create', \App\Absence::class) --}}
+                                        @if ($today->lte($presence->created_at->addDays(3)) )
+>>>>>>> 88bddf8adac36768e0c832b7db6f4b84dbfb76f2
                                         <td> </td>
                                         <td>
                                         <button type="submit" id="{{ $presence->id }}" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a>
@@ -73,7 +78,7 @@ Absences
                                         @else
                                         <td>délai dépassé </td>
                                         @endif
-                                    @endcan
+                                    {{-- @endcan --}}
                                     @else
 
                                     {{-- @if ($presence->etat == 0) --}}

@@ -1,12 +1,20 @@
 <?php
 namespace App\Http\Controllers;
 use Carbon\Carbon;
+<<<<<<< HEAD
 
 use App\Models\Presence;
 use App\Models\Sanction;
 use App\Models\User;
 use App\Models\TypeSanction;
 
+=======
+use App\Models\Presence;
+use App\Models\Sanction;
+use App\Models\Conge;
+use App\Models\User;
+use App\Models\TypeSanction;
+>>>>>>> 88bddf8adac36768e0c832b7db6f4b84dbfb76f2
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;
