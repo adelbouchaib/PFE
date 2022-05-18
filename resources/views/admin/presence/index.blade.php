@@ -5,9 +5,6 @@ Présence
 @section('content')
  <div class="title-bar">
     <h4 style="float:left">Présence</h4>
-    @can('index', \App\Dashboard::class)
-    <a href="#" title="" style="float:right" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a>
-    @endcan   
 </div>
 <div id="responsiveTables" class="mb-5">
     <div class="card">
@@ -36,9 +33,6 @@ Présence
                                     <td>{{$presence->prenom}} {{$presence->nom}}</td>
                                     <td>{{$presence->start_time}}</td>
                                     <td>{{$presence->end_time}}</td>
-                                    <td>
-                                        <button type="submit" id="{{ $presence->id }}" class="btn btn-warning btn-edit-user"><i class="fa-solid fa-pencil"></i></a>
-                                    </td>
                                 </tr>
                         @endforeach
                     </tbody>
@@ -50,8 +44,6 @@ Présence
 </div>
 
 @section('script')
-
-
    
 @stop
 @stop

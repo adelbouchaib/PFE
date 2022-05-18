@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Vacance;
 use Illuminate\Http\Request;
 use Auth;

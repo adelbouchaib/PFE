@@ -26,6 +26,7 @@ All Users
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.min.js" integrity="sha512-cJMgI2OtiquRH4L9u+WQW+mz828vmdp9ljOcm/vKTQ7+ydQUktrPVewlykMgozPP+NUBbHdeifE6iJ6UVjNw5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
         $(document).ready(function(){
@@ -43,7 +44,7 @@ All Users
                  center:'title',
                  right:'month,agendaWeek,agendaDay'
              },
-             events:'/vacance',
+             events:'/joursferies',
              selectable:true,
              selectHelper: true,
              select:function(start, end, allDay)
@@ -59,7 +60,7 @@ All Users
                      console.log(start);
      
                      $.ajax({
-                         url:"/vacance/action",
+                         url:"/joursferies/action",
                          type:"POST",
                          data:{
                              title: title,
@@ -83,7 +84,7 @@ All Users
                  var title = event.title;
                  var id = event.id;
                  $.ajax({
-                     url:"/vacance/action",
+                     url:"/joursferies/action",
                      type:"POST",
                      data:{
                          title: title,
@@ -106,7 +107,7 @@ All Users
                  var title = event.title;
                  var id = event.id;
                  $.ajax({
-                     url:"/vacance/action",
+                     url:"/joursferies/action",
                      type:"POST",
                      data:{
                          title: title,
@@ -129,7 +130,7 @@ All Users
                  {
                      var id = event.id;
                      $.ajax({
-                         url:"/vacance/action",
+                         url:"/joursferies/action",
                          type:"POST",
                          data:{
                              id:id,

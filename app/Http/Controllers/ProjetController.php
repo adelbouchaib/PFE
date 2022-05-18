@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 use Carbon\Carbon;
-use App\Models\Presence;
+
 use App\Models\User;
 use App\Models\Task;
 use App\Models\Projet;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
@@ -77,7 +78,19 @@ class ProjetController extends Controller
     {
         $id = $request->id;
         $projet = Projet::find($id);
-        return response()->json(['data' => $projet]);
+
+
+        // $equipe = User::
+        // join('projet_user', 'users.id', '=', 'projet_user.user_id')
+        // ->where('projet_id','=',$projet->id)
+        // ->select('users.*')
+        // ->get();
+
+        $allusers = User::all();
+
+        return response()->json(['data' => $projet,
+        'allusers' => $allusers
+      ]);
     }
 
     
@@ -92,15 +105,22 @@ class ProjetController extends Controller
       $projet->start = $request->start;
       $projet->finish = $request->finish;
       $projet->prime_chef = $request->prime_chef;
-      $projet->prime_equipe = $request->prime_equipe;
 
+      if(isset($request->data)){
+      $projet->prime_equipe = $request->prime_equipe;
+      }else{
+        $projet->prime_equipe = '0';
+
+      }
 
       $projet->status = 0;
       $projet->nbtasks = 0;
       $projet->save();
 
+      
       $data = $request->data;
 
+      if(isset($data)){
         foreach($data as $datas)
         {
 
@@ -109,6 +129,8 @@ class ProjetController extends Controller
       $projets->users()->attach($user);
             
         }
+      }
+        
 
       
   }
@@ -171,6 +193,53 @@ class ProjetController extends Controller
 
     // dd($request->status);
 
+  }
+
+  
+  public function update(Request $request)
+  {
+
+      //  $this->validate($request,[
+      // ]);
+
+      $id = $request->id_update;
+      $projet = Projet::find($id);
+
+              $projet->start = $request->start_update;
+              $projet->finish = $request->finish_update;
+              $projet->title = $request->title_update;
+              $projet->description = $request->description_update;
+              $projet->prime_chef = $request->prime_chef_update;
+              $projet->prime_equipe = $request->prime_equipe_update;
+
+           if(isset($request->chef_update)){
+             $projet->user_id = $request->chef_update;
+           }
+
+
+
+          
+             
+      
+      $projet->save();
+
+    
+
+
+
+      $data = $request->data_update;
+
+      if(isset($data)){
+        $projets = Projet::find($id);
+        $projets->users()->detach();
+  
+            foreach($data as $datas)
+            {
+          $user = User::where('id','=',$datas)->get();
+          $projets->users()->attach($user);       
+            }
+      }
+      
   }
     
        

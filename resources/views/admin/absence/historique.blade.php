@@ -5,9 +5,6 @@ Absences
 @section('content')
  <div class="title-bar">
     <h4 style="float:left">Absences</h4>
-    {{-- @can('index', \App\Dashboard::class)
-    <a href="#" title="" style="float:right" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a>
-    @endcan    --}}
 </div>
 <div id="responsiveTables" class="mb-5">
     <div class="card">
@@ -26,6 +23,7 @@ Absences
                             <th>Matricule</th>
                             <th>Nom complet</th>
                             <th>Start time</th>
+                            <th>End time</th>
                             <th>Justification</th>
                             <th>Etat</th>
                             <th>Action</th>
@@ -39,6 +37,8 @@ Absences
                                     <td>{{$presence->matricule}}</td>
                                     <td>{{$presence->prenom}} {{$presence->nom}}</td>
                                     <td>{{$presence->start_time}}</td>
+                                    <td>{{$presence->end_time}}</td>
+
 
                                     @if ($presence->presence_id == $presence->id)
                                     <td><span class="badge bg-success bg-opacity-20 text-success" style="min-width: 60px;">Justifiée</span></td>
@@ -51,12 +51,21 @@ Absences
                                     @endif
                                     @else
                                     <td><span class="badge bg-danger bg-opacity-20 text-danger" style="min-width: 60px;">Non justifiée</span></td>
+                                    @can('index', \App\Dashboard::class)
+                                    <td> </td>
+                                        <td>
+                                        <button type="submit" id3="{{ $presence->id }}" class="btn btn-warning btn-edit-absence"><i class="fa-solid fa-pencil"></i></a>
+                                        </td>
+                                    @endcan
                                     @endif
 
                                    
                                     @if ($presence->presence_id != $presence->id)
-                                    {{-- @can('create', \App\Absence::class) --}}
-                                        @if ($today->lte($presence->created_at->addDays(3)) )
+                                    @can('create', \App\Absence::class)
+                                    @php
+                                    $todaydate = \Carbon\Carbon::createFromFormat('Y-m-d',$presence->date);
+                                    @endphp
+                                        @if (\Carbon\Carbon::now()->lte($todaydate->addDays(3)))
                                         <td> </td>
                                         <td>
                                         <button type="submit" id="{{ $presence->id }}" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a>
@@ -64,13 +73,15 @@ Absences
                                         @else
                                         <td>délai dépassé </td>
                                         @endif
-                                    {{-- @endcan --}}
+                                    @endcan
                                     @else
-                                    @if ($presence->etat == 0)
+
+                                    {{-- @if ($presence->etat == 0) --}}
                                     <td>
                                     <button type="submit" id2="{{ $presence->id }}" class="btn btn-warning btn-edit-user"><i class="fa-solid fa-pencil"></i></a></button>
                                     </td>
-                                    @endif
+                                    {{-- @endif --}}
+                                    
                                     @endif
                                     
                                     
@@ -176,6 +187,51 @@ Absences
 
 
 
+  <div class="modal fade in" id="modalEditAbsence">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+  
+        <form method="post" accept-charset="utf-8" id="form-editt"> 
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Modifier l'absence</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+            <input type="hidden" name="absence_id" id="absence_id" class="form-control">
+
+         
+
+            
+        <div class="form-group">
+            <input type="time" name="start_time_update" id="start_time_update" class="form-control">
+
+        </div>
+
+        
+        <div class="form-group">
+            <input type="time" name="end_time_update" id="end_time_update" class="form-control">
+
+        </div>
+
+        </div>
+
+      
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
 @section('script')
 
 
@@ -217,13 +273,7 @@ $(document).ready(function(){
                     console.log('success create');
                 },
                 error:function(respone){
-                    $('#errorFirstName').text(respone.responseJSON.errors.first_name);
-                    $('#errorLastName').text(respone.responseJSON.errors.last_name);
-                    $('#errorEmail').text(respone.responseJSON.errors.email);
-                    $('#errorPassword').text(respone.responseJSON.errors.password);
-                    $('#errorRole').text(respone.responseJSON.errors.role);
-                    $('#errorStartDate').text(respone.responseJSON.errors.start_date);
-                    $('#errorEndDate').text(respone.responseJSON.errors.end_date);
+                    $('#errorFirstName').text("error");
                 }
             })
         })
@@ -282,9 +332,64 @@ $(document).ready(function(){
                         url:"{{route('admin.absencesjustifiees.update')}}",
                         type:'POST',
                         data:formData,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        enctype: 'multipart/form-data',
+                        success:function(data){
+                            console.log('success updated');
+                        },
+                        error:function(respone){
+                            $('#errorFirstName').text("error");
+
+                        }
+                    })
+                })
+        
+
+
+            
+            });
+
+
+
+
+            $('.btn-edit-absence').click(function fetchstudents(){
+                // function fetchstudents(e){
+                //     e.preventDefault();
+              
+                $('#modalEditAbsence').modal('show');
+                // $('.modalll-body').html("");
+
+                var id3 = $(this).attr('id3');
+                var absence_id = $('#absence_id').val(id3);
+               
+                $.ajax({
+                    url:"{{route('admin.absencesjustifiees.edit2')}}",
+                        type:'POST',
+                        data:{
+                            absence_id:id3,
+                        },
+                        success:function(data){
+                            console.log('success edit');
+                            $('#start_time_update').val(data.data.start_time);
+                            $('#end_time_update').val(data.data.end_time);
+
+                        },
+                    });
+
+
+                $('#form-editt').submit(function(e){
+                   
+                    e.preventDefault();
+                    var formData =  new FormData(this);
+                    $.ajax({
+                        url:"{{route('admin.absencesjustifiees.update2')}}",
+                        type:'POST',
+                        data:formData,
                         // data:{
-                        //     presence_id_update:id2,
-                        //     motif:$('#motif_update').val(),
+                        //     absence_id:id3,
+
                         // },
                         processData: false,
                         contentType: false,
@@ -294,13 +399,8 @@ $(document).ready(function(){
                             console.log('success updated');
                         },
                         error:function(respone){
-                            $('#errorFirstName').text(respone.responseJSON.errors.first_name);
-                            $('#errorLastName').text(respone.responseJSON.errors.last_name);
-                            $('#errorEmail').text(respone.responseJSON.errors.email);
-                            $('#errorPassword').text(respone.responseJSON.errors.password);
-                            $('#errorRole').text(respone.responseJSON.errors.role);
-                            $('#errorStartDate').text(respone.responseJSON.errors.start_date);
-                            $('#errorEndDate').text(respone.responseJSON.errors.end_date);
+                            $('#errorFirstName').text("error");
+
                         }
                     })
                 })
@@ -309,6 +409,7 @@ $(document).ready(function(){
 
             
             });
+
 
 
 });

@@ -65,72 +65,16 @@
             <div class="menu">
                 <div class="menu-search" style="display: flex;">
                 </div>
-               <!--  <form class="menu-search" method="POST" name="header_search_form">
-                    <div class="menu-search-icon"><i class="fa fa-search"></i></div>
-                    <div class="menu-search-input">
-                        <input type="text" class="form-control" placeholder="Search menu..." />
+                @can('index', \App\Dashboard::class)
+                <form type="get" action="{{ route('test.calculate') }}">
+                    <div class="modal-body">
+                    <input type="date" style="width:auto; display:inline;" class="form-control"  name="start_date" id="start_date" />
+                    <input type="date" style="width:auto; display:inline;" class="form-control"  name="end_date" id="end_date" />
+                    <button type="submit" class="btn btn-secondary btn-sm">Exporter</button>
                     </div>
-                </form> -->
-                {{-- <div class="menu-item dropdown">
-                    <a href="#" data-bs-toggle="dropdown" data-display="static" class="menu-link">
-                        <div class="menu-icon"><i class="fa fa-bell nav-icon"></i></div>
-                        <div class="menu-label">3</div>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-notification">
-                        <h6 class="dropdown-header text-dark mb-1">Notifications</h6>
-                        <a href="#" class="dropdown-notification-item">
-                            <div class="dropdown-notification-icon">
-                                <i class="fa fa-receipt fa-lg fa-fw text-success"></i>
-                            </div>
-                            <div class="dropdown-notification-info">
-                                <div class="title">Your store has a new order for 2 items totaling $1,299.00</div>
-                                <div class="time">just now</div>
-                            </div>
-                            <div class="dropdown-notification-arrow">
-                                <i class="fa fa-chevron-right"></i>
-                            </div>
-                        </a>
-                        <a href="#" class="dropdown-notification-item">
-                            <div class="dropdown-notification-icon">
-                                <i class="far fa-user-circle fa-lg fa-fw text-muted"></i>
-                            </div>
-                            <div class="dropdown-notification-info">
-                                <div class="title">3 new customer account is created</div>
-                                <div class="time">2 minutes ago</div>
-                            </div>
-                            <div class="dropdown-notification-arrow">
-                                <i class="fa fa-chevron-right"></i>
-                            </div>
-                        </a>
-                        <a href="#" class="dropdown-notification-item">
-                            <div class="dropdown-notification-icon">
-                                <img src="assets/img/icon/android.svg" alt="" width="26" />
-                            </div>
-                            <div class="dropdown-notification-info">
-                                <div class="title">Your android application has been approved</div>
-                                <div class="time">5 minutes ago</div>
-                            </div>
-                            <div class="dropdown-notification-arrow">
-                                <i class="fa fa-chevron-right"></i>
-                            </div>
-                        </a>
-                        <a href="#" class="dropdown-notification-item">
-                            <div class="dropdown-notification-icon">
-                                <img src="assets/img/icon/paypal.svg" alt="" width="26" />
-                            </div>
-                            <div class="dropdown-notification-info">
-                                <div class="title">Paypal payment method has been enabled for your store</div>
-                                <div class="time">10 minutes ago</div>
-                            </div>
-                            <div class="dropdown-notification-arrow">
-                                <i class="fa fa-chevron-right"></i>
-                            </div>
-                        </a>
-                        <div class="p-2 text-center mb-n1">
-                            <a href="#" class="text-dark text-opacity-50 text-decoration-none">See all</a>
-                        </div>
-                    </div>
-                </div> --}}
+                </form>
+                @endcan
+               
                 <div class="menu-item dropdown">
                     <a href="#" data-bs-toggle="dropdown" data-display="static" class="menu-link">
                         <div class="menu-img online">
@@ -184,22 +128,28 @@
                     </div>
 
 
-                   
-
                     <div class="menu-item">
-                        <a href="{{route('admin.projet.index')}}" class="menu-link">
-                            <span class="menu-icon"><i class="fa-solid fa-code-branch"></i></span>
-                            <span class="menu-text">Projets</span>
+                        <a href="{{ route('admin.absencesjustifiees.index') }}" class="menu-link">
+                        <span class="menu-icon"><i class="fa-solid fa-clock"></i></span>
+                        <span class="menu-text">Absences</span>
                         </a>
                     </div>
-
+                   
+         
+                    <div class="menu-item">
+                        <a href="{{ route('admin.vacance.index') }}" class="menu-link">
+                            <span class="menu-icon"><i class="fa fa-calendar"></i></span>
+                        <span class="menu-text">Jours fériés</span>
+                        </a>
+                    </div>
+                   
                      
                     <div class="menu-item has-sub">
                         <a href="#" class="menu-link">
                             <span class="menu-icon">
                             <i class="fa-solid fa-calendar-times"></i>
                             </span>
-                            <span class="menu-text">Absence</span>
+                            <span class="menu-text">Demandes</span>
                             <span class="menu-caret"><b class="caret"></b></span>
                         </a>
                         <div class="menu-submenu">
@@ -209,36 +159,24 @@
                         </a>
                         </div>
                         <div class="menu-item">
-                        <a href="{{ route('admin.absencesjustifiees.index') }}" class="menu-link">
-                        <span class="menu-text">Historique</span>
-                        </a>
+                            <a href="{{ route('admin.conge.index') }}" class="menu-link">
+                            <span class="menu-text">Demandes congé</span>
+                            </a>
                         </div>
                         </div>
                     </div>
                     
             
 
-                    <div class="menu-item has-sub">
-                        <a href="#" class="menu-link">
-                            <span class="menu-icon">
-                            <i class="fa fa-calendar"></i>
-                            </span>
-                            <span class="menu-text">Congé</span>
-                            <span class="menu-caret"><b class="caret"></b></span>
-                        </a>
-                        <div class="menu-submenu">
+ 
+
                         <div class="menu-item">
-                        <a href="{{ route('admin.conge.index') }}" class="menu-link">
-                        <span class="menu-text">Demandes congé</span>
-                        </a>
+                            <a href="{{route('admin.projet.index')}}" class="menu-link">
+                                <span class="menu-icon"><i class="fa-solid fa-code-branch"></i></span>
+                                <span class="menu-text">Projets</span>
+                            </a>
                         </div>
-                        <div class="menu-item">
-                        <a href="{{ route('admin.vacance.index') }}" class="menu-link">
-                        <span class="menu-text">Vacances</span>
-                        </a>
-                        </div>
-                        </div>
-                    </div>
+    
                     
                     @can('index', \App\Dashboard::class)
                     <div class="menu-item has-sub">

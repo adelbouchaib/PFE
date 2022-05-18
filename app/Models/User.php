@@ -53,7 +53,7 @@ class User extends Authenticatable
 
     public function demandeabsence()
     {
-        return $this->hasMany('App\Models\DemandeAbsence','user_id');
+        return $this->hasMany('App\Models\Demandeabsence','user_id');
     }
 
 
@@ -88,23 +88,6 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\Direction','departement');
     }
-
-    
-    // public function direction()
-    // {
-    //     return $this->hasOne('App\Models\Direction');
-    // }
-
-
-
-
-   
-    // public function motifconge(){
-    //     return $this->belongstoMany(Motifconge::class);
-    // }
-    
-    
-
 
 
     

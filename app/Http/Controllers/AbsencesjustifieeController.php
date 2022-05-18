@@ -1,12 +1,12 @@
 <?php
 namespace App\Http\Controllers;
 use Carbon\Carbon;
+
 use App\Models\Presence;
-use App\Models\DemandeAbsence;
 use App\Models\Absencesjustifiee;
 use App\Models\Conge;
 use App\Models\User;
-use App\Models\TypeAbsence;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;
@@ -16,46 +16,6 @@ class AbsencesjustifieeController extends Controller
 {
      
     public function  index(Request $request){
-
-        
-        // $presences = User::
-        // whereNotExists(function($query)
-        //     {
-        //         $query->select(DB::raw(1))
-        //                   ->from('Presences')
-        //                   ->where('date','=',Carbon::now()->format('Y-m-d'))
-        //                   ->where('start_time','!=',"00:00:00")
-        //                   ->whereRaw('Users.matricule = Presences.matricule');
-
-                        
-        //     })
-
-      //   $conges = Conge::where('etat','=','1')
-      //   ->where('start','=',$date)
-      //   ->first();
-
-      // if(Auth::User()->role==0)
-      // {
-      //     $absences = User::join('absences', 'users.id', '=', 'absences.user_id')
-      //     ->get();
-
-      // }
-      // else{
-      //     $absences = User::join('absences', 'users.id', '=', 'absences.user_id')
-      //     ->where('user_id','=',Auth::User()->id)
-      //     ->get();
-
-          
-      // }
-
-        
-          // ->whereNotExists(function($query) use ($request, $date)
-          // {
-          //     $query->select(DB::raw(1))
-          //           ->from('Absencesjustifiees')
-          //           ->whereRaw('Absencesjustifiees.presence_id = Presences.id');
-
-          // })
         
           $date = Carbon::now()->format('Y-m-d');
 
@@ -65,7 +25,6 @@ class AbsencesjustifieeController extends Controller
           join('users', 'presences.matricule', '=', 'users.matricule')
           ->where('presences.matricule','=',Auth::User()->matricule)
           ->leftjoin('Absencesjustifiees', 'presences.id', '=', 'Absencesjustifiees.presence_id')
-
           ->select(
               'users.prenom',
               'users.nom',
@@ -74,6 +33,17 @@ class AbsencesjustifieeController extends Controller
               'Absencesjustifiees.etat',
               'Absencesjustifiees.presence_id',
           )
+                 
+          ->where(function ($query) {
+            $query->where('start_time','=',"00:00:00")
+                  ->orWhere('start_time','>',"09:00:00");
+        })
+
+        ->orwhere(function ($query) {
+          $query->where('end_time','=',"00:00:00")
+                ->orWhere('end_time','<',"15:00:00");
+        })
+
           ->whereNotExists(function($query) use ($request, $date)
               {
                   $query->select(DB::raw(1))
@@ -84,11 +54,7 @@ class AbsencesjustifieeController extends Controller
                         ->whereRaw('Users.id = Conges.user_id');
               })
 
-                
-          ->where(function ($query) {
-              $query->where('start_time','=',"00:00:00")
-                    ->orWhere('start_time','>',"09:00:00");
-          })
+         
           ->get();
 
       }else{
@@ -96,7 +62,6 @@ class AbsencesjustifieeController extends Controller
           $presences = Presence::
           join('users', 'presences.matricule', '=', 'users.matricule')
           ->leftjoin('Absencesjustifiees', 'presences.id', '=', 'Absencesjustifiees.presence_id')
-
           ->select(
               'users.prenom',
               'users.nom',
@@ -105,6 +70,17 @@ class AbsencesjustifieeController extends Controller
               'Absencesjustifiees.etat',
               'Absencesjustifiees.presence_id',
           )
+                          
+        ->where(function ($query) {
+            $query->where('start_time','=',"00:00:00")
+                  ->orWhere('start_time','>',"09:00:00");
+        })
+
+        ->orwhere(function ($query) {
+          $query->where('end_time','=',"00:00:00")
+                ->orWhere('end_time','<',"15:00:00");
+         })
+
           ->whereNotExists(function($query) use ($request, $date)
               {
                   $query->select(DB::raw(1))
@@ -115,20 +91,11 @@ class AbsencesjustifieeController extends Controller
                         ->whereRaw('Users.id = Conges.user_id');
               })
 
-                
-          ->where(function ($query) {
-              $query->where('start_time','=',"00:00:00")
-                    ->orWhere('start_time','>',"09:00:00");
-          })
           ->get();
       }
-          
+                        
 
-
-              $today = Carbon::now();
-              
-
-            return view('admin.absence.historique',compact('presences','today'));
+            return view('admin.absence.historique',compact('presences'));
 
 
         }
@@ -218,7 +185,7 @@ class AbsencesjustifieeController extends Controller
      
     public function  create(Request $request){
 
-        // $this->authorize('create',Absence::class);
+        $this->authorize('create',Absence::class);
 
         
        $name = $request->file('image')->getClientOriginalName();
@@ -226,7 +193,6 @@ class AbsencesjustifieeController extends Controller
 
        
        $absence = new Absencesjustifiee();
-       $absence->user_id = Auth::user()->id;
        $absence->presence_id = $request->presence_id;
        $absence->motif = $request->motif; 
        $absence->justification = $name;
@@ -248,6 +214,19 @@ class AbsencesjustifieeController extends Controller
         'user' => $user]
     
     );
+
+
+
+    }
+
+    
+    public function edit2(Request $request){
+
+        $search_text = $request->absence_id;
+        $absence = Presence::where('id','=',$search_text)
+        ->first();
+
+        return response()->json(['data' => $absence]);
 
 
 
@@ -284,6 +263,24 @@ class AbsencesjustifieeController extends Controller
         $absence->save();
         
     }
+
+
+    
+    
+    public function update2(Request $request)
+    {
+
+
+        $absence_id = $request->absence_id;
+        $absence = Presence::where('id','=',$absence_id)->first();
+
+        $absence->start_time = "$request->start_time_update";
+        $absence->end_time = $request->end_time_update;
+        $absence->save();
+        
+    }
+
+
 
 
 }

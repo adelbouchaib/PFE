@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/calculate','TestController@calculate')->name('test.calculate');
 Route::get('/test','TestController@index')->name('test.index');
+
 
 
 
@@ -22,6 +24,7 @@ Route::get('/','DashboardController@index')->name('index');
 Route::get('/login','LoginController@formLogin')->name('login')->middleware('guest');
 Route::post('/login','LoginController@actionLogin')->name('action.login');
 Route::get('/logout','DashboardController@logout')->name('logout');
+
 
 Route::group(['middleware' => 'agent'], function () {
     Route::post('/presences/start','PresenceController@startWork')->name('admin.presences.start');
@@ -55,7 +58,7 @@ Route::group(['middleware' => 'adminoremployee'], function () {
 
 
 
-    Route::get('/vacance','VacanceController@index')->name('admin.vacance.index');
+    Route::get('/joursferies','VacanceController@index')->name('admin.vacance.index');
 
     Route::get('/conge','CongeController@index')->name('admin.conge.index');
     Route::post('/conge/create','CongeController@create')->name('admin.conge.create');
@@ -85,9 +88,11 @@ Route::group(['middleware' => 'adminoremployee'], function () {
 
 
 Route::group(['middleware' => 'admin'], function () {
+    Route::post('/absences/historique/edit2','AbsencesjustifieeController@edit2')->name('admin.absencesjustifiees.edit2');
+    Route::post('/absences/historique/update2','AbsencesjustifieeController@update2')->name('admin.absencesjustifiees.update2');
 
 
-    Route::post('/vacance/action','VacanceController@action')->name('admin.vacance.action');
+    Route::post('/joursferies/action','VacanceController@action')->name('admin.vacance.action');
 
     Route::get('/users','UserController@index')->name('admin.users.index');
     Route::get('/users/{id}','UserController@employee')->name('admin.users.employee');
@@ -100,6 +105,7 @@ Route::group(['middleware' => 'admin'], function () {
  
 
     Route::post('/projet/create','ProjetController@create')->name('admin.projet.create');
+    Route::post('/projet/update','ProjetController@update')->name('admin.projet.update');
     Route::post('/projet/task','ProjetController@task')->name('admin.projet.task');
     Route::post('/projet/edit','ProjetController@edit')->name('admin.projet.edit');
     Route::post('/projet/task/create','TaskController@create')->name('admin.task.create');

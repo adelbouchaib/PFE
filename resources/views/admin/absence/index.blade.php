@@ -29,7 +29,7 @@ Présence
 
             <div class="form-group">
                 <label>Type d'absence</label>
-                <select name="type" class="form-control" id="var1" >
+                <select name="type_id" class="form-control" id="type_id" >
                     @foreach($types as $type)
                      <option   value="{{ $type->id }}"> {{ $type->titre }} </option>
                     @endforeach
@@ -244,7 +244,7 @@ $(document).ready(function(){
            e.preventDefault();
            var formData =  new FormData(this);
 
-           console.log(formData.motif);
+           console.log();
 
 
            $.ajax({

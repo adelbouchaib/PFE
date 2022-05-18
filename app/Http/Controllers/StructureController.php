@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+
 use App\Models\Direction;
 use App\Models\Branche;
-
-
 
 use Illuminate\Http\Request;
 

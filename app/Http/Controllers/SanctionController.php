@@ -1,11 +1,12 @@
 <?php
 namespace App\Http\Controllers;
 use Carbon\Carbon;
+
 use App\Models\Presence;
 use App\Models\Sanction;
-use App\Models\Conge;
 use App\Models\User;
 use App\Models\TypeSanction;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;

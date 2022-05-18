@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Models\User;
 use App\Models\Conge;
 use App\Models\Presence;
 use App\Models\Projet;
-
 
 use Illuminate\Support\Facades\DB;
 use Auth;

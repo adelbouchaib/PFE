@@ -9,8 +9,8 @@ class TypeAbsence extends Model
 {
     use HasFactory;
 
-    public function absence()
+    public function demandeabsence()
     {
-        return $this->hasMany('App\Models\Absence','type_id');
+        return $this->hasMany('App\Models\Demandeabsence','type_id');
     }
 }

@@ -57,7 +57,7 @@
          @endphp
           
           <?php echo $nb ?></h3>
-        <div><a href="#" class="text-white d-flex align-items-center text-decoration-none">Voir tout<i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a></div>
+        <div><a href="{{ route('admin.absencesjustifiees.index') }}" class="text-white d-flex align-items-center text-decoration-none">Voir tout<i class="fa fa-chevron-right ms-2 text-white text-opacity-50"></i></a></div>
         </div>
   
       </div>

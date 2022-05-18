@@ -1,10 +1,12 @@
 <?php
 namespace App\Http\Controllers;
 use Carbon\Carbon;
+
 use App\Models\Presence;
 use App\Models\Conge;
 use App\Models\User;
 use App\Models\TypeConge;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;
