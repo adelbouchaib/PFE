@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Presence;
-use App\Models\Absence;
+use App\Models\DemandeAbsence;
 use App\Models\Absencesjustifiee;
 use App\Models\Conge;
 use App\Models\User;
@@ -218,7 +218,7 @@ class AbsencesjustifieeController extends Controller
      
     public function  create(Request $request){
 
-        $this->authorize('create',Absence::class);
+        // $this->authorize('create',Absence::class);
 
         
        $name = $request->file('image')->getClientOriginalName();

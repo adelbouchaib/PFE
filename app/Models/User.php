@@ -51,15 +51,9 @@ class User extends Authenticatable
     }
 
 
-    public function absence()
+    public function demandeabsence()
     {
-        return $this->hasMany('App\Models\Absence','user_id');
-    }
-
-    
-    public function absencesjustifiee()
-    {
-        return $this->hasMany('App\Models\Absencesjustifiee','user_id');
+        return $this->hasMany('App\Models\DemandeAbsence','user_id');
     }
 
 
@@ -73,6 +67,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Conge','user_id');
     }
+
+    public function sanction()
+    {
+        return $this->hasMany('App\Models\Sanction','user_id');
+    }
+
 
     public function projet()
     {

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/test','TestController@index')->name('test.index');
 
 
 
@@ -27,18 +28,18 @@ Route::group(['middleware' => 'agent'], function () {
 });
 
 Route::group(['middleware' => 'employee'], function () {
-Route::post('/absences/create','AbsenceController@create')->name('admin.absences.create');
-Route::post('/absences/create2','AbsenceController@create2')->name('admin.absences.create2');
+Route::post('/absences/create','DemandeAbsenceController@create')->name('admin.absences.create');
+Route::post('/absences/create2','DemandeAbsenceController@create2')->name('admin.absences.create2');
 
 
 });
 
 Route::group(['middleware' => 'adminoremployee'], function () {
 
-    Route::get('/absences','AbsenceController@index')->name('admin.absences.index');
-    Route::get('/absences/search','AbsenceController@search')->name('admin.absences.search');
-    Route::get('/absences/display','AbsenceController@display')->name('admin.absences.display');
-    Route::post('/absences/update','AbsenceController@update')->name('admin.absences.update');
+    Route::get('/absences','DemandeAbsenceController@index')->name('admin.absences.index');
+    Route::get('/absences/search','DemandesAbsenceController@search')->name('admin.absences.search');
+    Route::get('/absences/display','DemandeAbsenceController@display')->name('admin.absences.display');
+    Route::post('/absences/update','DemandeAbsenceController@update')->name('admin.absences.update');
 
 
     Route::post('/absences/historique/edit','AbsencesjustifieeController@edit')->name('admin.absencesjustifiees.edit');
@@ -62,6 +63,13 @@ Route::group(['middleware' => 'adminoremployee'], function () {
     Route::post('/conge/update','CongeController@update')->name('admin.conge.update');
     Route::get('/conge/recherche','CongeController@search')->name('admin.conge.search');
     Route::get('/conge/display2','CongeController@display2')->name('admin.conge.display2');
+
+    Route::get('/sanctions','SanctionController@index')->name('admin.sanctions.index');
+    Route::post('/sanctions/create','SanctionController@create')->name('admin.sanctions.create');
+    Route::post('/sanctions/edit','SanctionController@edit')->name('admin.sanctions.edit');
+    Route::post('/sanctions/update','SanctionController@update')->name('admin.sanctions.update');
+    Route::get('/sanctions/recherche','SanctionController@search')->name('admin.sanctions.search');
+    Route::get('/sanctions/display','SanctionController@display')->name('admin.sanctions.display2');
 
 
 

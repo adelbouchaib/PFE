@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Presence;
-use App\Models\Absence;
+use App\Models\DemandeAbsence;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -25,34 +25,24 @@ class PresenceController extends Controller
         {
             $presences = Presence::join('users', 'presences.matricule', '=', 'users.matricule')
             ->where('start_time','!=',"00:00:00")
+            ->where('start_time','<',"09:00:00")
             ->orderBy('presences.id', 'DESC')
             ->get();
         }
         else{
             $presences = User::join('presences', 'users.matricule', '=', 'presences.matricule')
             ->where('start_time','!=',"00:00:00")
+            ->where('start_time','<',"09:00:00")
             ->where('users.matricule','=',Auth::User()->matricule)
             ->orderBy('presences.id', 'DESC')
             ->get();
         }
 
-        $users = User::all();
-        foreach($users as $user)
-        {
-            $counter = User::join('presences', 'users.matricule', '=', 'presences.matricule')
-            ->where('start_time','!=',"00:00:00")
-            ->where('users.matricule','=',$user->matricule)
-            ->orderBy('presences.id', 'DESC')
-            ->count();
-
-            $user->join('presences', 'users.matricule', '=', 'presences.matricule')
-            ->get();
-        }
-
+       
         
        
         
-        return view('admin.presence.index',compact('presences','counter','user'));
+        return view('admin.presence.index',compact('presences'));
     }
 
     public function search(Request $request)

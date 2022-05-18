@@ -13,14 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('absencesjustifiees', function (Blueprint $table) {
+        Schema::create('type_sanctions', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('presence_id');
-            $table->boolean('etat')->default(0);
-            $table->string('motif');
-            $table->date('date');
-            $table->string('justification');
+            $table->string('titre');
             $table->timestamps();
         });
     }
@@ -32,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('absences_justifiees');
+        Schema::dropIfExists('type_sanctions');
     }
 };

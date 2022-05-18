@@ -29,7 +29,6 @@ Présence
                         </tr>
                     </thead>
                     <tbody>
-                        {{ $user->counter }}
                         
                         @foreach($presences as $presence)
                                 <tr>
