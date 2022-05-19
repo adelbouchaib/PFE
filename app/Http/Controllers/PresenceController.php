@@ -4,10 +4,6 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 
 use App\Models\Presence;
-<<<<<<< HEAD
-=======
-use App\Models\DemandeAbsence;
->>>>>>> 88bddf8adac36768e0c832b7db6f4b84dbfb76f2
 use App\Models\User;
 
 use Illuminate\Http\Request;
@@ -30,34 +26,21 @@ class PresenceController extends Controller
         {
             $presences = Presence::join('users', 'presences.matricule', '=', 'users.matricule')
             ->where('start_time','!=',"00:00:00")
-<<<<<<< HEAD
             ->where('start_time','<=',"09:00:00")
             ->where('end_time','>=',"15:00:00")
-=======
-            ->where('start_time','<',"09:00:00")
->>>>>>> 88bddf8adac36768e0c832b7db6f4b84dbfb76f2
             ->orderBy('presences.id', 'DESC')
             ->get();
         }
         else{
             $presences = User::join('presences', 'users.matricule', '=', 'presences.matricule')
             ->where('start_time','!=',"00:00:00")
-<<<<<<< HEAD
             ->where('start_time','<=',"09:00:00")
             ->where('end_time','>=',"15:00:00")
-=======
-            ->where('start_time','<',"09:00:00")
->>>>>>> 88bddf8adac36768e0c832b7db6f4b84dbfb76f2
             ->where('users.matricule','=',Auth::User()->matricule)
             ->orderBy('presences.id', 'DESC')
             ->get();
         }
 
-<<<<<<< HEAD
-=======
-       
-        
->>>>>>> 88bddf8adac36768e0c832b7db6f4b84dbfb76f2
        
         
         return view('admin.presence.index',compact('presences'));

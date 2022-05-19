@@ -13,13 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-<<<<<<< HEAD
 Route::get('/calculate','TestController@calculate')->name('test.calculate');
 Route::get('/test','TestController@index')->name('test.index');
 
-=======
-Route::get('/test','TestController@index')->name('test.index');
->>>>>>> 88bddf8adac36768e0c832b7db6f4b84dbfb76f2
 
 
 

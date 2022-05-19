@@ -53,11 +53,7 @@ class User extends Authenticatable
 
     public function demandeabsence()
     {
-<<<<<<< HEAD
         return $this->hasMany('App\Models\Demandeabsence','user_id');
-=======
-        return $this->hasMany('App\Models\DemandeAbsence','user_id');
->>>>>>> 88bddf8adac36768e0c832b7db6f4b84dbfb76f2
     }
 
 
