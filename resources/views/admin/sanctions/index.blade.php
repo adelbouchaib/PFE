@@ -29,7 +29,17 @@ Présence
 
             <div class="form-group">
                 <label>Type de sanction</label>
-                <select name="type" class="form-control" id="var1" >
+                <select name="id" class="form-control" id="id" >
+                    @foreach($users as $user)
+                     <option   value="{{ $user->id }}"> {{ $user->matricule }} {{ $user->prenom }} {{ $user->nom }}</option>
+                    @endforeach
+                </select>
+                </div>
+
+
+            <div class="form-group">
+                <label>Type de sanction</label>
+                <select name="type" class="form-control" id="type" >
                     @foreach($types as $type)
                      <option   value="{{ $type->id }}"> {{ $type->titre }} </option>
                     @endforeach
@@ -56,10 +66,7 @@ Présence
         </div>
 
 
-        <div class="form-group">
-                                                
-            <input type="file" class="fileimage" id="image"  name="image" /> 
-        </div>
+        
         </div>
 
      
@@ -89,7 +96,7 @@ Présence
         <div class="modal-body">
 
            
-            <input type="hidden" id="id"  name="id"/>
+            <input type="hidden" id="id_update"  name="id_update"/>
 
          <div class="modall-body">
                 
@@ -210,7 +217,7 @@ $(document).ready(function(){
            e.preventDefault();
            var formData =  new FormData(this);
 
-           console.log(formData.motif);
+           console.log();
 
 
            $.ajax({
@@ -246,7 +253,7 @@ $(document).ready(function(){
                 $('.modall-body').html("");
 
                 var userID = $(this).attr('id');
-                var id = $('#id').val(userID);
+                var id = $('#id_update').val(userID);
 
                 console.log(userID);
                
@@ -255,7 +262,7 @@ $(document).ready(function(){
                     url:"/sanctions/display",
                     dataType: "json",
                     data:{
-                            id:userID,
+                        id_update:userID,
                     },
                     cache: false,
                     

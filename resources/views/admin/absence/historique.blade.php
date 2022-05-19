@@ -42,35 +42,30 @@ Absences
 
                                     @if ($presence->presence_id == $presence->id)
                                     <td><span class="badge bg-success bg-opacity-20 text-success" style="min-width: 60px;">Justifiée</span></td>
-                                    @if ($presence->etat == 0)
-                                    <td><span class="badge bg-warning bg-opacity-20 text-warning" style="min-width: 60px;">En attente</span></td>
-                                    @elseif($presence->etat == 1)
-                                    <td><span class="badge bg-success bg-opacity-20 text-success" style="min-width: 60px;">Accepté</span></td>
-                                    @elseif($presence->etat == 2)
-                                    <td><span class="badge bg-danger bg-opacity-20 text-danger" style="min-width: 60px;">Refusé</span></td>
-                                    @endif
+                                        @if ($presence->etat == 0)
+                                        <td><span class="badge bg-warning bg-opacity-20 text-warning" style="min-width: 60px;">En attente</span></td>
+                                        @elseif($presence->etat == 1)
+                                        <td><span class="badge bg-success bg-opacity-20 text-success" style="min-width: 60px;">Accepté</span></td>
+                                        @elseif($presence->etat == 2)
+                                        <td><span class="badge bg-danger bg-opacity-20 text-danger" style="min-width: 60px;">Refusé</span></td>
+                                        @endif
                                     @else
-                                    <td><span class="badge bg-danger bg-opacity-20 text-danger" style="min-width: 60px;">Non justifiée</span></td>
-                                    @can('index', \App\Dashboard::class)
-                                    <td> </td>
-                                        <td>
-                                        <button type="submit" id3="{{ $presence->id }}" class="btn btn-warning btn-edit-absence"><i class="fa-solid fa-pencil"></i></a>
-                                        </td>
-                                    @endcan
+                                        <td><span class="badge bg-danger bg-opacity-20 text-danger" style="min-width: 60px;">Non justifiée</span></td>
+                                        @can('index', \App\Dashboard::class)
+                                        <td> </td>
+                                            <td>
+                                            <button type="submit" id3="{{ $presence->id }}" class="btn btn-warning btn-edit-absence"><i class="fa-solid fa-pencil"></i></a>
+                                            </td>
+                                        @endcan
                                     @endif
 
                                    
                                     @if ($presence->presence_id != $presence->id)
-<<<<<<< HEAD
                                     @can('create', \App\Absence::class)
                                     @php
                                     $todaydate = \Carbon\Carbon::createFromFormat('Y-m-d',$presence->date);
                                     @endphp
                                         @if (\Carbon\Carbon::now()->lte($todaydate->addDays(3)))
-=======
-                                    {{-- @can('create', \App\Absence::class) --}}
-                                        @if ($today->lte($presence->created_at->addDays(3)) )
->>>>>>> 88bddf8adac36768e0c832b7db6f4b84dbfb76f2
                                         <td> </td>
                                         <td>
                                         <button type="submit" id="{{ $presence->id }}" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a>
@@ -78,7 +73,7 @@ Absences
                                         @else
                                         <td>délai dépassé </td>
                                         @endif
-                                    {{-- @endcan --}}
+                                    @endcan
                                     @else
 
                                     {{-- @if ($presence->etat == 0) --}}

@@ -43,14 +43,10 @@ class SanctionController extends Controller
 
         // $this->authorize('create',Sanction::class);
 
-        
-       $name = $request->file('image')->getClientOriginalName();
-       $request->file('image')->storeAs('public/images',$name);
 
        $sanction = new Sanction();
-       $sanction->user_id = Auth::user()->id;
+       $sanction->user_id = $request->id;
        $sanction->motif = $request->motif; 
-       $sanction->justification = $name;
         $sanction->start = $request->start;
         $sanction->finish = $request->finish;
         $sanction->type_id = $request->type;
@@ -65,7 +61,7 @@ class SanctionController extends Controller
     
     public function display(Request $request){
 
-        $search_text = $request->id;
+        $search_text = $request->id_update;
         $first = Sanction::where('id','=',$search_text)        
         ->first();
 
@@ -94,7 +90,7 @@ class SanctionController extends Controller
         //  $this->validate($request,[
         // ]);
 
-        $id = $request->id;
+        $id = $request->id_update;
         $sanction = Sanction::find($id);
 
                 $sanction->type_id = $request->type_update;
