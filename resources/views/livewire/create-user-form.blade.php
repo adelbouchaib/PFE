@@ -166,26 +166,14 @@
                             </div>
 
                             <div class="row">
-                            <div class="form-group col-sm">
-                                <label for="password">Groupe</label>
-                                <select class="form-control" id="groupe" name="groupe" wire:model.lazy="groupe">
-                                    <option value="" style="display: none;">Selectionner le groupe</option>
-                                    <option value="A">A</option>
-                                    <option value="B">B</option>
-                                    <option value="C">C</option>
-                                    <option value="D">D</option>
-                                </select>
-                                @error('groupe') <span class="text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
-
-                            </div>
-
-                            <div class="form-group col-sm">
-                                <label for="categorie">Categorie</label>
-                                <input type="text" name="categorie" id="categorie" class="form-control" wire:model.lazy="categorie">
-                                @error('categorie') <span class="text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
-
-                            </div>
-
+                                <div class="form-group col-sm">
+                                    <label for="echelle">Echelle</label>
+                                    <input type="number" name="echelle" id="echelle" class="form-control" wire:model.lazy="echelle">
+                                    @error('echelle') <span class="text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
+    
+                                </div>
+      
+                            
                             <div class="form-group col-sm">
                                 <label for="echelon">Echelon</label>
                                 <input type="number" name="echelon" id="echelon" class="form-control" wire:model.lazy="echelon">

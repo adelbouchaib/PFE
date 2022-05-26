@@ -18,7 +18,7 @@ class UserForm extends Component
 
     public $situation_conjoint_update, $nbr_enfant_update,  $type_contrat_update, $date_recrutement_update, $fin_contrat_update, $fonction_update;
 
-    public $groupe_update, $categorie_update,  $echelon_update, $num_securite_social_update, $num_compte_update, $branche_update, $direction_id_update, $role_update;
+    public $echelle_update, $echelon_update, $num_securite_social_update, $num_compte_update, $branche_update, $direction_id_update, $role_update;
 
     
     public $currentPage_update = 1;
@@ -30,7 +30,7 @@ class UserForm extends Component
 
     public $situation_conjoint, $nbr_enfant,  $type_contrat, $date_recrutement, $fin_contrat, $fonction;
 
-    public $groupe, $categorie,  $echelon, $num_securite_social, $num_compte, $branche, $direction_id, $role;
+    public $echelle,  $echelon, $num_securite_social, $num_compte, $branche, $direction_id, $role;
 
 
     public $currentPage = 1;
@@ -73,8 +73,7 @@ class UserForm extends Component
             'role_update' => ['required'],
             'direction_id_update' => ['required'],
             'fonction_update' => ['required'],
-            'groupe_update' => ['required'],
-            'categorie_update' => ['required'],
+            'echelle_update' => ['required'],
             'echelon_update' => ['required'],
 
 
@@ -113,8 +112,7 @@ class UserForm extends Component
             'role' => ['required'],
             'direction_id' => ['required'],
             'fonction' => ['required'],
-            'groupe' => ['required'],
-            'categorie' => ['required'],
+            'echelle' => ['required'],
             'echelon' => ['required'],
 
 
@@ -227,8 +225,7 @@ class UserForm extends Component
         $this->debut_contrat = '';
         $this->fin_contrat = '';
         $this->fonction ='';
-        $this->categorie = '';
-        $this->groupe = '';
+        $this->echelle = '';
         $this->echelon = '';
         $this->num_telephone ='';
         $this->num_securite_social = '';
@@ -280,9 +277,8 @@ class UserForm extends Component
             $this->debut_contrat_update = $user->debut_contrat;
             $this->fin_contrat_update = $user->fin_contrat;
             $this->fonction_update = $user->fonction;
-            $this->categorie_update = $user->categorie;
-            $this->groupe_update = $user->groupe;
             $this->echelon_update = $user->echelon;
+            $this->echelle_update = $user->echelle;
             $this->num_telephone_update = $user->num_telephone;
             $this->num_securite_social_update = $user->num_securite_social;
             $this->num_compte_update = $user->num_compte;
@@ -334,8 +330,7 @@ class UserForm extends Component
             'debut_contrat' => $this->debut_contrat_update,
             'fin_contrat' => $this->fin_contrat_update,
             'fonction' => $this->fonction_update,
-            'categorie' => $this->categorie_update,
-            'groupe' => $this->groupe_update,
+            'echelle' => $this->echelle_update,
             'echelon' => $this->echelon_update,
             'num_telephone' => $this->num_telephone_update,
             'num_securite_social' => $this->num_securite_social_update,
@@ -385,8 +380,7 @@ class UserForm extends Component
             'debut_contrat' => $this->debut_contrat,
             'fin_contrat' => $this->fin_contrat,
             'fonction' => $this->fonction,
-            'categorie' => $this->categorie,
-            'groupe' => $this->groupe,
+            'echelle' => $this->echelle,
             'echelon' => $this->echelon,
             'num_telephone' => $this->num_telephone,
             'num_securite_social' => $this->num_securite_social,

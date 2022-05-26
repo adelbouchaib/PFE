@@ -41,7 +41,7 @@ class DemandeabsenceController extends Controller
     
     public function  create(Request $request){
 
-        $this->authorize('create',DemandeAbsence::class);
+        $this->authorize('create',Absence::class);
 
         
        $name = $request->file('image')->getClientOriginalName();

@@ -71,7 +71,7 @@ Absences
                                         <button type="submit" id="{{ $presence->id }}" class="btn btn-primary btn-add-user"><i class="fa-solid fa-plus"></i></a>
                                         </td>
                                         @else
-                                        <td>délai dépassé </td>
+                                        <td><span class="badge bg-danger bg-opacity-20 text-danger" style="min-width: 60px;">Délai dépassé</span></td>
                                         @endif
                                     @endcan
                                     @else

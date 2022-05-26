@@ -36,8 +36,7 @@ return new class extends Migration
             $table->string('num_compte');
 
             $table->string('fonction');
-            $table->char('groupe');
-            $table->string('categorie');
+            $table->integer('echelle');
             $table->integer('echelon');
 
             $table->integer('type_contrat');

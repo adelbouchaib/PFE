@@ -27,51 +27,65 @@ class TypeCongeSeeder extends Seeder
 
         
         TypeConge::insert([
-            'titre' => "Congé annuel"
+            'titre' => "Congé annuel",
+            'remuneration' =>'1'
         ]);
         TypeConge::insert([
-            'titre' => "Congé de maternite"
+            'titre' => "Congé de maternite",
+            'remuneration' =>'1'
         ]);
         TypeConge::insert([
-            'titre' => "Congé familial"
+            'titre' => "Congé familial",
+            'remuneration' =>'1'
         ]);
         TypeConge::insert([
-            'titre' => "Congé de recuperation"
+            'titre' => "Congé de recuperation",
+            'remuneration' =>'1'
         ]);
         TypeConge::insert([
-            'titre' => "Congé sans solde"
+            'titre' => "Congé sans solde",
+            'remuneration' =>'0'
         ]);
         TypeConge::insert([
-            'titre' => "Congé speciale remunérée"
+            'titre' => "Congé speciale remunérée",
+            'remuneration' =>'1'
         ]);
 
         TypeConge::insert([
-            'titre' => "Congé maladie"
+            'titre' => "Congé maladie",
+            'remuneration' =>'1'
         ]);
 
         TypeConge::insert([
-            'titre' => "Congé accident de travail"
+            'titre' => "Congé accident de travail",
+            'remuneration' =>'1'
         ]);
 
         TypeAbsence::insert([
-            'titre' => "Absence spéciale non rémunérée"
+            'titre' => "Absence spéciale non rémunérée",
+            'remuneration' =>'0'
         ]);
         TypeAbsence::insert([
-            'titre' => "Absence spéciale rémunérée"
+            'titre' => "Absence spéciale rémunérée",
+            'remuneration' =>'1'
         ]);
         TypeAbsence::insert([
-            'titre' => "Délai de route"
+            'titre' => "Délai de route",
+            'remuneration' =>'1'
         ]);
 
 
             TypeSanction::insert([
-                'titre' => "Sanction disciplinaire"
+                'titre' => "Sanction disciplinaire",
+                'remuneration' =>'0'
             ]);
             TypeSanction::insert([
-                'titre' => "Mise en disponibilite"
+                'titre' => "Mise en disponibilite",
+                'remuneration' =>'0'
             ]);
             TypeSanction::insert([
-                'titre' => "Détachement sans solde"
+                'titre' => "Détachement sans solde",
+                'remuneration' =>'0'
             ]);
 
           

@@ -10,7 +10,12 @@ use Rap2hpoutre\FastExcel\FastExcel;
 
 use Carbon\Carbon;
 use App\Models\Presence;
-use App\Models\Absence;
+use App\Models\DemandeAbsence;
+use App\Models\Conge;
+use App\Models\Sanction;
+use App\Models\TypeConge;
+use App\Models\TypeAbsence;
+use App\Models\TypeSanction;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Auth;
@@ -134,10 +139,11 @@ public function calculate(Request $request)
 
 
 
-        $congesnon = User::join('conges', 'users.id', '=', 'conges.user_id')
+        $congesnon = Conge::join('users', 'conges.user_id', '=', 'users.id')
+        ->join('type_conges', 'conges.type_id', '=', 'type_conges.id')
         ->where('users.matricule','=',$user->matricule)
-        ->where('etat','=','1')
-        ->where('type_id','=','1')
+        ->where('conges.etat','=','1')
+        ->where('type_conges.remuneration','=','0')
         ->get();
 
         $counter5 = 0;
@@ -173,6 +179,9 @@ public function calculate(Request $request)
         {
             $start = \Carbon\Carbon::createFromFormat('Y-m-d',$projet->start);
             $finish = \Carbon\Carbon::createFromFormat('Y-m-d',$projet->finish);
+            
+            $start_update = $start;
+            $finish_update = $finish;
 
             if($start < $startDate){
                 $start_update = \Carbon\Carbon::createFromFormat('Y-m-d',$startDate);
@@ -188,9 +197,32 @@ public function calculate(Request $request)
         }
 
 
+        
+        $absencesnonr = Demandeabsence::join('users', 'demandeabsences.user_id', '=', 'users.id')
+        ->join('type_absences', 'demandeabsences.type_id', '=', 'type_absences.id')
+        ->where('users.matricule','=',$user->matricule)
+        ->where('demandeabsences.etat','=','1')
+        ->where('type_absences.remuneration','=','1')
+        ->get();
 
+        $counter6 = 0;
+        $i = 0;
+        foreach($absencesnonr as $absencenonr)
+        {
+            $start = \Carbon\Carbon::createFromFormat('Y-m-d',$absencenonr->start);
+            $finish = \Carbon\Carbon::createFromFormat('Y-m-d',$absencenonr->finish);
 
-        $list[]=['matricule'=> $user->matricule, 'absences non justifié'=> $absencesnonj, 'conge non rumunéré'=> $counter5,'prime'=> $prime];
+            if($start < $startDate){
+                $start = \Carbon\Carbon::createFromFormat('Y-m-d',$startDate);
+            }
+            if($finish > $endDate){
+                $finish = \Carbon\Carbon::createFromFormat('Y-m-d',$endDate);
+            }
+            $j= $start->diffInDays($finish)+1;
+            $counter6= $i + $j;
+        }
+
+        $list[]=['Date debut'=>$startDate, 'Date fin'=>$endDate,''=>'','matricule'=> $user->matricule, ' '=>' ', 'absences (non justifié + justifié non accepté)'=> $absencesnonj, 'conge non rumunéré'=> $counter5, 'absence non rumunéré'=> $counter6,'prime'=> $prime];
 
     }
 

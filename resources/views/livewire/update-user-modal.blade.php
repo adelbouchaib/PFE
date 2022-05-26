@@ -165,25 +165,13 @@
                             </div>
 
                             <div class="row">
-                            <div class="form-group col-sm">
-                                <label for="password">Groupe</label>
-                                <select class="form-control" id="groupe" wire:model.lazy="groupe_update">
-                                    <option value="" style="display: none;">Selectionner le groupe</option>
-                                    <option value="A">A</option>
-                                    <option value="B">B</option>
-                                    <option value="C">C</option>
-                                    <option value="D">D</option>
-                                </select>
-                                @error('groupe_update') <span class="text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
-
-                            </div>
-
-                            <div class="form-group col-sm">
-                                <label for="categorie">Categorie</label>
-                                <input type="text" class="form-control" wire:model.lazy="categorie_update">
-                                @error('categorie_update') <span class="text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
-
-                            </div>
+                           
+                                <div class="form-group col-sm">
+                                    <label for="echelle">Echelle</label>
+                                    <input type="number" class="form-control" wire:model.lazy="echelle_update">
+                                    @error('echelle_update') <span class="text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
+    
+                                </div>
 
                             <div class="form-group col-sm">
                                 <label for="echelon">Echelon</label>

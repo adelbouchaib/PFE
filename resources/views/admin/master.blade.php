@@ -134,6 +134,13 @@
                         <span class="menu-text">Absences</span>
                         </a>
                     </div>
+
+                    <div class="menu-item">
+                        <a href="{{ route('admin.sanctions.index') }}" class="menu-link">
+                        <span class="menu-icon"><i class="fa-solid fa-clock"></i></span>
+                        <span class="menu-text">Sanctions</span>
+                        </a>
+                    </div>
                    
          
                     <div class="menu-item">

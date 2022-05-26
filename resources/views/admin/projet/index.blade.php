@@ -10,10 +10,13 @@ Projets
     Projets
     </h1>
     </div>
+    @can('index', \App\Dashboard::class)
     <div class="ms-auto">
     <a href="#"  class="btn btn-primary btn-add-user"><i class="fa fa-plus-circle me-1"></i> Ajouter un projet</a>
     </div>
+    @endcan
     </div>
+
     
 
     
@@ -49,12 +52,14 @@ Projets
                        $t++;   
                        @endphp
                               
-                      ({{ $project->count() }})</span>
+                      {{-- ({{ $project->count() }}) --}}
+                    </span>
                       @if($t == 3)
                       <div><a href="{{ route('admin.projet.historique') }}" class="d-flex align-items-center text-decoration-none">View all <i class="fa fa-chevron-right ms-2 text-opacity-50"></i></a></div>
                       @endif
                   </div>
               @foreach ($project as $projet)
+              @if($projet->user_id2 == Auth::User()->id)
               <div class="list-group list-group-flush">
               <div class="list-group-item d-flex px-3">
                   <div class="me-3">
@@ -62,11 +67,10 @@ Projets
                   </div>
                   <div class="flex-fill">
                       <div class="fw-600">{{  $projet->title  }} 
-      
+                        @if($projet->user_id == Auth::User()->id)
                         <a href="#" projet-id="{{ $projet->id }}"  style="float:right" class="text-muted text-decoration-none fs-12px me-3 btn-edit-projet">
                             <i class="fa fa-fw fa-edit"></i></a>
-
-
+                        @endif
                       </div>
                       <div class="fs-13px text-muted mb-2">{{ $projet->prenom }} {{ $projet->nom }}</div>
                       <div> 
@@ -84,7 +88,6 @@ Projets
                           @elseif($projet->finish < $todayDate && $projet->finish > $Date)
                           {{-- si la date de fin du projet reste 7 jrs --}}
                           <td><span class="badge bg-success bg-opacity-20 text-success" style="min-width: 60px;">{{ $projet->finish }}</span></td>
-                          </div>
                           @else
                           {{ $projet->finish }}
                           @endif
@@ -128,6 +131,8 @@ Projets
                           <div class="form-group mb-0 pb-1 fs-13px">
                               <div class="collapse hide" id="todoBoard-{{ $i }}">
                                  
+                                @if($projet->user_id == Auth::User()->id)
+
                                       <form method="post" action="{{ url('/projet/task/create') }}" accept-charset="utf-8">
                                           @csrf
                                           <div style="display: flex">
@@ -137,6 +142,7 @@ Projets
                                       <button type="submit" style="display:inline; margin-left:5px;" class="btn btn-primary btn-sm">Ajouter</button>
                                   </div>
                                       </form>
+                                @endif
                                   
                                   @php
               $i++;
@@ -148,35 +154,42 @@ Projets
                           @foreach ($tasks as $task)
                           @if($task->projet_id == $projet->id)
                           <table>
-                              <tr>
+                    <tr>
                           <td>
                           <form method="post" action="{{ url('/projet/task') }}" accept-charset="utf-8">
                               @csrf
                               
+                              @if($projet->user_id == Auth::User()->id)
                               <input type="checkbox" class="form-check-input" name="status" onclick="this.form.submit()"
                              {{ $task->status ? 'checked' : ''}}>
+                             @else
+
+                             <input type="checkbox" class="form-check-input" name="status" onclick="return false;"
+                             {{ $task->status ? 'checked' : ''}}>
+
+                             @endif
                               
                               <input type="hidden" name="id" value="{{ $task->id }}">
                               <input type="hidden" name="projet_id" value="{{ $task->projet_id }}">
                           </form>
                           
                           {{ $task->title }}
-                      </td>
-                      <td>
-                          <form method="post" action="{{ url('/projet/task/delete') }}" accept-charset="utf-8">
-                              @csrf
-                              <input type="hidden" name="id" value="{{ $task->id }}">
-                              <input type="hidden" name="projet_id" value="{{ $task->projet_id }}">
-      
-              
-                              <button type="submit" class="btn btn-link btn-sm float-end">
-                                  <i class="fa text-muted fa-fw fa-trash"></i></button>
+                             </td>
 
+                            @if($projet->user_id == Auth::User()->id)
+                            <td>
+                                <form method="post" action="{{ url('/projet/task/delete') }}" accept-charset="utf-8">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $task->id }}">
+                                    <input type="hidden" name="projet_id" value="{{ $task->projet_id }}">         
+                                    <button type="submit" class="btn btn-link btn-sm float-end">
+                                        <i class="fa text-muted fa-fw fa-trash"></i></button>
+                                </form>
+                            </td>
+                            @endif
 
-                            
-                          </form>
-                      </td>
                       </tr>
+                      
                           </table>
                          
                           @endif
@@ -190,6 +203,7 @@ Projets
                   </div>
               </div>
       
+              @endif
          @endforeach  
       
       </div>

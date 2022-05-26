@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('type_conges', function (Blueprint $table) {
             $table->id();
             $table->string('titre');
+            $table->boolean('remuneration');
             $table->timestamps();
         });
     }

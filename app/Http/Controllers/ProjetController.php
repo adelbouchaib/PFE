@@ -27,11 +27,15 @@ class ProjetController extends Controller
     {
        $allusers = User::all();
 
-       $projetstodo = User::join('projets', 'users.id', '=', 'projets.user_id')
+       $projetstodo = Projet::join('projet_user', 'projets.id', '=', 'projet_user.projet_id')
+       ->join('users', 'projets.user_id', '=', 'users.id')
+       ->select('users.prenom','users.nom','projets.*','projet_user.user_id as user_id2')
        ->where('status','=','0')
        ->get();
 
-       $projetsinprogress = User::join('projets', 'users.id', '=', 'projets.user_id')
+       $projetsinprogress =  Projet::join('projet_user', 'projets.id', '=', 'projet_user.projet_id')
+       ->join('users', 'projets.user_id', '=', 'users.id')
+       ->select('users.prenom','users.nom','projets.*','projet_user.user_id as user_id2')
        ->where('status','=','1')
        ->get();
 
@@ -39,19 +43,12 @@ class ProjetController extends Controller
        $Date = Carbon::createFromFormat('Y-m-d', $todayDate);
        $Date->subDays(7);
 
-       $projetsdeadline = User::join('projets', 'users.id', '=', 'projets.user_id')
-       ->whereBetween('finish', [$Date,$todayDate] )
-       ->where('status','!=','2')
-       ->get();
-
-       $projetsoutdeadline = User::join('projets', 'users.id', '=', 'projets.user_id')
-       ->where('finish', '>',$todayDate )
-       ->where('status','!=','2')
-       ->get();
 
 
 
-       $projetsdone = User::join('projets', 'users.id', '=', 'projets.user_id')
+       $projetsdone =  Projet::join('projet_user', 'projets.id', '=', 'projet_user.projet_id')
+       ->join('users', 'projets.user_id', '=', 'users.id')
+       ->select('users.prenom','users.nom','projets.*','projet_user.user_id as user_id2')
        ->where('status','=','2')
        ->paginate(5);
 
