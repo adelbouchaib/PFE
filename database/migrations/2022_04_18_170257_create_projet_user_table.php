@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('projet_id')->constrained();
             $table->foreignId('user_id')->constrained();
+            $table->integer('prime');
             $table->timestamps();
         });
     }

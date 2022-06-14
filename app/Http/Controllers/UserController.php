@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Direction;
 use App\Models\Branche;
+use App\Models\Presence;
+
 
 use App\Helpers\helper;
 

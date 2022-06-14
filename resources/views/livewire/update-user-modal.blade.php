@@ -2,21 +2,20 @@
 
                                     <!-- The Modal -->
             <div wire:ignore.self class="modal fade in" id="modalEditUser">
-
+               
               <div class="modal-dialog">
+                
+
                 <div class="modal-content">
+                    @if ($success)
+                <div class="text-sm bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <span class="block sm:inline">{{ $success }}</span>
+                </div>
+            @endif
                   <form wire:submit.prevent="updateUser">
                     @csrf
                       <!-- Modal Header -->
                       <div class="modal-header">
-                        @if ($success_update)
-                        @if($currentPage_update === 1)
-                            <div class="text-sm bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-                                <span class="block sm:inline">{{ $success_update }}</span>
-                            </div>
-                            @endif
-                        @endif
-
                         <div class="px-4 sm:px-0">
                           <h3 class="text-lg font-medium leading-6 text-gray-900">{{ $pages[$currentPage_update]['heading'] }}</h3>
                         </div>
@@ -121,7 +120,7 @@
                                         <label for="password">Role</label>
                                         <select class="form-control" id="role"wire:model.lazy="role_update">
                                             <option value="" style="display: none;">Selectionner le role</option>
-                                            <option value="0">Admin</option>
+                                            <option value="0">Responsable du personnel</option>
                                             <option value="1">Employé</option>
                                             <option value="2">Agent</option>
                                         </select>
@@ -130,8 +129,9 @@
                                     </div>
 
                             
-                                            
-                            <div class="form-group"> 
+                                    <div class="row">
+                 
+                            <div class="form-group col-sm"> 
                                 <label for="password">Branche</label>
                                 <select class="form-control" id="var1" wire:model="branche_update">
                                     <option value="" hidden>Selectionner la branche</option>
@@ -143,7 +143,7 @@
                             </div>
                     
                     
-                            <div class="form-group"> 
+                            <div class="form-group col-sm"> 
                                 <label for="direction_id">Direction</label>
                                 <select class="form-control" id="var2" wire:model="direction_id_update">
                                     <option value="" hidden>Selectionner la direction</option>
@@ -154,18 +154,62 @@
                                 @error('direction_id_update') <span class="text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
 
                             </div>
+                      </div>
 
+                      <div class="form-group col-sm"> 
+                        <label for="base_update">Base</label>
+                        <select class="form-control" wire:model="base_update">
+                            <option value="" hidden>Selectionner la base</option>
+                            <option value="0"> 20 Août 1955 BP 206 / 207Hassi-Messaoud </option>
+                            <option value="1"> 19 December 1960  </option>
+                            <option value="2"> Birkhadem -Alger </option>
+                            <option value="3"> Logistique Hassi-Messaoud </option>
+                            <option value="4"> In Aménas </option>
+                            <option value="5"> T32 Hassi-Messaoud </option>
+                        </select>
+                        @error('base_update') <span class="text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
 
+                    </div>
 
-                            <div class="form-group">
+                            <div class="row">
+
+                                <div class="form-group col-sm"> 
+                                    <label for="position_update">Position</label>
+                                    <select class="form-control" id="var3" wire:model="position_update">
+                                        <option value="" hidden>Selectionner la position</option>
+                                        <option value="0"> Exécutant </option>
+                                        <option value="1"> Maître </option>
+                                        <option value="2"> Cadre moyen </option>
+                                        <option value="3"> Cadre supérieur </option>
+                                        <option value="4"> Cadre de régions </option>
+                                        <option value="5"> PDG </option>
+                                    </select>
+                                    @error('position_update') <span class="text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
+    
+                                </div>
+
+                            <div class="form-group col-sm">
                                 <label for="fonction">Fonction</label>
                                 <input type="text" id="fonction" class="form-control" wire:model.lazy="fonction_update">
                                 @error('fonction_update') <span class="text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
 
                             </div>
 
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="experience_pro_update">Expérience professionnelle</label><br>
+                                <input type="number" class="form-control" style="width:80%; display:inline;" wire:model.lazy="experience_pro_update">
+                                <label> % </label>
+                                @error('experience_pro_update') <span class="text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
+
+                            </div>
+
                             <div class="row">
                            
+                               
+
                                 <div class="form-group col-sm">
                                     <label for="echelle">Echelle</label>
                                     <input type="number" class="form-control" wire:model.lazy="echelle_update">

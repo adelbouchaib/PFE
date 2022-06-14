@@ -85,9 +85,9 @@ class PresenceController extends Controller
     public function startWork(Request $request)
     {
 
-        $this->validate($request,[
-            'matricule'=>'required',
-        ]);
+        // $this->validate($request,[
+        //     'matricule'=>'required',
+        // ]);
 
         if(DB::table('users')->where('matricule', $request->matricule)->exists()){
             $todayDate = Carbon::now()->format('Y-m-d'); 
@@ -96,7 +96,7 @@ class PresenceController extends Controller
                     $presence = Presence::whereDate('date',$todayDate)->where('matricule',$request->matricule)->first();
                     $presence->start_time = Date('H:i:s');
                     $presence->save();
-                    return response()->json(['success' => true, 'created'=> true, 'msg' => 'Bonne journée']);
+                    return response()->json(['prenom' => Auth::User()->prenom, 'nom'=> Auth::User()->nom, 'msg' => 'Bonne journée']);
                 
                 }
                 else
@@ -104,9 +104,9 @@ class PresenceController extends Controller
                     $presence = Presence::whereDate('date',$todayDate)->where('matricule',$request->matricule)->first();
                     $presence->end_time = Date('H:i:s');
                     $presence->save();
-                    return response()->json(['success' => true, 'created'=> true, 'msg' => 'Au revoir']);
+                    return response()->json(['prenom' => Auth::User()->prenom, 'nom'=> Auth::User()->nom, 'msg' => 'Au revoir']);
                 }
-        }else  return response()->json(['success' => true, 'created'=> true, 'msg' => 'Qr code erroné']);
+        }else  return response()->json(['success' => true, 'created'=> true, 'msg' => 'Code QR erroné']);
 
 
 

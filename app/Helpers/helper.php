@@ -4,29 +4,21 @@
 namespace App\Helpers;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Direction;
 
 class Helper{
 
-    public static function matricule($direction, $date, $sexe){
+    public static function matricule($direction_id){
           
-        $annee=Carbon::createFromFormat('Y-m-d', $date)->format('Y');
-          $annee2 = substr($annee,strlen($annee)-2);
 
-          switch($direction)
-            {
-                  case 1:
-                      $direction = "DG";
-                      break;
-  
-            }
-
-          $mat= $direction .$annee2 .$sexe;
+          $direction = Direction::find($direction_id);
+          $mat= $direction->abrv;
 
           
         $data= User::orderBy('id','desc')->where('matricule','LIKE',$mat .'%')->first();
         if(!empty($data))
         {
-            $data2 = substr($data->matricule,strlen('DG22F'));
+            $data2 = substr($data->matricule,strlen('XXX'));
 
             $actial_last_number = ($data2/1)*1;
             

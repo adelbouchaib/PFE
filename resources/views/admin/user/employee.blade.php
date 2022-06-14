@@ -1,6 +1,6 @@
 @extends('admin.master')
 @section('title')
-User
+Employé
 @stop
 @section('content')
 <div id="responsiveTables" class="mb-5">
@@ -11,21 +11,23 @@ User
                     
                     <thead>
                         <tr>
-                            <th>First Name</th>
-                            <th>Last Name</th>
+                            <th>Matricule</th>
+                            <th>Fonction</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
                             <th>Email</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
+                            <th>Numéro de téléphone	</th>
                         </tr>
                     </thead>
                     <tbody>
                        
                         <tr>
-                            <td>{{$users2->first_name}}</td>
-                            <td>{{$users2->last_name}}</td>
+                            <td>{{$users2->matricule}}</td>
+                            <td>{{$users2->fonction}}</td>
+                            <td>{{$users2->prenom}}</td>
+                            <td>{{$users2->nom}}</td>
                             <td>{{$users2->email}}</td>
-                            <td>{{date('d-m-Y', strtotime($users2->start_date))}}</td>
-                            <td>{{date('d-m-Y', strtotime($users2->end_date))}}</td>
+                            <td>{{$users2->num_telephone}}</td>
                         </tr>
                      
                     </tbody>
@@ -45,9 +47,8 @@ User
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Name</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
+                            <th>Heure d'entrée</th>
+                            <th>Heure de sortie</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,7 +56,6 @@ User
                         @foreach($presences as $presence)
                                 <tr>
                                     <td>{{date('d-m-Y', strtotime($presence->date))}}</td>
-                                    <td>{{$presence->first_name}} {{$presence->last_name}}</td>
                                     <td>{{$presence->start_time}}</td>
                                     <td>{{$presence->end_time}}</td>
                                 </tr>

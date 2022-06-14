@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/calculate','TestController@calculate')->name('test.calculate');
 Route::get('/test','TestController@index')->name('test.index');
 
+Route::get('/profile','ProfileController@index')->name('profile.index');
+Route::post('/profile/edit','ProfileController@edit')->name('profile.edit');
+Route::post('/profile/update','ProfileController@update')->name('profile.update');
 
 
 
@@ -33,8 +36,6 @@ Route::group(['middleware' => 'agent'], function () {
 Route::group(['middleware' => 'employee'], function () {
 Route::post('/absences/create','DemandeAbsenceController@create')->name('admin.absences.create');
 Route::post('/absences/create2','DemandeAbsenceController@create2')->name('admin.absences.create2');
-
-
 });
 
 Route::group(['middleware' => 'adminoremployee'], function () {
@@ -53,9 +54,11 @@ Route::group(['middleware' => 'adminoremployee'], function () {
 
 
 
-
-
-
+    Route::post('/projet/update','ProjetController@update')->name('admin.projet.update');
+    Route::post('/projet/task','ProjetController@task')->name('admin.projet.task');
+    Route::post('/projet/edit','ProjetController@edit')->name('admin.projet.edit');
+    Route::post('/projet/task/create','TaskController@create')->name('admin.task.create');
+    Route::post('/projet/task/delete','TaskController@destroy')->name('admin.task.destroy');
 
 
     Route::get('/joursferies','VacanceController@index')->name('admin.vacance.index');
@@ -83,7 +86,6 @@ Route::group(['middleware' => 'adminoremployee'], function () {
 
     
     Route::get('/projet','ProjetController@index')->name('admin.projet.index');
-    Route::get('/projet/historique','ProjetController@historique')->name('admin.projet.historique');
 });
 
 
@@ -105,16 +107,25 @@ Route::group(['middleware' => 'admin'], function () {
  
 
     Route::post('/projet/create','ProjetController@create')->name('admin.projet.create');
-    Route::post('/projet/update','ProjetController@update')->name('admin.projet.update');
-    Route::post('/projet/task','ProjetController@task')->name('admin.projet.task');
-    Route::post('/projet/edit','ProjetController@edit')->name('admin.projet.edit');
-    Route::post('/projet/task/create','TaskController@create')->name('admin.task.create');
-    Route::post('/projet/task/delete','TaskController@destroy')->name('admin.task.destroy');
+    Route::post('/projet/delete','ProjetController@destroy')->name('admin.projet.destroy');
+
 
     Route::get('/directions','StructureController@direction')->name('admin.structure.direction');
     Route::post('/directions/store','StructureController@store')->name('admin.structure.store');
+
+    Route::post('/directions/edit','StructureController@editd')->name('admin.direction.edit');
+    Route::post('/directions/update','StructureController@updated')->name('admin.direction.update');
+    Route::post('/directions/delete','StructureController@destroyd')->name('admin.direction.delete');
+
+    Route::post('/branches/edit','StructureController@editb')->name('admin.branche.edit');
+    Route::post('/branches/update','StructureController@updateb')->name('admin.branche.update');
+    Route::post('/branches/delete','StructureController@destroyb')->name('admin.branche.delete');
+
+
+
     Route::get('/branches','StructureController@branche')->name('admin.structure.branche');
     Route::post('/branches/save','StructureController@save')->name('admin.structure.save');
+
 
 
 

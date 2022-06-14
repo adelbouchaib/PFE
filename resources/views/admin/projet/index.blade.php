@@ -26,6 +26,9 @@ Projets
     $t = 0;   
     $array = array($projetstodo,$projetsinprogress,$projetsdone);  
     @endphp
+
+  
+
     
   <div class="row">
       
@@ -52,14 +55,15 @@ Projets
                        $t++;   
                        @endphp
                               
-                      {{-- ({{ $project->count() }}) --}}
                     </span>
-                      @if($t == 3)
-                      <div><a href="{{ route('admin.projet.historique') }}" class="d-flex align-items-center text-decoration-none">View all <i class="fa fa-chevron-right ms-2 text-opacity-50"></i></a></div>
-                      @endif
+
                   </div>
+
+
+
               @foreach ($project as $projet)
-              @if($projet->user_id2 == Auth::User()->id)
+
+              {{-- @if($projet->user_id2 == Auth::User()->id || Auth::User()->role == 0 || $projet->user_id == Auth::User()->id) --}}
               <div class="list-group list-group-flush">
               <div class="list-group-item d-flex px-3">
                   <div class="me-3">
@@ -67,9 +71,20 @@ Projets
                   </div>
                   <div class="flex-fill">
                       <div class="fw-600">{{  $projet->title  }} 
-                        @if($projet->user_id == Auth::User()->id)
+                        
+                        @if($projet->user_id2 == Auth::User()->id || Auth::User()->role == 0)
+                           @if ( Auth::User()->role == 0)
+                           <form method="post" action="{{ url('/projet/delete') }}" accept-charset="utf-8">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $projet->id }}">
+                            <button type="submit"  style="float:right; border:none; background-color:white;" class="text-muted text-decoration-none fs-12px me-3 btn-delete-projet">
+                                <i class="fa text-muted fa-fw fa-trash"></i></button>
+                            </form>
+                           @endif
+
                         <a href="#" projet-id="{{ $projet->id }}"  style="float:right" class="text-muted text-decoration-none fs-12px me-3 btn-edit-projet">
                             <i class="fa fa-fw fa-edit"></i></a>
+                        
                         @endif
                       </div>
                       <div class="fs-13px text-muted mb-2">{{ $projet->prenom }} {{ $projet->nom }}</div>
@@ -80,24 +95,25 @@ Projets
                           $Date->subDays(7);
                           @endphp
 
-                          @if($projet->status == 2)
+                        <td><span class="badge bg-success bg-opacity-20 text-success" style="min-width: 60px;">{{ $projet->finish }}</span></td>
+
+                          {{-- @if($projet->status == 2)
                           {{ $projet->finish }}
                           @elseif( $projet->finish  > $todayDate )
                           {{-- si la date de fin du projet est dépassé --}}
-                          <td><span class="badge bg-danger bg-opacity-20 text-danger" style="min-width: 60px;"> {{ $projet->finish }}</span></td>
+                          {{-- <td><span class="badge bg-danger bg-opacity-20 text-danger" style="min-width: 60px;"> {{ $projet->finish }}</span></td>
                           @elseif($projet->finish < $todayDate && $projet->finish > $Date)
                           {{-- si la date de fin du projet reste 7 jrs --}}
-                          <td><span class="badge bg-success bg-opacity-20 text-success" style="min-width: 60px;">{{ $projet->finish }}</span></td>
-                          @else
-                          {{ $projet->finish }}
-                          @endif
+                          {{-- <td><span class="badge bg-success bg-opacity-20 text-success" style="min-width: 60px;">{{ $projet->finish }}</span></td> --}}
+                          {{-- @else --}}
+                          {{-- {{ $projet->finish }} --}}
+                          {{-- @endif --}}
                        </div>
                       <hr class="mb-15px mt-15px" />
                       <div class="d-flex align-items-center mb-2">
                           <div class="fw-600 me-2">
-                              @php
-                              $j=0;
-                              @endphp        
+
+                      @php $j=0; @endphp  
                       @foreach ($tasks as $task)
                       @if($task->projet_id == $projet->id)
                       @php
@@ -131,7 +147,7 @@ Projets
                           <div class="form-group mb-0 pb-1 fs-13px">
                               <div class="collapse hide" id="todoBoard-{{ $i }}">
                                  
-                                @if($projet->user_id == Auth::User()->id)
+                                @if($projet->user_id2 == Auth::User()->id || Auth::User()->role == 0)
 
                                       <form method="post" action="{{ url('/projet/task/create') }}" accept-charset="utf-8">
                                           @csrf
@@ -159,7 +175,7 @@ Projets
                           <form method="post" action="{{ url('/projet/task') }}" accept-charset="utf-8">
                               @csrf
                               
-                              @if($projet->user_id == Auth::User()->id)
+                              @if($projet->user_id2 == Auth::User()->id || Auth::User()->role == 0)
                               <input type="checkbox" class="form-check-input" name="status" onclick="this.form.submit()"
                              {{ $task->status ? 'checked' : ''}}>
                              @else
@@ -176,7 +192,7 @@ Projets
                           {{ $task->title }}
                              </td>
 
-                            @if($projet->user_id == Auth::User()->id)
+                            @if($projet->user_id2 == Auth::User()->id || Auth::User()->role == 0)
                             <td>
                                 <form method="post" action="{{ url('/projet/task/delete') }}" accept-charset="utf-8">
                                     @csrf
@@ -203,7 +219,7 @@ Projets
                   </div>
               </div>
       
-              @endif
+              {{-- @endif --}}
          @endforeach  
       
       </div>
@@ -235,8 +251,8 @@ Projets
                 <div class="form-group" >
                     <label for="start_date">Type</label> 
                 <select name="type" class="form-control"  id="type">
-                    <option value="0">Projet</option>
-                    <option value="1">Mission</option>
+                    <option value="0">Interne</option>
+                    <option value="1">Externe (mission)</option>
                 </select>
                 </div>
                 <div class="form-group">
@@ -282,25 +298,30 @@ Projets
             </div>
             </div>
 
-
             <div class="row">           
-             <div class="form-group col-sm" style="width:100%" >
-                <label for="start_date">Equipe</label> 
-            <select name="data[]" class="form-control"  id="ex-basic" multiple>
-                <option value="" hidden>Full name</option>
-                @foreach ($allusers as $user)
-                <option   value="{{ $user->id }}"> {{ $user->matricule }} - {{ $user->prenom }} {{ $user->nom }} </option>
-                @endforeach
-            </select>
+                <div class="form-group col-sm" style="width:100%" >
+                   <label for="start_date">Equipe 1</label> 
+               <select name="data[1][]" class="form-control"  id="ex-basic" multiple>
+                   <option value="" hidden>Full name</option>
+                   @foreach ($allusers as $user)
+                   <option   value="{{ $user->id }}"> {{ $user->matricule }} - {{ $user->prenom }} {{ $user->nom }} </option>
+                   @endforeach
+               </select>
+   
+                </div>
+   
+                <div class="form-group col-sm">
+                   <label for="start_date">Prime de l'équipe 1</label>
+                   <input type="number" name="prime[1]" id="prime1" class="form-control">
+   
+               </div>
+               </div>
 
-             </div>
-
-             <div class="form-group col-sm">
-                <label for="start_date">Prime de l'équipe</label>
-                <input type="number" name="prime_equipe" id="prime_equipe" class="form-control">
-
+            <div class="add-more2">
+                
             </div>
-            </div>
+            <button type="button" style="margin-top:10px;" name="add" class="btn add-btn2 btn-success">Ajouter une équipe</button>
+
 
             </div>
 
@@ -354,8 +375,7 @@ Projets
                     <input type="date" name="finish_update" id="finish_update" class="form-control">
                     <span id="errorStartDate" class="text-red"></span>
                 </div>
-    
-                
+
                 <div class="row">           
                     <div class="form-group col-sm">
                         <label for="start_date">Chef</label>
@@ -367,21 +387,40 @@ Projets
                         <input type="number" name="prime_chef_update" id="prime_chef_update" class="form-control">
         
                     </div>
+                </div>
+    
+
+
+
+
+                <div class="row">           
+                    <div class="form-group col-sm" style="width:100%" >
+                       <label for="start_date">Equipe 1</label> 
+                   <select name="data[1][]" class="form-control"  id="ex-basic3" multiple>
+                       <option value="" hidden>Full name</option>
+                       @foreach ($allusers as $user)
+                       <option   value="{{ $user->id }}"> {{ $user->matricule }} - {{ $user->prenom }} {{ $user->nom }} </option>
+                       @endforeach
+                   </select>
+       
                     </div>
+       
+                    <div class="form-group col-sm">
+                       <label for="start_date">Prime de l'équipe 1</label>
+                       <input type="number" name="prime[1]" id="prime1_update" class="form-control">
+       
+                   </div>
+                   </div>
+    
+                   <div class="add-more">
+                
+                </div>
+                <button type="button" style="margin-top:10px;" name="add"  class="btn  add-btn btn-success">Ajouter une équipe</button>
+    
+    
+
+               
         
-        
-                    <div class="row">           
-                     <div class="form-group col-sm" style="width:100%" >
-                        <label for="start_date">Equipe</label> 
-                    <select name="data_update[]" class="form-control"  id="ex-basic_update" multiple>
-                    </select>
-                     </div>
-                     <div class="form-group col-sm">
-                        <label for="start_date">Prime du chef</label>
-                        <input type="number" name="prime_equipe_update" id="prime_equipe_update" class="form-control">
-        
-                    </div>
-                    </div>
     
                 </div>
     
@@ -412,12 +451,83 @@ Projets
                     
 
     <script>
+         
 
+    var i = 1;
+    $(".add-btn").click(function(){
+       
+        ++i;
+        $(".add-more").append('' +
+            '<div class="row">'+           
+            '<div class="form-group col-sm" style="width:100%" >'+  
+                '<label for="start_date">Equipe '+i+'</label>'+  
+                '<select name="data['+i+'][]" class="form-control"  id="ex-basic2'+i+'" multiple>'+  
+                    '<option value="" hidden>Full name</option>'+  
+                    '@foreach ($allusers as $user)'+  
+                    '<option   value="{{ $user->id }}"> {{ $user->matricule }} - {{ $user->prenom }} {{ $user->nom }} </option>'+  
+                    '@endforeach'+  
+                    '</select>'+  
+                    '</div>'+  
+                    '<div class="form-group col-sm">'+  
+                        '<label for="start_date">Prime de l\'équipe '+i+'</label>'+  
+                        '<input type="number" name="prime['+i+']" id="prime2" class="form-control">'+  
+            '</div>'+  
+            '</div>'  
+            
+            
+            );
+
+            $('#ex-basic2'+i+'').picker({
+                        search:true
+                    });
+
+    });
+
+    var j = 1;
+    $(".add-btn2").click(function(){
+       
+       ++j;
+       
+        $(".add-more2").append('' +
+           '<div class="row">'+           
+           '<div class="form-group col-sm" style="width:100%" >'+  
+               '<label for="start_date">Equipe '+j+'</label>'+  
+               '<select name="data['+j+'][]" class="form-control"  id="ex-basic22'+j+'" multiple>'+  
+                   '<option value="" hidden>Full name</option>'+  
+                   '@foreach ($allusers as $user)'+  
+                   '<option   value="{{ $user->id }}"> {{ $user->matricule }} - {{ $user->prenom }} {{ $user->nom }} </option>'+  
+                   '@endforeach'+  
+                   '</select>'+  
+                   '</div>'+  
+                   '<div class="form-group col-sm">'+  
+                       '<label for="start_date">Prime de l\'équipe '+j+'</label>'+  
+                       '<input type="number" name="prime['+j+']" id="prime2" class="form-control">'+  
+           '</div>'+  
+           '</div>'  
+           
+           
+           );
+           $('#ex-basic22'+j+'').picker({
+                       search:true
+                   });
+   });
+
+
+    $(document).on('click', '.remove-tr', function(){
+        $(this).parents('tr').remove();
+    });
 
 
         var $elem = $('#ex-basicc').picker({
                         search:true
                     });
+
+                    $('#ex-basic3').picker({
+                        search:true
+                    });
+
+
+                  
 
 //                     $elem.on('sp-change', function(){
 //                         var x = $('#ex-basicc').find(":selected").val();
@@ -496,7 +606,6 @@ $('#ex-basic').picker({
                             $('#description_update').val(data.data.description);
                             $('#start_update').val(data.data.start);
                             $('#finish_update').val(data.data.finish);
-                            $('#prime_equipe_update').val(data.data.prime_equipe);
                             $('#prime_chef_update').val(data.data.prime_chef);
 
 

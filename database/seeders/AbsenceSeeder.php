@@ -26,16 +26,20 @@ class AbsenceSeeder extends Seeder
     {
         $users = User::all();
 
-        foreach($users as $user){
+    
 
-            Presence::insert([
-                'matricule'=>$user->matricule,
-                'start_time'=>'00:00:00',
-                'end_time'=>'00:00:00',
-                'date'=> Carbon::now()->format('Y-m-d'),
-               
-            ]);
-        }
+            foreach($users as $user){
+
+                Presence::insert([
+                    'matricule'=>$user->matricule,
+                    'start_time'=>'00:00:00',
+                    'end_time'=>'00:00:00',
+                    'date'=> Carbon::now()->format('Y-m-d'),
+                   
+                ]);
+            }
+
+        
       
     }
 }

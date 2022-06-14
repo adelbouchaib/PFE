@@ -14,6 +14,7 @@ class TaskController extends Controller
     
     public function create(Request $request)
     {
+
         $projet = Projet::findOrFail($request->projet_id);
         $tasks = Task::where('projet_id','=',$projet->id)
         ->where('status','=','1')

@@ -27,17 +27,74 @@ class ProjetController extends Controller
     {
        $allusers = User::all();
 
-       $projetstodo = Projet::join('projet_user', 'projets.id', '=', 'projet_user.projet_id')
-       ->join('users', 'projets.user_id', '=', 'users.id')
-       ->select('users.prenom','users.nom','projets.*','projet_user.user_id as user_id2')
-       ->where('status','=','0')
-       ->get();
+       if(Auth::user()->role == 0)
+       {
+        $projetstodo = Projet::
+        join('users', 'projets.user_id', '=', 'users.id')
+        ->where('status','=','0')
+        ->select('projets.*','users.prenom','users.nom')
+        ->where(function ($query) {
+         $query ->where('user_id','=',Auth::user()->id)
+         ->orwhere('users.role','=','0');
+        })
+        ->get();
+       }
+       
+       else{
+        $projetstodo = Projet::join('projet_user', 'projets.id', '=', 'projet_user.projet_id')
+        ->join('users', 'projets.user_id', '=', 'users.id')
+        ->where('status','=','0')
+        ->select('users.prenom','users.nom','projets.*','projet_user.user_id as user_id2')
+        ->get();
+       }
 
-       $projetsinprogress =  Projet::join('projet_user', 'projets.id', '=', 'projet_user.projet_id')
-       ->join('users', 'projets.user_id', '=', 'users.id')
-       ->select('users.prenom','users.nom','projets.*','projet_user.user_id as user_id2')
-       ->where('status','=','1')
-       ->get();
+       if(Auth::user()->role == 0)
+       {
+        $projetsinprogress = Projet::
+        join('users', 'projets.user_id', '=', 'users.id')
+        ->where('status','=','1')
+        ->select('projets.*','users.prenom','users.nom')
+        ->where(function ($query) {
+         $query ->where('user_id','=',Auth::user()->id)
+         ->orwhere('users.role','=','0');
+        })
+        ->get();
+       }
+       
+       else{
+        $projetsinprogress = Projet::join('projet_user', 'projets.id', '=', 'projet_user.projet_id')
+        ->join('users', 'projets.user_id', '=', 'users.id')
+        ->where('projet_user.user_id','=',Auth::User()->id)
+        ->where('status','=','1')
+        ->select('users.prenom','users.nom','projets.*','projet_user.user_id as user_id2')
+        ->get();
+       }
+       
+       
+       if(Auth::user()->role == 0)
+       {
+        $projetsdone = Projet::
+        join('users', 'projets.user_id', '=', 'users.id')
+        ->where('status','=','2')
+        ->select('projets.*','users.prenom','users.nom')
+        ->where(function ($query) {
+         $query ->where('user_id','=',Auth::user()->id)
+         ->orwhere('users.role','=','');
+        })
+        ->get();
+       }
+       
+       else{
+        $projetsdone = Projet::join('projet_user', 'projets.id', '=', 'projet_user.projet_id')
+        ->join('users', 'projets.user_id', '=', 'users.id')
+        ->where('projet_user.user_id','=',Auth::User()->id)
+        ->select('users.prenom','users.nom','projets.*','projet_user.user_id as user_id2')
+        ->where('status','=','2')
+        ->get();
+       }
+      
+
+      
 
        $todayDate = Carbon::now()->format('Y-m-d'); 
        $Date = Carbon::createFromFormat('Y-m-d', $todayDate);
@@ -45,12 +102,6 @@ class ProjetController extends Controller
 
 
 
-
-       $projetsdone =  Projet::join('projet_user', 'projets.id', '=', 'projet_user.projet_id')
-       ->join('users', 'projets.user_id', '=', 'users.id')
-       ->select('users.prenom','users.nom','projets.*','projet_user.user_id as user_id2')
-       ->where('status','=','2')
-       ->paginate(5);
 
        $tasks = Task::all();
 
@@ -102,31 +153,23 @@ class ProjetController extends Controller
       $projet->start = $request->start;
       $projet->finish = $request->finish;
       $projet->prime_chef = $request->prime_chef;
-
-      if(isset($request->data)){
-      $projet->prime_equipe = $request->prime_equipe;
-      }else{
-        $projet->prime_equipe = '0';
-
-      }
-
       $projet->status = 0;
       $projet->nbtasks = 0;
       $projet->save();
 
-      
-      $data = $request->data;
+      $datas = $request->data;
 
-      if(isset($data)){
-        foreach($data as $datas)
+        $i=1;
+        foreach($datas as $data2)
         {
-
-          $projets = $projet;
-      $user = User::where('id','=',$datas)->get();
-      $projets->users()->attach($user);
-            
+          foreach($data2 as $data)
+          {
+            $user = User::where('id','=',$data)->get();
+            $projet->users()->attach($user, ['prime' => $request->prime[$i]]);
+          }
+          
+            $i++;
         }
-      }
         
 
       
@@ -207,37 +250,56 @@ class ProjetController extends Controller
               $projet->title = $request->title_update;
               $projet->description = $request->description_update;
               $projet->prime_chef = $request->prime_chef_update;
-              $projet->prime_equipe = $request->prime_equipe_update;
 
            if(isset($request->chef_update)){
              $projet->user_id = $request->chef_update;
-           }
-
-
-
-          
-             
+           }  
       
       $projet->save();
 
-    
+      $datas = $request->data;
 
-
-
-      $data = $request->data_update;
-
-      if(isset($data)){
-        $projets = Projet::find($id);
-        $projets->users()->detach();
-  
-            foreach($data as $datas)
-            {
-          $user = User::where('id','=',$datas)->get();
-          $projets->users()->attach($user);       
-            }
+      if(isset($datas)){
+        $projet = Projet::find($id);
+        $projet->users()->detach();
+        $i=1;
+        foreach($datas as $data2)
+        {
+          foreach($data2 as $data)
+          {
+            $user = User::where('id','=',$data)->get();
+            $projet->users()->attach($user, ['prime' => $request->prime[$i]]);
+          }
+          
+            $i++;
+        }
       }
+
       
   }
+
+  
+  public function destroy(Request $request)
+  {
+
+    $id = $request->id;
+
+
+    $userprojets = DB::table('projet_user')
+    ->where('projet_id','=',$id)
+    ->delete();
+
     
+    $tasks = DB::table('tasks')
+    ->where('projet_id','=',$id)
+    ->delete();
+
+      $projet = Projet::find($id);
+      $projet->delete();
+
+
+      
+      return redirect(route('admin.projet.index'));
+  }  
        
 }

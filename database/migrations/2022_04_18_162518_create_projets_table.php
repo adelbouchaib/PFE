@@ -24,7 +24,6 @@ return new class extends Migration
             $table->date('finish');
             $table->integer('status');
             $table->integer('prime_chef');
-            $table->integer('prime_equipe');
             $table->timestamps();
         });
     }

@@ -8,6 +8,9 @@ use App\Models\User;
 use App\Models\Conge;
 use App\Models\Presence;
 use App\Models\Projet;
+use App\Models\Branche;
+use App\Models\Direction;
+
 
 use Illuminate\Support\Facades\DB;
 use Auth;
@@ -64,8 +67,10 @@ class DashboardController extends Controller
    
 }elseif(Auth::User()->role == 1)
 {
-    $users = User::all();
-        return view('employee.index',compact('users'));
+    $branches = Branche::all();
+    $directions = Direction::all();
+
+    return view('index',compact('branches','directions'));
   
 }
 else{

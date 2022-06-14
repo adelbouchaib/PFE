@@ -83,18 +83,19 @@
                         <div class="menu-text"><span class="__cf_email__">{{Auth::User()->prenom}} {{Auth::User()->nom}}</span></div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right me-lg-3">
-                        <a class="dropdown-item d-flex align-items-center" href="#">Edit Profile <i class="fa fa-user-circle fa-fw ms-auto text-dark text-opacity-50"></i></a>
+                        <a class="dropdown-item d-flex align-items-center" href="{{route('profile.index')}}">Modifier Profile<i class="fa fa-user-circle fa-fw ms-auto text-dark text-opacity-50"></i></a>
                         {{-- <a class="dropdown-item d-flex align-items-center" href="#">Inbox <i class="fa fa-envelope fa-fw ms-auto text-dark text-opacity-50"></i></a>
                         <a class="dropdown-item d-flex align-items-center" href="#">Calendar <i class="fa fa-calendar-alt fa-fw ms-auto text-dark text-opacity-50"></i></a>
                         <a class="dropdown-item d-flex align-items-center" href="#">Setting <i class="fa fa-wrench fa-fw ms-auto text-dark text-opacity-50"></i></a> --}}
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item d-flex align-items-center" href="{{route('logout')}}">Log Out <i class="fa fa-toggle-off fa-fw ms-auto text-dark text-opacity-50"></i></a>
+                        <a class="dropdown-item d-flex align-items-center" href="{{route('logout')}}">Déconnecter<i class="fa fa-toggle-off fa-fw ms-auto text-dark text-opacity-50"></i></a>
                     </div>
                 </div>
             </div>
 
         </div>
 
+        @can('index', \App\Dashboard::class)
 
         <div id="sidebar" class="app-sidebar">
 
@@ -107,7 +108,7 @@
                     <div class="menu-item active">
                         <a href="{{route('index')}}" class="menu-link">
                             <span class="menu-icon"><i class="fa fa-laptop"></i></span>
-                            <span class="menu-text">Dashboard</span>
+                            <span class="menu-text">Accueil</span>
                         </a>
                     </div>
 
@@ -130,31 +131,28 @@
 
                     <div class="menu-item">
                         <a href="{{ route('admin.absencesjustifiees.index') }}" class="menu-link">
-                        <span class="menu-icon"><i class="fa-solid fa-clock"></i></span>
+                        <span class="menu-icon"><i class="fa-solid fa-calendar-times"></i></span>
                         <span class="menu-text">Absences</span>
                         </a>
                     </div>
 
-                    <div class="menu-item">
-                        <a href="{{ route('admin.sanctions.index') }}" class="menu-link">
-                        <span class="menu-icon"><i class="fa-solid fa-clock"></i></span>
-                        <span class="menu-text">Sanctions</span>
-                        </a>
-                    </div>
-                   
-         
+                    
                     <div class="menu-item">
                         <a href="{{ route('admin.vacance.index') }}" class="menu-link">
-                            <span class="menu-icon"><i class="fa fa-calendar"></i></span>
+                            <span class="menu-icon"><i class="fa fa-calendar-check"></i></span>
                         <span class="menu-text">Jours fériés</span>
                         </a>
                     </div>
+
+                 
+                   
+         
                    
                      
                     <div class="menu-item has-sub">
                         <a href="#" class="menu-link">
                             <span class="menu-icon">
-                            <i class="fa-solid fa-calendar-times"></i>
+                            <i class="fa-solid fa-file-alt"></i>
                             </span>
                             <span class="menu-text">Demandes</span>
                             <span class="menu-caret"><b class="caret"></b></span>
@@ -174,6 +172,12 @@
                     </div>
                     
             
+                    <div class="menu-item">
+                        <a href="{{ route('admin.sanctions.index') }}" class="menu-link">
+                        <span class="menu-icon"><i class="fa-solid fa-ban"></i></span>
+                        <span class="menu-text">Sanctions</span>
+                        </a>
+                    </div>
 
  
 
@@ -223,6 +227,7 @@
 
         </div>
 
+        @endcan
     
 
 

@@ -18,7 +18,7 @@ class UserForm extends Component
 
     public $situation_conjoint_update, $nbr_enfant_update,  $type_contrat_update, $date_recrutement_update, $fin_contrat_update, $fonction_update;
 
-    public $echelle_update, $echelon_update, $num_securite_social_update, $num_compte_update, $branche_update, $direction_id_update, $role_update;
+    public $echelle_update, $position_update, $base_update, $experience_pro_update, $echelon_update, $num_securite_social_update, $num_compte_update, $branche_update, $direction_id_update, $role_update;
 
     
     public $currentPage_update = 1;
@@ -30,7 +30,7 @@ class UserForm extends Component
 
     public $situation_conjoint, $nbr_enfant,  $type_contrat, $date_recrutement, $fin_contrat, $fonction;
 
-    public $echelle,  $echelon, $num_securite_social, $num_compte, $branche, $direction_id, $role;
+    public $echelle,  $echelon, $num_securite_social, $num_compte, $branche, $position, $base, $experience_pro, $direction_id, $role;
 
 
     public $currentPage = 1;
@@ -75,6 +75,10 @@ class UserForm extends Component
             'fonction_update' => ['required'],
             'echelle_update' => ['required'],
             'echelon_update' => ['required'],
+            'position_update' => ['required'],
+            'base_update' => ['required'],
+            'experience_pro_update' => ['required'],
+
 
 
         ],
@@ -113,6 +117,9 @@ class UserForm extends Component
             'direction_id' => ['required'],
             'fonction' => ['required'],
             'echelle' => ['required'],
+            'base' => ['required'],
+            'experience_pro' => ['required'],
+            'position' => ['required'],
             'echelon' => ['required'],
 
 
@@ -226,6 +233,9 @@ class UserForm extends Component
         $this->fin_contrat = '';
         $this->fonction ='';
         $this->echelle = '';
+        $this->base = '';
+        $this->experience_pro = '';
+        $this->position = '';
         $this->echelon = '';
         $this->num_telephone ='';
         $this->num_securite_social = '';
@@ -278,6 +288,9 @@ class UserForm extends Component
             $this->fin_contrat_update = $user->fin_contrat;
             $this->fonction_update = $user->fonction;
             $this->echelon_update = $user->echelon;
+            $this->base_update = $user->base;
+            $this->experience_pro_update = $user->experience_pro;
+            $this->position_update = $user->position;
             $this->echelle_update = $user->echelle;
             $this->num_telephone_update = $user->num_telephone;
             $this->num_securite_social_update = $user->num_securite_social;
@@ -299,7 +312,7 @@ class UserForm extends Component
          }
          $this->validate($rules);
 
-        $matricule = Helper::matricule($this->direction_id_update, $this->debut_contrat_update, $this->sexe_update);
+        $matricule = Helper::matricule($this->direction_id_update);
 
         if($this->password_update == "")
         {
@@ -332,6 +345,9 @@ class UserForm extends Component
             'fonction' => $this->fonction_update,
             'echelle' => $this->echelle_update,
             'echelon' => $this->echelon_update,
+            'position' => $this->position_update,
+            'base' => $this->base_update,
+            'experience_pro' => $this->experience_pro_update,
             'num_telephone' => $this->num_telephone_update,
             'num_securite_social' => $this->num_securite_social_update,
             'num_compte' => $this->num_compte_update,
@@ -339,8 +355,7 @@ class UserForm extends Component
 
         ]);
 
-        $this->reset();
-        $this->resetValidation();
+        $this->success = 'Utilisateur modifié avec succès!';
 
     }
 
@@ -358,7 +373,7 @@ class UserForm extends Component
         $this->validate($rules);
 
         
-        $matricule = Helper::matricule($this->direction_id, $this->debut_contrat, $this->sexe);
+        $matricule = Helper::matricule($this->direction_id);
 
         $values = array(
             'matricule' => $matricule,
@@ -382,6 +397,9 @@ class UserForm extends Component
             'fonction' => $this->fonction,
             'echelle' => $this->echelle,
             'echelon' => $this->echelon,
+            'experience_pro' => $this->experience_pro,
+            'base' => $this->base,
+            'position' => $this->position,
             'num_telephone' => $this->num_telephone,
             'num_securite_social' => $this->num_securite_social,
             'num_compte' => $this->num_compte,
@@ -409,13 +427,7 @@ class UserForm extends Component
         return view('livewire.user-form',compact('users','directions','branches'));
     }
 
-    // public function deleteUser()
-    // {
-        
-    //     $user = User::find($this->userid2);
-    //     $user->delete();
-    //     return $user;
-    // }
+
 
     public function render()
     {

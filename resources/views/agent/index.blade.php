@@ -28,8 +28,8 @@
         });
 
     </script>
-           
-  <button type="submit" class="btn btn-primary">Save</button>
+           <br>
+  <button type="submit" class="btn btn-primary" style="right:1000px">Save</button>
   </form>
     
 
@@ -57,14 +57,12 @@
                         enctype: 'multipart/form-data',
 
                             success:function(data){
-                            if (data.created){ 
-                              console.log(data.msg); 
-                              window.location = "{{ url('/') }}";         
+                            
+                              alert(data.msg + " " + data.prenom + " " + data.nom); 
 
-                            }},
+                            },
                             error:function(respone){
                              
-                                $('#errorFirstName').text(respone.responseJSON.errors.first_name);
                             }
                           })
 

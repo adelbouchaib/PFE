@@ -11,7 +11,7 @@ class Projet extends Model
 
 
     public function users(){
-        return $this->belongstoMany(User::class);
+        return $this->belongstoMany(User::class)->withPivot("prime");
     }
 
     public function user()

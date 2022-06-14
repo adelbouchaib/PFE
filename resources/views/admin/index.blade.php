@@ -112,7 +112,13 @@
                     <small>{{$conge->created_at->diffForHumans()}}</small>
                   </div>
                   <div class="toast-body">
-                    a demandé un congé de  {{ $conge->duree }}
+                    a demandé un congé de 
+                    @php 
+                    $datetime1 = new DateTime($conge->finish);
+                    $datetime2 = new DateTime($conge->start);
+                    $date= $datetime1->diff($datetime2)->format('%a')+1; 
+                    echo "$date";
+                    @endphp jours {{ $conge->duree }}
                   </div>
                 @endforeach
               </tbody>
@@ -135,19 +141,18 @@
   <h5 class="mb-1">Projets</h5>
   <div class="fs-13px">Dernier historique des projets</div>
   </div>
-  <a href="#" class="text-decoration-none">Voir tout</a>
+  <a href="{{ route('admin.projet.index') }}" class="text-decoration-none">Voir tout</a>
   </div>
   
   <div class="table-responsive mb-n2">
     <table class="table table-borderless mb-0">
   <thead>
   <tr class="text-dark">
-  <th class="ps-0">No</th>
-  <th>Order Details</th>
+  <th class="ps-0">ID</th>
+  <th>Détails</th>
   <th class="text-center">Chef</th>
-  <th class="text-center">Status</th>
-  <th class="text-center">Tasks</th>
-  <th class="text-end pe-0">Amount</th>
+  <th class="text-center">Etat</th>
+  <th class="text-end pe-0">Dernier délai</th>
   </tr>
   </thead>
   <tbody>
@@ -176,7 +181,6 @@
     </span></td>
     @endswitch
     
-    <td class="text-center">$1,699.00</td>
   <td class="text-end pe-0">{{ $projet->finish }}</td>
   </tr>
         
@@ -206,7 +210,7 @@ const myChart = new Chart(ctx, {
     data: {
         labels: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jui', 'Juil', 'Aout', 'Sep', 'Oct', 'Nov', 'Dec'],
         datasets: [{
-            label: '# de Présence',
+            label: '% de Présence',
             data: datas,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',

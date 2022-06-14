@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('directions', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
             $table->integer('branche_id');
             $table->string('nom_direction');
+            $table->string('abrv');
             $table->timestamps();
         });
     }

@@ -35,9 +35,13 @@ return new class extends Migration
             $table->string('num_securite_social');
             $table->string('num_compte');
 
+            $table->integer('base');
+            $table->integer('position');
             $table->string('fonction');
             $table->integer('echelle');
             $table->integer('echelon');
+            $table->integer('experience_pro');
+
 
             $table->integer('type_contrat');
             $table->date('date_recrutement');
